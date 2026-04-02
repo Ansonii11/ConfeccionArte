@@ -1,0 +1,52 @@
+---
+const categories = [
+    {
+        title: "ABRIGOS",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAhOs7advwBhQzg1Dmx2DUXithl3eJaOF11sqajlO3X10M941KAFA9bmTtn_R_zHDWqnhU553qakuatOdsfb5RiDVp7y6iJyS4JVpHTEY9_JbIkV7nKbXn9du8UqGZgwtVO31Hli4U2F_c89eY9Kl8-usfmR2txy9f4FhleKKl0yQgK71qmP5mgW0cit09KaA6hbLu7GWCM-SOKiun3lOIgI2x7YwP1KRdyNG3jqc4YEptoOh1qGp4Gnn1RfZqZAWloaGpbu7s0VKM",
+        href: "/catalogo",
+        borders: "brutal-border-b xl:brutal-border-b-0 brutal-border-r",
+    },
+    {
+        title: "PANTALONES",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQh7dz_yQs9Uhhk2cRxne627IPEVgHEBawf1_3r9sMODrTx8Hi9TyR5zDRliaGBR9oU0F7n2E7yg4iwyPRsOqi2nvBVg_9p9GK-uzMzc3PU-BkRd1_eynO-zOYkjcaCrQoEob5DfXbkTlMzxBqfBS-9uKggQ2BSx1WAKreMr8oHvpr9jDTIOMPE_iU4P9sx31bV1kXu_sqR7K_NNbcsBGusur30jCWxZafid3T7I8RWgXm6_V8j4wuX8TdRxSsVnbM_eDJgkq6Klo",
+        href: "/catalogo",
+        borders: "brutal-border-b xl:brutal-border-b-0 md:brutal-border-r",
+    },
+    {
+        title: "ACCESORIOS",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDnOdI3n5aYnss1rAwSpdxuGxJkuYkQZ4GJR8xgpdR_mBL5SSclzY65qPbKOnriFFbkCv5ADGfUgjjBnM5d5FlXJ7mHkcdt7HLQuqMr56mnUzBrtFtcGTB6nq-u-Cn42hMNWbRDp6SMZv6SPBskCePMsZeu5gTwYg5ncUKKOxU8NfKbcQQMqamphYKQRclzT6k5DUxCeNIf2CANNsf2iOz48dcFOyNG-i9r6BqWEnamst4sghN7lc07YiZ8mswP8-M_ahNCC6pZ0yg",
+        href: "/catalogo",
+        borders: "brutal-border-b md:brutal-border-b-0 xl:brutal-border-r",
+    },
+    {
+        title: "CALZADO",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAl2NrNDg3PITHnWecbNongXVt7ofLoK32kaON99YLVClqoRUVetWlRnpkVhYIBIRR-9SO7Aa8rAvVk2tUHVdxdXm79VDwrfnoukWfgDrKIgQN_7UI30qdstyrwp5nrRrE8lGQDeSrICTlebJiZcnfzXHSf61PIvm4mWv7OfAqeZSzO-oP8OutY4kBXQTpnSYoQZ2RyYUn1QsADD0eJXqKAis_daxEmxShIruD9eodbjj0lo4RTCJ7XMXZRFbq2B7-oue42TJdEtZo",
+        href: "/catalogo",
+        borders: "",
+    },
+];
+---
+
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full">
+    {
+        categories.map((category) => (
+            <a
+                class={`group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block ${category.borders}`}
+                href={category.href}
+            >
+                <div class="flex-grow w-full bg-gray-100 relative">
+                    <img
+                        alt={category.title}
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
+                        src={category.image}
+                    />
+                </div>
+                <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">
+                        {category.title}
+                    </h3>
+                </div>
+            </a>
+        ))
+    }
+</section>

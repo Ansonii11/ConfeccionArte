@@ -1,0 +1,38 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun-debug.log*
+
+# environment variables
+.env
+.env.production
+.env*.local
+
+# macOS-specific files
+.DS_Store
+
+# windows-specific files
+Thumbs.db
+
+# jetbrains setting folder
+.idea/
+
+# vscode setting folder
+.vscode/
+
+# stitch generated assets (keep code, ignore screenshots)
+stitch_assets/screenshots/
+
+# bun lockfile (binary version)
+bun.lockb

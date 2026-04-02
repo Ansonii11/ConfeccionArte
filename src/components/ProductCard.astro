@@ -1,0 +1,68 @@
+---
+interface Props {
+    title: string;
+    price: string;
+    sku: string;
+    imagePrimary: string;
+    imageSecondary: string;
+    soldOut?: boolean;
+}
+
+const {
+    title,
+    price,
+    sku,
+    imagePrimary,
+    imageSecondary,
+    soldOut = false,
+} = Astro.props;
+---
+
+<a
+    href="/producto"
+    class={`product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:last:border-r-0 cursor-pointer group ${soldOut ? "opacity-80 pointer-events-none" : ""}`}
+>
+    <article class="h-full flex flex-col">
+        <!-- Image Area (85%) -->
+        <div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
+            <div
+                class={`absolute top-4 left-4 z-10 ${soldOut ? "bg-primary" : "bg-black"} text-white px-2 py-1 font-mono text-[10px]`}
+            >
+                {soldOut ? "AGOTADO" : `SKU: ${sku}`}
+            </div>
+
+            <img
+                alt={title}
+                class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply group-hover:hidden"
+                src={imagePrimary}
+            />
+            <img
+                alt={`${title} detalle`}
+                class="img-secondary hidden w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply group-hover:block"
+                src={imageSecondary}
+            />
+        </div>
+
+        <!-- Details Area (15%) -->
+        <div
+            class={`h-[15%] w-full flex brutal-border-t transition-none ${soldOut ? "bg-[#f4f4f4] text-[#8a8a8a]" : "group-hover:bg-black group-hover:text-white"}`}
+        >
+            <div
+                class={`w-3/4 p-4 flex items-center brutal-border-r ${soldOut ? "border-gray-400" : "group-hover:border-white"}`}
+            >
+                <h2
+                    class={`font-heading text-lg lg:text-xl truncate ${soldOut ? "line-through" : ""}`}
+                >
+                    {title}
+                </h2>
+            </div>
+            <div class="w-1/4 p-4 flex items-center justify-center">
+                <span
+                    class={`font-mono text-sm font-bold ${soldOut ? "line-through" : ""}`}
+                >
+                    {price}
+                </span>
+            </div>
+        </div>
+    </article>
+</a>

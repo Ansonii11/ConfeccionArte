@@ -1,0 +1,44 @@
+---
+const text =
+    "IMPRESIONES DE ESTILOS EN ROPA — ROPA DE DIFERENTE TIPO — ACCESORIOS — PRENDAS — PANTALONES — ABRIGOS — ";
+const repetitions = Array(12).fill(text);
+---
+
+<div
+    class="h-[64px] bg-white text-black brutal-border-b flex items-center uppercase font-mono text-sm tracking-widest font-semibold marquee-container"
+>
+    <div class="marquee-inner">
+        {repetitions.map((item) => <span class="marquee-content">{item}</span>)}
+    </div>
+</div>
+
+<style>
+    .marquee-container {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background: white;
+    }
+
+    .marquee-inner {
+        display: flex;
+        animation: marquee 120s linear infinite; /* Increased to 120s for a much slower movement */
+        will-change: transform;
+    }
+
+    .marquee-content {
+        flex-shrink: 0;
+        padding-right: 0;
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+</style>

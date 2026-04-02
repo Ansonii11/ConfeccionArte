@@ -1,0 +1,162 @@
+---
+
+---
+
+<aside
+    class="hidden lg:flex w-[20vw] flex-col brutal-border-r sticky top-[80px] h-[calc(100vh-80px)] overflow-y-auto bg-white z-10"
+>
+    <div class="p-8 brutal-border-b">
+        <h3
+            class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest uppercase"
+        >
+            CATEGORÍAS
+        </h3>
+        <ul class="space-y-4 font-mono text-sm">
+            <li>
+                <a
+                    class="block hover:text-primary hover:translate-x-1 transition-transform uppercase"
+                    href="#">VER TODO</a>
+            </li>
+            <li>
+                <a class="block font-bold text-primary uppercase" href="#"
+                    >ABRIGOS</a>
+            </li>
+            <li>
+                <a
+                    class="block hover:text-primary hover:translate-x-1 transition-transform uppercase"
+                    href="#">PANTALONES</a>
+            </li>
+            <li>
+                <a
+                    class="block hover:text-primary hover:translate-x-1 transition-transform uppercase"
+                    href="#">CAMISAS</a>
+            </li>
+            <li>
+                <a
+                    class="block hover:text-primary hover:translate-x-1 transition-transform uppercase"
+                    href="#">ACCESORIOS</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="p-8 brutal-border-b">
+        <h3
+            class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest uppercase"
+        >
+            TALLA
+        </h3>
+        <div class="space-y-4 font-mono text-sm">
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    name="size"
+                    type="radio"
+                />
+                <span class="group-hover:text-primary uppercase"
+                    >XS - EXTRA SMALL</span
+                >
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    checked
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    name="size"
+                    type="radio"
+                />
+                <span class="font-bold uppercase">S - SMALL</span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    name="size"
+                    type="radio"
+                />
+                <span class="group-hover:text-primary uppercase"
+                    >M - MEDIUM</span
+                >
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    name="size"
+                    type="radio"
+                />
+                <span class="group-hover:text-primary uppercase">L - LARGE</span
+                >
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    name="size"
+                    type="radio"
+                />
+                <span class="group-hover:text-primary uppercase"
+                    >XL - EXTRA LARGE</span
+                >
+            </label>
+        </div>
+    </div>
+
+    <div class="p-8">
+        <h3
+            class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest uppercase"
+        >
+            MATERIAL
+        </h3>
+        <div class="space-y-4 font-mono text-sm">
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    checked
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    type="checkbox"
+                />
+                <span class="font-bold uppercase">LANA VIRGEN</span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    type="checkbox"
+                />
+                <span class="group-hover:text-primary uppercase"
+                    >ALGODÓN PESADO</span
+                >
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    type="checkbox"
+                />
+                <span class="group-hover:text-primary uppercase"
+                    >CUERO SINTÉTICO</span
+                >
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input
+                    class="brutal-radio appearance-none size-4 border border-black rounded-none checked:bg-black hover:border-primary cursor-pointer"
+                    type="checkbox"
+                />
+                <span class="group-hover:text-primary uppercase"
+                    >NYLON TÉCNICO</span
+                >
+            </label>
+        </div>
+    </div>
+
+    <div class="mt-auto p-8 brutal-border-t bg-[#f4f4f4]">
+        <button
+            class="w-full py-4 bg-black text-white font-heading font-bold text-lg hover:bg-primary transition-none uppercase"
+        >
+            APLICAR FILTROS
+        </button>
+    </div>
+</aside>
+
+<style>
+    .brutal-radio:checked {
+        background-color: #000000;
+    }
+    .brutal-radio:checked:hover {
+        background-color: #f20d0d;
+        border-color: #f20d0d;
+    }
+</style>

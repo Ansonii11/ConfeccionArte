@@ -1,0 +1,16 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import NavBar from "../components/NavBar.astro";
+import Hero from "../components/Hero.astro";
+import Marquee from "../components/Marquee.astro";
+import CategoryGrid from "../components/CategoryGrid.astro";
+---
+
+<MainLayout title="Maison Brut - Inicio">
+	<NavBar />
+	<main class="pt-[80px] flex-grow flex flex-col w-full">
+		<Hero />
+		<Marquee />
+		<CategoryGrid />
+	</main>
+</MainLayout>

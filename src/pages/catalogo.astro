@@ -1,0 +1,101 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import NavBar from "../components/NavBar.astro";
+import CatalogSidebar from "../components/CatalogSidebar.astro";
+import ProductCard from "../components/ProductCard.astro";
+
+const products = [
+    {
+        title: "ABRIGO DE LANA ESTRUCTURAL",
+        price: "$1,200",
+        sku: "MB-AW24-001",
+        imagePrimary:
+            "https://lh3.googleusercontent.com/aida-public/AB6AXuBYqwAANFnqugUw2qkvV29sM_hDU89FjGYkccEHxA2GJcUiUlS4N55nmVfZKoAnVsdvgSvZloLzCAqKleo049ltVz5eojOWe8Y7jbB6VO2v8PQDLNFn8WmgwOfPFkC2cH2sBb0spch9kqRtUPMCjipNsUjFAGfK3fZVSz80uGbG_3pHkwDpawihsW7aUheLX_WyOppuBz1ZilBtbu_r64niEA-XSsxllSrxkkL48hwwdCDmu66MYw-PpUxHVR_VD31vqeyHzSIZnec",
+        imageSecondary:
+            "https://lh3.googleusercontent.com/aida-public/AB6AXuD_1jIQ93hCXHbETkqSa9wt7IvIqCnU-tDOKcruohJuZ6ZQjDE1mXwfdD4A4bb2EvP7jUUIa5MuEJOe1GQUjLbDc6WzhkbmxlCNij8HvkP8uT2j3mQ3SybMXQqyO0li9vf4ioEAEfb3hiJeV1k-5gd-2PaKnNbp3Q9R_i3bxHdTrOFv1VeGGjKKMYypLegEacbjh7YvRFjKqdi3pYS5mb-vJz7dU8gZiJAVqgqvqwpXfata03oTUaSjWbTWJ57XI8f9eYovEcY84FE",
+    },
+    {
+        title: "GABARDINA TÉCNICA OVERSIZE",
+        price: "$1,850",
+        sku: "MB-AW24-012",
+        imagePrimary:
+            "https://lh3.googleusercontent.com/aida-public/AB6AXuDffkjtDmBIH79sQF17iiYfCrE3PhI2KT_oysZyTNuyxu3ic7lJ_hMFNSV441YD9rvUQaaQI8ValLKkcVqLAA_zkfsIrqWoLNaEY2G8-FUtm82kQpRVRe4Ux5D2qwIFg1bJ52O1-zs7Bhj9rKmT1gMtvoBw_Rv6HJN61fG9atJUX0QFbrIjxBepmyEwzBuWkuIf8PWx-v6yzmKy7gfQW3DHyWnyBERBh16wDRQFL5KIeKZWtvA-kjZHURdHTOllnVjwOVM_rP2RYA8",
+        imageSecondary:
+            "https://lh3.googleusercontent.com/aida-public/AB6AXuB57xDiTo1r-X021JPpiYxejxcRvmM7PVk2rfjfvLCb3iWyBtu4yMrStjm1hyC105tcBNxHyFOes2A1CTzmDWL2Frm3SrDpmcOKzsY99FCr06Wbn9i8srmpJ6euhZwZAz6_hx44oAkJH1KlmhD7v1bw6BXoBFDJq06bVSDItx1hR-bAJNomCkKKNJUElsE365bYgfAUOlj4iZMS5oeSxCoZZmwRpOH_yiH6uUIi9mvAzhP7S2E0ZMXvkOaVNcuQOUl99oqa00UZFLw",
+    },
+    {
+        title: "CHAQUETA ASIMÉTRICA",
+        price: "$980",
+        sku: "MB-AW24-005",
+        imagePrimary:
+            "https://lh3.googleusercontent.com/aida-public/AB6AXuA2UubPglbauz_EQoj_6CDxZNdPo9I-YJDbIAm6lNuSZ-cc-eOEHMMyK69C1bY0_by4IvcLXkQNzCvqkmcCJlgMcShUfuNra2GLZnqnc617R45vLseoFKJ2OAcYBbXZ13XQaUE5CM2-qwcq-HVcrie5kziIWYjGSOsEDrTBxHxIRkMAMD3Zxkedl0XhawTuGd00yByJ3N_JYjIReShqshxLHma9nS0yv1ASJRb0GELpSTDjeWjcHU12o-f0u9-puMYfgoGFQbUNTts",
+        imageSecondary:
+            "https://lh3.googleusercontent.com/aida-public/AB6AXuAONwf_pFtEwPdsLwYOJ2tjvwImrqJafB5IQMQIrfT7M74O90LKWdcIm7snV4sdjXV5hW-lDiuhEKI8qdYtWS0YrFiodhGIgIdqCTct7oqY1MMg8f8rqNWI7D9eB7wyjZkXyLT3U30K8rpSQAnScaQkZPAWi3yhl8QoghwxDstXYY7-Oqhrf2C1vuWTZfWWX6WfA-qxileU_XLXmAB9xjPcGaFB5jEDBaEstOlMCV2WR5NEWtRbUC7bTLj8-Hx4B4YXz55Idt3z9_0",
+        soldOut: true,
+    },
+];
+---
+
+<MainLayout title="Maison Brut - Catálogo">
+    <NavBar />
+
+    <main class="pt-[80px] flex-grow flex flex-col w-full">
+        <div class="flex flex-col lg:flex-row flex-1 w-full relative">
+            <!-- Mobile Filter Toggle -->
+            <div
+                class="lg:hidden p-4 brutal-border-b flex justify-between items-center bg-[#f4f4f4]"
+            >
+                <span class="font-mono text-xs font-bold uppercase"
+                    >FILTROS / NAVEGACIÓN</span
+                >
+                <span
+                    class="material-symbols-outlined cursor-pointer hover:text-primary"
+                    >tune</span
+                >
+            </div>
+
+            <!-- Sidebar Component -->
+            <CatalogSidebar />
+
+            <!-- Content Area -->
+            <section class="w-full lg:w-[80vw] flex flex-col bg-white">
+                <!-- Oversized Header -->
+                <div
+                    class="w-full px-6 py-12 md:py-20 brutal-border-b bg-[#f4f4f4] flex flex-col justify-end min-h-[307px]"
+                >
+                    <span
+                        class="font-mono text-xs text-[#8a8a8a] mb-4 block uppercase font-bold tracking-widest"
+                    >
+                        MOSTRANDO {products.length} RESULTADOS / ABRIGOS
+                    </span>
+                    <h1
+                        class="text-6xl md:text-8xl lg:text-[120px] leading-none font-black text-black m-0 p-0 break-words uppercase tracking-tighter"
+                    >
+                        CATÁLOGO
+                    </h1>
+                </div>
+
+                <!-- Product Grid -->
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full border-t-0 border-l-0"
+                >
+                    {products.map((product) => <ProductCard {...product} />)}
+                    <!-- Repeat for layout demonstration -->
+                    {products.map((product) => <ProductCard {...product} />)}
+                    {products.map((product) => <ProductCard {...product} />)}
+                </div>
+
+                <!-- Footer / Loading Area -->
+                <div
+                    class="w-full py-16 flex justify-center items-center bg-white brutal-border-b"
+                >
+                    <span
+                        class="font-mono text-sm text-[#8a8a8a] tracking-[0.2em] font-bold uppercase"
+                    >
+                        [ CARGANDO MÁS ESTRUCTURAS ]
+                    </span>
+                </div>
+            </section>
+        </div>
+    </main>
+</MainLayout>

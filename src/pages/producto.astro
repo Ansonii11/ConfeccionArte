@@ -1,0 +1,229 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import NavBar from "../components/NavBar.astro";
+---
+
+<MainLayout title="Maison Brut - Abrigo de Lana Estructural">
+    <NavBar />
+
+    <main class="flex flex-col lg:flex-row w-full flex-grow pt-[80px]">
+        <!-- Left Column: Scrollable Image Gallery -->
+        <section
+            class="w-full lg:w-1/2 flex flex-col brutal-border-r h-auto lg:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar"
+        >
+            <!-- Image 1 -->
+            <div
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] relative brutal-border-b"
+            >
+                <img
+                    alt="Male model wearing oversized structured black wool coat"
+                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuHx9UfoFnRASlKZd1uYwi5obaQ39elQPLWx3NF9Vz1T-KwYZcw5vDmX92GFpSLqHZAbqUxawg_ugGdOiyqpmI1jPpKqdeWVYBJLzBNvnpfS2Ok22NM7-KGjerI6tUn3kAMFXLPES58q5mr22eGW-ltWpYjWHJzDQQZfACq1nRlDuMwDQ6z2bKDh9OEa7-_hNm02zijwkMIG6om3HnrzQth4qU4DI9z7t1qIF0MDjI9p9ViLpbZXJjPanX8t1grHqpgi1sVx__gNQ"
+                />
+            </div>
+            <!-- Image 2 -->
+            <div
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] relative brutal-border-b"
+            >
+                <img
+                    alt="Detail of heavy structured black wool fabric"
+                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8EbHOVOVsjR5KsnLAWp0j6XCPaMCT2hQNbpoTSKPOWvS3gJPxyKQHBW5y3BUzqtQf8yb33q3K4YpLgR-wVi85DvU6eVJ7vcuTNzk3ZvV7cbimOt7MQ0bDfPyD5rpeLtVwAwdxKfT0vp-x24GQfP9hRdZaElkmAwy9GSWUcsVUTqwy9GxUTu1vwoogbshGLgNU94JDkqtD32WtQuhDaO_xSa8MH8TwthUGZC5Vz88LkPZf3PapPpoVooUbzWCS2CX94bQ8PmVaqo0"
+                />
+            </div>
+            <!-- Image 3 -->
+            <div
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] relative brutal-border-b lg:border-b-0"
+            >
+                <img
+                    alt="Back view of structured black wool coat"
+                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwjbcbbtHZvYYgm0LYnGQMAT5TsN8JfaHOo0NJa0E4oQUOj9lLFWkH0PxKYDUrZHTqab0V2wNP5eSN7FrjNu5g6DQXr1itGYcuHkRXbBFqxOfalD02bJgohouaEAB6b70GdAKQYwzMMoU-DnpHakf_r9H6IMZR43jiyHaESZcdw9pswwXXDzr6S4RRNtqJ7gQTyeyx1e1B_Vk-jK02bSIqv-9QNFhHxNqXxh7s66dvrCCiuvEoyn2zXmHd7PHx7LmaWGC0wscA1Q"
+                />
+            </div>
+        </section>
+
+        <!-- Right Column: Sticky Product Information -->
+        <section
+            class="w-full lg:w-1/2 flex flex-col relative lg:h-[calc(100vh-80px)] lg:sticky lg:top-[80px]"
+        >
+            <div
+                class="p-8 lg:p-20 flex flex-col flex-grow overflow-y-auto no-scrollbar"
+            >
+                <!-- Meta Info -->
+                <div
+                    class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500"
+                >
+                    <span>SKU: MB-AW24-001</span>
+                    <span>COLECCIÓN OTOÑO / INVIERNO</span>
+                </div>
+                <!-- Title & Price -->
+                <h2
+                    class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6"
+                >
+                    Abrigo de Lana Estructural
+                </h2>
+                <p class="text-2xl lg:text-[32px] font-medium mb-12">
+                    €1,250.00
+                </p>
+
+                <div class="w-full brutal-border-t mb-8"></div>
+
+                <!-- Size Selector -->
+                <div class="mb-12">
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-sm font-bold uppercase tracking-wider"
+                            >Talla</span
+                        >
+                        <a
+                            class="text-xs font-mono underline hover:text-primary transition-colors"
+                            href="#">GUÍA DE TALLAS</a
+                        >
+                    </div>
+                    <div class="grid grid-cols-4 gap-2" id="size-selector">
+                        {
+                            ["44", "46", "48", "50", "52"].map((size) => (
+                                <button
+                                    class="size-btn w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none"
+                                    data-size={size}
+                                >
+                                    {size}
+                                </button>
+                            ))
+                        }
+                        <!-- Sold out example -->
+                        <button
+                            class="w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold opacity-30 cursor-not-allowed bg-gray-50 transition-none line-through"
+                            disabled
+                        >
+                            54
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Description / Technical Data -->
+                <div class="mb-12 space-y-4 text-sm lg:text-base">
+                    <p class="font-medium leading-relaxed">
+                        Silueta arquitectónica sobredimensionada en lana virgen
+                        pesada. Hombros estructurados caídos con costuras
+                        expuestas. Forro interior de cupro para un drapeado
+                        perfecto.
+                    </p>
+                    <ul
+                        class="font-mono text-xs uppercase text-gray-600 space-y-2 mt-6"
+                    >
+                        <li>— 100% Lana Virgen (Exterior)</li>
+                        <li>— 100% Cupro (Forro)</li>
+                        <li>— Hecho en Italia</li>
+                        <li>— Limpieza en seco únicamente</li>
+                    </ul>
+                </div>
+
+                <!-- Back to Catalog (Desktop only maybe, or bottom) -->
+                <div class="mt-auto pt-8">
+                    <a href="/catalogo" class="flex items-center gap-2 group">
+                        <span
+                            class="material-symbols-outlined group-hover:-translate-x-2 transition-transform"
+                            >arrow_back</span
+                        >
+                        <span
+                            class="font-mono text-xs font-bold uppercase underline"
+                            >Volver al catálogo</span
+                        >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Fixed Bottom Add to Cart Action -->
+            <div
+                class="w-full brutal-border-t bg-white p-4 lg:p-8 flex flex-col gap-4"
+            >
+                <button
+                    id="btn-whatsapp"
+                    class="w-full h-[80px] bg-black text-white uppercase text-xl lg:text-2xl font-bold tracking-wider hover:bg-primary transition-colors rounded-sm flex items-center justify-center gap-4 group"
+                >
+                    <span>Contactanos</span>
+                    <span
+                        class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform"
+                        >arrow_forward</span
+                    >
+                </button>
+                <button
+                    id="btn-personalizar"
+                    class="w-full h-[60px] brutal-border-2 border-black bg-white text-black uppercase text-lg font-bold tracking-wider hover:bg-black hover:text-white transition-all rounded-sm flex items-center justify-center gap-4 group"
+                >
+                    <span>Personalizar producto</span>
+                    <span
+                        class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform"
+                        >edit_note</span
+                    >
+                </button>
+            </div>
+        </section>
+    </main>
+</MainLayout>
+
+<script>
+    // Configuración
+    const WHATSAPP_NUMBER = "34000000000"; // Cambiar por el número de la jefa
+    const PRODUCT_NAME = "Abrigo de Lana Estructural";
+    const PRODUCT_SKU = "MB-AW24-001";
+
+    // Estado local
+    let selectedSize = "";
+
+    // Elementos
+    const sizeButtons = document.querySelectorAll(".size-btn");
+    const btnWhatsapp = document.getElementById("btn-whatsapp");
+    const btnPersonalizar = document.getElementById("btn-personalizar");
+
+    // Manejo de tallas
+    sizeButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            // Limpiar selección previa
+            sizeButtons.forEach((b) => {
+                b.classList.remove("bg-black", "text-white");
+            });
+
+            // Marcar nueva selección
+            btn.classList.add("bg-black", "text-white");
+            selectedSize = (btn as HTMLElement).dataset.size || "";
+        });
+    });
+
+    // Función para enviar a WhatsApp
+    function sendWhatsApp(isPersonalization = false) {
+        if (!selectedSize) {
+            alert("Por favor, selecciona una talla primero.");
+            return;
+        }
+
+        let message = "";
+        if (isPersonalization) {
+            message = `Hola! Me interesa personalizar el ${PRODUCT_NAME} en talla ${selectedSize}. ¿Cómo podemos empezar?`;
+        } else {
+            message = `Hola! Me interesa el ${PRODUCT_NAME} (SKU: ${PRODUCT_SKU}) en talla ${selectedSize}. ¿Tienen disponibilidad?`;
+        }
+
+        const encodedMessage = encodeURIComponent(message);
+        window.open(
+            `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`,
+            "_blank",
+        );
+    }
+
+    btnWhatsapp?.addEventListener("click", () => sendWhatsApp(false));
+    btnPersonalizar?.addEventListener("click", () => sendWhatsApp(true));
+</script>
+
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+</style>
