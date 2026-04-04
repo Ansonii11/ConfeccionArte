@@ -6,38 +6,40 @@ import NavBar from "../components/NavBar.astro";
 <MainLayout title="Maison Brut - Abrigo de Lana Estructural">
     <NavBar />
 
-    <main class="flex flex-col lg:flex-row w-full flex-grow pt-[80px]">
+    <main
+        class="flex flex-col lg:flex-row w-full flex-grow pt-[80px] bg-white dark:bg-background-dark transition-colors duration-300"
+    >
         <!-- Left Column: Scrollable Image Gallery -->
         <section
             class="w-full lg:w-1/2 flex flex-col brutal-border-r h-auto lg:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar"
         >
             <!-- Image 1 -->
             <div
-                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] relative brutal-border-b"
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b transition-colors duration-300"
             >
                 <img
                     alt="Male model wearing oversized structured black wool coat"
-                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuHx9UfoFnRASlKZd1uYwi5obaQ39elQPLWx3NF9Vz1T-KwYZcw5vDmX92GFpSLqHZAbqUxawg_ugGdOiyqpmI1jPpKqdeWVYBJLzBNvnpfS2Ok22NM7-KGjerI6tUn3kAMFXLPES58q5mr22eGW-ltWpYjWHJzDQQZfACq1nRlDuMwDQ6z2bKDh9OEa7-_hNm02zijwkMIG6om3HnrzQth4qU4DI9z7t1qIF0MDjI9p9ViLpbZXJjPanX8t1grHqpgi1sVx__gNQ"
                 />
             </div>
             <!-- Image 2 -->
             <div
-                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] relative brutal-border-b"
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b transition-colors duration-300"
             >
                 <img
                     alt="Detail of heavy structured black wool fabric"
-                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8EbHOVOVsjR5KsnLAWp0j6XCPaMCT2hQNbpoTSKPOWvS3gJPxyKQHBW5y3BUzqtQf8yb33q3K4YpLgR-wVi85DvU6eVJ7vcuTNzk3ZvV7cbimOt7MQ0bDfPyD5rpeLtVwAwdxKfT0vp-x24GQfP9hRdZaElkmAwy9GSWUcsVUTqwy9GxUTu1vwoogbshGLgNU94JDkqtD32WtQuhDaO_xSa8MH8TwthUGZC5Vz88LkPZf3PapPpoVooUbzWCS2CX94bQ8PmVaqo0"
                 />
             </div>
             <!-- Image 3 -->
             <div
-                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] relative brutal-border-b lg:border-b-0"
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b lg:border-b-0 transition-colors duration-300"
             >
                 <img
                     alt="Back view of structured black wool coat"
-                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwjbcbbtHZvYYgm0LYnGQMAT5TsN8JfaHOo0NJa0E4oQUOj9lLFWkH0PxKYDUrZHTqab0V2wNP5eSN7FrjNu5g6DQXr1itGYcuHkRXbBFqxOfalD02bJgohouaEAB6b70GdAKQYwzMMoU-DnpHakf_r9H6IMZR43jiyHaESZcdw9pswwXXDzr6S4RRNtqJ7gQTyeyx1e1B_Vk-jK02bSIqv-9QNFhHxNqXxh7s66dvrCCiuvEoyn2zXmHd7PHx7LmaWGC0wscA1Q"
                 />
             </div>
@@ -48,22 +50,24 @@ import NavBar from "../components/NavBar.astro";
             class="w-full lg:w-1/2 flex flex-col relative lg:h-[calc(100vh-80px)] lg:sticky lg:top-[80px]"
         >
             <div
-                class="p-8 lg:p-20 flex flex-col flex-grow overflow-y-auto no-scrollbar"
+                class="p-8 lg:p-20 flex flex-col flex-grow overflow-y-auto no-scrollbar bg-white dark:bg-background-dark transition-colors duration-300"
             >
                 <!-- Meta Info -->
                 <div
-                    class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500"
+                    class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400"
                 >
                     <span>SKU: MB-AW24-001</span>
                     <span>COLECCIÓN OTOÑO / INVIERNO</span>
                 </div>
                 <!-- Title & Price -->
                 <h2
-                    class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6"
+                    class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6 text-black dark:text-white"
                 >
                     Abrigo de Lana Estructural
                 </h2>
-                <p class="text-2xl lg:text-[32px] font-medium mb-12">
+                <p
+                    class="text-2xl lg:text-[32px] font-medium mb-12 text-black dark:text-white"
+                >
                     €1,250.00
                 </p>
 
@@ -72,11 +76,12 @@ import NavBar from "../components/NavBar.astro";
                 <!-- Size Selector -->
                 <div class="mb-12">
                     <div class="flex justify-between items-end mb-4">
-                        <span class="text-sm font-bold uppercase tracking-wider"
+                        <span
+                            class="text-sm font-bold uppercase tracking-wider text-black dark:text-white"
                             >Talla</span
                         >
                         <a
-                            class="text-xs font-mono underline hover:text-primary transition-colors"
+                            class="text-xs font-mono underline hover:text-primary dark:text-white dark:hover:text-primary transition-colors"
                             href="#">GUÍA DE TALLAS</a
                         >
                     </div>
@@ -84,7 +89,7 @@ import NavBar from "../components/NavBar.astro";
                         {
                             ["44", "46", "48", "50", "52"].map((size) => (
                                 <button
-                                    class="size-btn w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none"
+                                    class="size-btn w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold text-black dark:text-white hover-invert transition-none"
                                     data-size={size}
                                 >
                                     {size}
@@ -93,7 +98,7 @@ import NavBar from "../components/NavBar.astro";
                         }
                         <!-- Sold out example -->
                         <button
-                            class="w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold opacity-30 cursor-not-allowed bg-gray-50 transition-none line-through"
+                            class="w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold opacity-30 cursor-not-allowed bg-gray-50 dark:bg-gray-800 text-black dark:text-white transition-none line-through"
                             disabled
                         >
                             54
@@ -102,7 +107,9 @@ import NavBar from "../components/NavBar.astro";
                 </div>
 
                 <!-- Description / Technical Data -->
-                <div class="mb-12 space-y-4 text-sm lg:text-base">
+                <div
+                    class="mb-12 space-y-4 text-sm lg:text-base text-black dark:text-white"
+                >
                     <p class="font-medium leading-relaxed">
                         Silueta arquitectónica sobredimensionada en lana virgen
                         pesada. Hombros estructurados caídos con costuras
@@ -110,7 +117,7 @@ import NavBar from "../components/NavBar.astro";
                         perfecto.
                     </p>
                     <ul
-                        class="font-mono text-xs uppercase text-gray-600 space-y-2 mt-6"
+                        class="font-mono text-xs uppercase text-gray-600 dark:text-gray-400 space-y-2 mt-6"
                     >
                         <li>— 100% Lana Virgen (Exterior)</li>
                         <li>— 100% Cupro (Forro)</li>
@@ -121,7 +128,10 @@ import NavBar from "../components/NavBar.astro";
 
                 <!-- Back to Catalog (Desktop only maybe, or bottom) -->
                 <div class="mt-auto pt-8">
-                    <a href="/catalogo" class="flex items-center gap-2 group">
+                    <a
+                        href="/catalogo"
+                        class="flex items-center gap-2 group text-black dark:text-white"
+                    >
                         <span
                             class="material-symbols-outlined group-hover:-translate-x-2 transition-transform"
                             >arrow_back</span
@@ -136,11 +146,11 @@ import NavBar from "../components/NavBar.astro";
 
             <!-- Fixed Bottom Add to Cart Action -->
             <div
-                class="w-full brutal-border-t bg-white p-4 lg:p-8 flex flex-col gap-4"
+                class="w-full brutal-border-t bg-white dark:bg-background-dark p-4 lg:p-8 flex flex-col gap-4 transition-colors duration-300"
             >
                 <button
                     id="btn-whatsapp"
-                    class="w-full h-[80px] bg-black text-white uppercase text-xl lg:text-2xl font-bold tracking-wider hover:bg-primary transition-colors rounded-sm flex items-center justify-center gap-4 group"
+                    class="w-full h-[80px] bg-black dark:bg-white text-white dark:text-black uppercase text-xl lg:text-2xl font-bold tracking-wider hover:bg-primary dark:hover:bg-primary transition-colors rounded-sm flex items-center justify-center gap-4 group"
                 >
                     <span>Contactanos</span>
                     <span
@@ -150,7 +160,7 @@ import NavBar from "../components/NavBar.astro";
                 </button>
                 <button
                     id="btn-personalizar"
-                    class="w-full h-[60px] brutal-border-2 border-black bg-white text-black uppercase text-lg font-bold tracking-wider hover:bg-black hover:text-white transition-all rounded-sm flex items-center justify-center gap-4 group"
+                    class="w-full h-[60px] brutal-border-2 border-black dark:border-white bg-white dark:bg-background-dark text-black dark:text-white uppercase text-lg font-bold tracking-wider hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all rounded-sm flex items-center justify-center gap-4 group"
                 >
                     <span>Personalizar producto</span>
                     <span
