@@ -31,10 +31,10 @@ const categories = [
     {
         categories.map((category) => (
             <a
-                class={`group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block ${category.borders}`}
+                class={`group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block bg-white dark:bg-background-dark transition-colors duration-300 ${category.borders}`}
                 href={category.href}
             >
-                <div class="flex-grow w-full bg-gray-100 relative">
+                <div class="flex-grow w-full bg-gray-100 dark:bg-[#1a1a1a] relative">
                     <img
                         alt={category.title}
                         class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
@@ -42,7 +42,7 @@ const categories = [
                     />
                 </div>
                 <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
-                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white dark:text-white">
                         {category.title}
                     </h3>
                 </div>

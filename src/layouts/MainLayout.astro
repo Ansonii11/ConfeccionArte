@@ -39,6 +39,20 @@ const { title } = Astro.props;
             src="https://cdn.tailwindcss.com?plugins=forms,container-queries"
         ></script>
 
+        <!-- Theme Initialization Script -->
+        <script is:inline>
+            // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+            if (
+                localStorage.getItem("theme") === "dark" ||
+                (!("theme" in localStorage) &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+        </script>
+
         <!-- Tailwind Configuration - is:inline to ensure configuration runs after script -->
         <script is:inline>
             if (window.tailwind) {
@@ -98,6 +112,23 @@ const { title } = Astro.props;
                 border-left: 1px solid #000000;
             }
 
+            /* Dark mode border overrides */
+            html.dark .brutal-border {
+                border-color: #ffffff;
+            }
+            html.dark .brutal-border-b {
+                border-bottom-color: #ffffff;
+            }
+            html.dark .brutal-border-t {
+                border-top-color: #ffffff;
+            }
+            html.dark .brutal-border-r {
+                border-right-color: #ffffff;
+            }
+            html.dark .brutal-border-l {
+                border-left-color: #ffffff;
+            }
+
             /* Hover inversion - instant, no transition */
             .hover-invert:hover {
                 background-color: #f20d0d;
@@ -135,7 +166,7 @@ const { title } = Astro.props;
         </style>
     </head>
     <body
-        class="flex flex-col min-h-screen bg-white text-black font-display overflow-x-hidden selection:bg-primary selection:text-white"
+        class="flex flex-col min-h-screen bg-white text-black dark:bg-background-dark dark:text-white font-display overflow-x-hidden selection:bg-primary selection:text-white"
     >
         <slot />
     </body>
