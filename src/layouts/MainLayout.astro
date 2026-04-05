@@ -163,6 +163,29 @@ const { title } = Astro.props;
                 background-color: #f20d0d;
                 color: #ffffff;
             }
+
+            /* View Transitions - Circular Ripple Effect */
+            ::view-transition-old(root),
+            ::view-transition-new(root) {
+                animation: none;
+                mix-blend-mode: normal;
+            }
+
+            ::view-transition-old(root) {
+                z-index: 1;
+            }
+
+            ::view-transition-new(root) {
+                z-index: 9999;
+            }
+
+            html.dark ::view-transition-old(root) {
+                z-index: 9999;
+            }
+
+            html.dark ::view-transition-new(root) {
+                z-index: 1;
+            }
         </style>
     </head>
     <body
