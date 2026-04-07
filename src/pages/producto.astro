@@ -1,9 +1,45 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import NavBar from "../components/NavBar.astro";
+import { supabase } from "../lib/supabase";
+
+const slug = Astro.url.searchParams.get("slug");
+
+if (!slug) {
+    return Astro.redirect("/catalogo");
+}
+
+// Fetch product with images and variants in a single pass (Supabase magic)
+const { data: product, error } = await supabase
+    .from("products")
+    .select(
+        `
+        *,
+        product_images (storage_path, alt_text, is_primary),
+        product_variants (size, stock)
+    `,
+    )
+    .eq("slug", slug)
+    .single();
+
+if (error || !product) {
+    console.error("Error fetching product:", error);
+    return Astro.redirect("/404");
+}
+
+const primaryImage =
+    product.product_images.find((img: any) => img.is_primary) ||
+    product.product_images[0];
+const otherImages = product.product_images.filter(
+    (img: any) => img !== primaryImage,
+);
+const allImages = [primaryImage, ...otherImages];
+
+const getPublicUrl = (path: string) =>
+    supabase.storage.from("catalog").getPublicUrl(path).data.publicUrl;
 ---
 
-<MainLayout title="Maison Brut - Abrigo de Lana Estructural">
+<MainLayout title={`Maison Brut - ${product.name}`}>
     <NavBar />
 
     <main
@@ -13,36 +49,17 @@ import NavBar from "../components/NavBar.astro";
         <section
             class="w-full lg:w-1/2 flex flex-col brutal-border-r h-auto lg:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar"
         >
-            <!-- Image 1 -->
-            <div
-                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b transition-colors duration-300"
-            >
-                <img
-                    alt="Male model wearing oversized structured black wool coat"
-                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuHx9UfoFnRASlKZd1uYwi5obaQ39elQPLWx3NF9Vz1T-KwYZcw5vDmX92GFpSLqHZAbqUxawg_ugGdOiyqpmI1jPpKqdeWVYBJLzBNvnpfS2Ok22NM7-KGjerI6tUn3kAMFXLPES58q5mr22eGW-ltWpYjWHJzDQQZfACq1nRlDuMwDQ6z2bKDh9OEa7-_hNm02zijwkMIG6om3HnrzQth4qU4DI9z7t1qIF0MDjI9p9ViLpbZXJjPanX8t1grHqpgi1sVx__gNQ"
-                />
-            </div>
-            <!-- Image 2 -->
-            <div
-                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b transition-colors duration-300"
-            >
-                <img
-                    alt="Detail of heavy structured black wool fabric"
-                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8EbHOVOVsjR5KsnLAWp0j6XCPaMCT2hQNbpoTSKPOWvS3gJPxyKQHBW5y3BUzqtQf8yb33q3K4YpLgR-wVi85DvU6eVJ7vcuTNzk3ZvV7cbimOt7MQ0bDfPyD5rpeLtVwAwdxKfT0vp-x24GQfP9hRdZaElkmAwy9GSWUcsVUTqwy9GxUTu1vwoogbshGLgNU94JDkqtD32WtQuhDaO_xSa8MH8TwthUGZC5Vz88LkPZf3PapPpoVooUbzWCS2CX94bQ8PmVaqo0"
-                />
-            </div>
-            <!-- Image 3 -->
-            <div
-                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b lg:border-b-0 transition-colors duration-300"
-            >
-                <img
-                    alt="Back view of structured black wool coat"
-                    class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwjbcbbtHZvYYgm0LYnGQMAT5TsN8JfaHOo0NJa0E4oQUOj9lLFWkH0PxKYDUrZHTqab0V2wNP5eSN7FrjNu5g6DQXr1itGYcuHkRXbBFqxOfalD02bJgohouaEAB6b70GdAKQYwzMMoU-DnpHakf_r9H6IMZR43jiyHaESZcdw9pswwXXDzr6S4RRNtqJ7gQTyeyx1e1B_Vk-jK02bSIqv-9QNFhHxNqXxh7s66dvrCCiuvEoyn2zXmHd7PHx7LmaWGC0wscA1Q"
-                />
-            </div>
+            {
+                allImages.map((image: any) => (
+                    <div class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b last:border-b-0 transition-colors duration-300">
+                        <img
+                            alt={image.alt_text || product.name}
+                            class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
+                            src={getPublicUrl(image.storage_path)}
+                        />
+                    </div>
+                ))
+            }
         </section>
 
         <!-- Right Column: Sticky Product Information -->
@@ -56,19 +73,19 @@ import NavBar from "../components/NavBar.astro";
                 <div
                     class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400"
                 >
-                    <span>SKU: MB-AW24-001</span>
+                    <span>SKU: {product.sku}</span>
                     <span>COLECCIÓN OTOÑO / INVIERNO</span>
                 </div>
                 <!-- Title & Price -->
                 <h2
                     class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6 text-black dark:text-white"
                 >
-                    Abrigo de Lana Estructural
+                    {product.name}
                 </h2>
                 <p
                     class="text-2xl lg:text-[32px] font-medium mb-12 text-black dark:text-white"
                 >
-                    €1,250.00
+                    €{product.price}
                 </p>
 
                 <div class="w-full brutal-border-t mb-8"></div>
@@ -87,22 +104,16 @@ import NavBar from "../components/NavBar.astro";
                     </div>
                     <div class="grid grid-cols-4 gap-2" id="size-selector">
                         {
-                            ["44", "46", "48", "50", "52"].map((size) => (
+                            product.product_variants.map((v: any) => (
                                 <button
-                                    class="size-btn w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold text-black dark:text-white hover-invert transition-none"
-                                    data-size={size}
+                                    class={`size-btn w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold text-black dark:text-white ${v.stock > 0 ? "hover-invert" : "opacity-30 cursor-not-allowed bg-gray-50 dark:bg-gray-800 line-through"}`}
+                                    data-size={v.size}
+                                    disabled={v.stock === 0}
                                 >
-                                    {size}
+                                    {v.size}
                                 </button>
                             ))
                         }
-                        <!-- Sold out example -->
-                        <button
-                            class="w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold opacity-30 cursor-not-allowed bg-gray-50 dark:bg-gray-800 text-black dark:text-white transition-none line-through"
-                            disabled
-                        >
-                            54
-                        </button>
                     </div>
                 </div>
 
@@ -111,10 +122,7 @@ import NavBar from "../components/NavBar.astro";
                     class="mb-12 space-y-4 text-sm lg:text-base text-black dark:text-white"
                 >
                     <p class="font-medium leading-relaxed">
-                        Silueta arquitectónica sobredimensionada en lana virgen
-                        pesada. Hombros estructurados caídos con costuras
-                        expuestas. Forro interior de cupro para un drapeado
-                        perfecto.
+                        {product.description}
                     </p>
                     <ul
                         class="font-mono text-xs uppercase text-gray-600 dark:text-gray-400 space-y-2 mt-6"
@@ -126,7 +134,7 @@ import NavBar from "../components/NavBar.astro";
                     </ul>
                 </div>
 
-                <!-- Back to Catalog (Desktop only maybe, or bottom) -->
+                <!-- Back to Catalog -->
                 <div class="mt-auto pt-8">
                     <a
                         href="/catalogo"
@@ -176,8 +184,13 @@ import NavBar from "../components/NavBar.astro";
 <script>
     // Configuración
     const WHATSAPP_NUMBER = "34000000000"; // Cambiar por el número de la jefa
-    const PRODUCT_NAME = "Abrigo de Lana Estructural";
-    const PRODUCT_SKU = "MB-AW24-001";
+    const PRODUCT_NAME =
+        document.querySelector("h2")?.textContent?.trim() || "";
+    const PRODUCT_SKU =
+        document
+            .querySelector("span")
+            ?.textContent?.replace("SKU: ", "")
+            ?.trim() || "";
 
     // Estado local
     let selectedSize = "";

@@ -3,37 +3,60 @@ import MainLayout from "../layouts/MainLayout.astro";
 import NavBar from "../components/NavBar.astro";
 import CatalogSidebar from "../components/CatalogSidebar.astro";
 import ProductCard from "../components/ProductCard.astro";
+import { supabase } from "../lib/supabase";
 
-const products = [
-    {
-        title: "ABRIGO DE LANA ESTRUCTURAL",
-        price: "$1,200",
-        sku: "MB-AW24-001",
-        imagePrimary:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuBYqwAANFnqugUw2qkvV29sM_hDU89FjGYkccEHxA2GJcUiUlS4N55nmVfZKoAnVsdvgSvZloLzCAqKleo049ltVz5eojOWe8Y7jbB6VO2v8PQDLNFn8WmgwOfPFkC2cH2sBb0spch9kqRtUPMCjipNsUjFAGfK3fZVSz80uGbG_3pHkwDpawihsW7aUheLX_WyOppuBz1ZilBtbu_r64niEA-XSsxllSrxkkL48hwwdCDmu66MYw-PpUxHVR_VD31vqeyHzSIZnec",
-        imageSecondary:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuD_1jIQ93hCXHbETkqSa9wt7IvIqCnU-tDOKcruohJuZ6ZQjDE1mXwfdD4A4bb2EvP7jUUIa5MuEJOe1GQUjLbDc6WzhkbmxlCNij8HvkP8uT2j3mQ3SybMXQqyO0li9vf4ioEAEfb3hiJeV1k-5gd-2PaKnNbp3Q9R_i3bxHdTrOFv1VeGGjKKMYypLegEacbjh7YvRFjKqdi3pYS5mb-vJz7dU8gZiJAVqgqvqwpXfata03oTUaSjWbTWJ57XI8f9eYovEcY84FE",
-    },
-    {
-        title: "GABARDINA TÉCNICA OVERSIZE",
-        price: "$1,850",
-        sku: "MB-AW24-012",
-        imagePrimary:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuDffkjtDmBIH79sQF17iiYfCrE3PhI2KT_oysZyTNuyxu3ic7lJ_hMFNSV441YD9rvUQaaQI8ValLKkcVqLAA_zkfsIrqWoLNaEY2G8-FUtm82kQpRVRe4Ux5D2qwIFg1bJ52O1-zs7Bhj9rKmT1gMtvoBw_Rv6HJN61fG9atJUX0QFbrIjxBepmyEwzBuWkuIf8PWx-v6yzmKy7gfQW3DHyWnyBERBh16wDRQFL5KIeKZWtvA-kjZHURdHTOllnVjwOVM_rP2RYA8",
-        imageSecondary:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuB57xDiTo1r-X021JPpiYxejxcRvmM7PVk2rfjfvLCb3iWyBtu4yMrStjm1hyC105tcBNxHyFOes2A1CTzmDWL2Frm3SrDpmcOKzsY99FCr06Wbn9i8srmpJ6euhZwZAz6_hx44oAkJH1KlmhD7v1bw6BXoBFDJq06bVSDItx1hR-bAJNomCkKKNJUElsE365bYgfAUOlj4iZMS5oeSxCoZZmwRpOH_yiH6uUIi9mvAzhP7S2E0ZMXvkOaVNcuQOUl99oqa00UZFLw",
-    },
-    {
-        title: "CHAQUETA ASIMÉTRICA",
-        price: "$980",
-        sku: "MB-AW24-005",
-        imagePrimary:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuA2UubPglbauz_EQoj_6CDxZNdPo9I-YJDbIAm6lNuSZ-cc-eOEHMMyK69C1bY0_by4IvcLXkQNzCvqkmcCJlgMcShUfuNra2GLZnqnc617R45vLseoFKJ2OAcYBbXZ13XQaUE5CM2-qwcq-HVcrie5kziIWYjGSOsEDrTBxHxIRkMAMD3Zxkedl0XhawTuGd00yByJ3N_JYjIReShqshxLHma9nS0yv1ASJRb0GELpSTDjeWjcHU12o-f0u9-puMYfgoGFQbUNTts",
-        imageSecondary:
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuAONwf_pFtEwPdsLwYOJ2tjvwImrqJafB5IQMQIrfT7M74O90LKWdcIm7snV4sdjXV5hW-lDiuhEKI8qdYtWS0YrFiodhGIgIdqCTct7oqY1MMg8f8rqNWI7D9eB7wyjZkXyLT3U30K8rpSQAnScaQkZPAWi3yhl8QoghwxDstXYY7-Oqhrf2C1vuWTZfWWX6WfA-qxileU_XLXmAB9xjPcGaFB5jEDBaEstOlMCV2WR5NEWtRbUC7bTLj8-Hx4B4YXz55Idt3z9_0",
-        soldOut: true,
-    },
-];
+const categorySlug = Astro.url.searchParams.get("categoria");
+
+// Consulta base de productos con su imagen principal
+let query = supabase
+    .from("products")
+    .select(
+        `
+        *,
+        product_images!inner (
+            storage_path,
+            is_primary
+        )
+    `,
+    )
+    .eq("product_images.is_primary", true);
+
+// Aplicar filtro de categoría si existe
+if (categorySlug) {
+    const { data: category } = await supabase
+        .from("categories")
+        .select("id")
+        .eq("slug", categorySlug)
+        .single();
+
+    if (category) {
+        query = query.eq("category_id", category.id);
+    }
+}
+
+const { data: rawProducts, error } = await query.order("created_at", {
+    ascending: false,
+});
+
+if (error) {
+    console.error("Error fetching products:", error);
+}
+
+const products =
+    rawProducts?.map((p: any) => ({
+        title: p.name,
+        price: `€${p.price}`,
+        sku: p.sku,
+        slug: p.slug,
+        imagePrimary: supabase.storage
+            .from("catalog")
+            .getPublicUrl(p.product_images[0].storage_path).data.publicUrl,
+        // Nota: Por ahora usamos la misma para secundaria si no hay más,
+        // o podrías hacer otro fetch para las no-primarias
+        imageSecondary: supabase.storage
+            .from("catalog")
+            .getPublicUrl(p.product_images[0].storage_path).data.publicUrl,
+    })) || [];
 ---
 
 <MainLayout title="Maison Brut - Catálogo">
@@ -71,12 +94,14 @@ const products = [
                     <span
                         class="font-mono text-xs text-[#8a8a8a] dark:text-gray-400 mb-4 block uppercase font-bold tracking-widest"
                     >
-                        MOSTRANDO {products.length} RESULTADOS / ABRIGOS
+                        MOSTRANDO {products.length} RESULTADOS {
+                            categorySlug ? `/ ${categorySlug}` : ""
+                        }
                     </span>
                     <h1
                         class="text-6xl md:text-8xl lg:text-[120px] leading-none font-black text-black dark:text-white m-0 p-0 break-words uppercase tracking-tighter"
                     >
-                        CATÁLOGO
+                        {categorySlug || "CATÁLOGO"}
                     </h1>
                 </div>
 

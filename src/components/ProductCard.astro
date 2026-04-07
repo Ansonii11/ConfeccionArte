@@ -3,6 +3,7 @@ interface Props {
     title: string;
     price: string;
     sku: string;
+    slug: string;
     imagePrimary: string;
     imageSecondary: string;
     soldOut?: boolean;
@@ -12,6 +13,7 @@ const {
     title,
     price,
     sku,
+    slug,
     imagePrimary,
     imageSecondary,
     soldOut = false,
@@ -19,7 +21,7 @@ const {
 ---
 
 <a
-    href="/producto"
+    href={`/producto?slug=${slug}`}
     class={`product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:last:border-r-0 cursor-pointer group ${soldOut ? "opacity-80 pointer-events-none" : ""}`}
 >
     <article

@@ -1,35 +1,41 @@
 ---
-const categories = [
-    {
-        title: "ABRIGOS",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAhOs7advwBhQzg1Dmx2DUXithl3eJaOF11sqajlO3X10M941KAFA9bmTtn_R_zHDWqnhU553qakuatOdsfb5RiDVp7y6iJyS4JVpHTEY9_JbIkV7nKbXn9du8UqGZgwtVO31Hli4U2F_c89eY9Kl8-usfmR2txy9f4FhleKKl0yQgK71qmP5mgW0cit09KaA6hbLu7GWCM-SOKiun3lOIgI2x7YwP1KRdyNG3jqc4YEptoOh1qGp4Gnn1RfZqZAWloaGpbu7s0VKM",
-        href: "/catalogo",
-        borders: "brutal-border-b xl:brutal-border-b-0 brutal-border-r",
-    },
-    {
-        title: "PANTALONES",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQh7dz_yQs9Uhhk2cRxne627IPEVgHEBawf1_3r9sMODrTx8Hi9TyR5zDRliaGBR9oU0F7n2E7yg4iwyPRsOqi2nvBVg_9p9GK-uzMzc3PU-BkRd1_eynO-zOYkjcaCrQoEob5DfXbkTlMzxBqfBS-9uKggQ2BSx1WAKreMr8oHvpr9jDTIOMPE_iU4P9sx31bV1kXu_sqR7K_NNbcsBGusur30jCWxZafid3T7I8RWgXm6_V8j4wuX8TdRxSsVnbM_eDJgkq6Klo",
-        href: "/catalogo",
-        borders: "brutal-border-b xl:brutal-border-b-0 md:brutal-border-r",
-    },
-    {
-        title: "ACCESORIOS",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDnOdI3n5aYnss1rAwSpdxuGxJkuYkQZ4GJR8xgpdR_mBL5SSclzY65qPbKOnriFFbkCv5ADGfUgjjBnM5d5FlXJ7mHkcdt7HLQuqMr56mnUzBrtFtcGTB6nq-u-Cn42hMNWbRDp6SMZv6SPBskCePMsZeu5gTwYg5ncUKKOxU8NfKbcQQMqamphYKQRclzT6k5DUxCeNIf2CANNsf2iOz48dcFOyNG-i9r6BqWEnamst4sghN7lc07YiZ8mswP8-M_ahNCC6pZ0yg",
-        href: "/catalogo",
-        borders: "brutal-border-b md:brutal-border-b-0 xl:brutal-border-r",
-    },
-    {
-        title: "CALZADO",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAl2NrNDg3PITHnWecbNongXVt7ofLoK32kaON99YLVClqoRUVetWlRnpkVhYIBIRR-9SO7Aa8rAvVk2tUHVdxdXm79VDwrfnoukWfgDrKIgQN_7UI30qdstyrwp5nrRrE8lGQDeSrICTlebJiZcnfzXHSf61PIvm4mWv7OfAqeZSzO-oP8OutY4kBXQTpnSYoQZ2RyYUn1QsADD0eJXqKAis_daxEmxShIruD9eodbjj0lo4RTCJ7XMXZRFbq2B7-oue42TJdEtZo",
-        href: "/catalogo",
-        borders: "",
-    },
-];
+import { supabase } from "../lib/supabase";
+
+const { data: categories, error } = await supabase
+    .from("categories")
+    .select("*")
+    .order("name");
+
+if (error) {
+    console.error("Error fetching categories:", error);
+}
+
+// Mapeo dinámico de bordes basado en el índice para mantener el diseño brutalista
+const getBorders = (index: number) => {
+    switch (index) {
+        case 0:
+            return "brutal-border-b xl:brutal-border-b-0 brutal-border-r";
+        case 1:
+            return "brutal-border-b xl:brutal-border-b-0 md:brutal-border-r";
+        case 2:
+            return "brutal-border-b md:brutal-border-b-0 xl:brutal-border-r";
+        default:
+            return "";
+    }
+};
+
+const displayCategories =
+    categories?.map((category, index) => ({
+        title: category.name,
+        image: category.image_url,
+        href: `/catalogo?categoria=${category.slug}`,
+        borders: getBorders(index),
+    })) || [];
 ---
 
 <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full">
     {
-        categories.map((category) => (
+        displayCategories.map((category) => (
             <a
                 class={`group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block bg-white dark:bg-background-dark transition-colors duration-300 ${category.borders}`}
                 href={category.href}

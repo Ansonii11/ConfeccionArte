@@ -1,5 +1,12 @@
 ---
+import { supabase } from "../lib/supabase";
 
+const currentCategory = Astro.url.searchParams.get("categoria");
+
+const { data: categories } = await supabase
+    .from("categories")
+    .select("name, slug")
+    .order("name");
 ---
 
 <aside
@@ -14,33 +21,22 @@
         <ul class="space-y-4 font-mono text-sm">
             <li>
                 <a
-                    class="block text-black dark:text-white hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase"
-                    href="#">VER TODO</a
+                    class={`block hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase ${!currentCategory ? "font-bold text-primary" : "text-black dark:text-white"}`}
+                    href="/catalogo">VER TODO</a
                 >
             </li>
-            <li>
-                <a class="block font-bold text-primary uppercase" href="#"
-                    >ABRIGOS</a
-                >
-            </li>
-            <li>
-                <a
-                    class="block text-black dark:text-white hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase"
-                    href="#">PANTALONES</a
-                >
-            </li>
-            <li>
-                <a
-                    class="block text-black dark:text-white hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase"
-                    href="#">CAMISAS</a
-                >
-            </li>
-            <li>
-                <a
-                    class="block text-black dark:text-white hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase"
-                    href="#">ACCESORIOS</a
-                >
-            </li>
+            {
+                categories?.map((category) => (
+                    <li>
+                        <a
+                            class={`block hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase ${currentCategory === category.slug ? "font-bold text-primary" : "text-black dark:text-white"}`}
+                            href={`/catalogo?categoria=${category.slug}`}
+                        >
+                            {category.name}
+                        </a>
+                    </li>
+                ))
+            }
         </ul>
     </div>
 
