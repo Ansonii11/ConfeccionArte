@@ -1,14 +1,23 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Maison Brut - Catálogo</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Clash+Display:wght@400;500;600&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ConfeccionArte - Catálogo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Clash+Display:wght@400;500;600&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -24,19 +33,24 @@
                         "mono": ["IBM Plex Mono", "monospace"],
                         "heading": ["Clash Display", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
                 },
             },
         }
     </script>
-<style>
+    <style>
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: #ffffff;
             color: #000000;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Clash Display', sans-serif;
             text-transform: uppercase;
             letter-spacing: -0.02em;
@@ -50,15 +64,26 @@
         /* Brutalist overrides - ignoring the soft theme rounding for the core aesthetic as requested in PRD, 
            but applying theme colors. PRD explicitly states "Absolute zero border radius (0px)" in multiple places,
            so we use rounded-none for the brutalist structure, but we'll use primary color for accents. */
-        
+
         .brutal-border {
             border: 1px solid #000000;
         }
-        
-        .brutal-border-b { border-bottom: 1px solid #000000; }
-        .brutal-border-t { border-top: 1px solid #000000; }
-        .brutal-border-l { border-left: 1px solid #000000; }
-        .brutal-border-r { border-right: 1px solid #000000; }
+
+        .brutal-border-b {
+            border-bottom: 1px solid #000000;
+        }
+
+        .brutal-border-t {
+            border-top: 1px solid #000000;
+        }
+
+        .brutal-border-l {
+            border-left: 1px solid #000000;
+        }
+
+        .brutal-border-r {
+            border-right: 1px solid #000000;
+        }
 
         .brutal-radio {
             appearance: none;
@@ -78,7 +103,7 @@
         .brutal-radio:hover {
             border-color: #f20d0d;
         }
-        
+
         .brutal-radio:checked:hover {
             background-color: #f20d0d;
             border-color: #f20d0d;
@@ -94,9 +119,11 @@
         .product-card .img-secondary {
             display: none;
         }
+
         .product-card:hover .img-primary {
             display: none;
         }
+
         .product-card:hover .img-secondary {
             display: block;
         }
@@ -105,183 +132,240 @@
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #ffffff;
             border-left: 1px solid #000000;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #000000;
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col antialiased">
-<!-- Shared TopNavBar (Included as this is a Destination screen) -->
-<div class="relative flex h-auto w-full flex-col bg-white group/design-root overflow-x-hidden brutal-border-b">
-<div class="layout-container flex h-full grow flex-col">
-<div class="px-4 md:px-8 lg:px-10 flex flex-1 justify-center py-0">
-<div class="layout-content-container flex flex-col w-full flex-1">
-<header class="flex items-center justify-between whitespace-nowrap px-0 py-4 lg:py-6">
-<div class="flex items-center gap-4 text-[#000000]">
-<div class="size-6">
-<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_6_319)">
-<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
-</g>
-<defs>
-<clipPath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clipPath>
-</defs>
-</svg>
-</div>
-<h2 class="text-[#000000] text-xl md:text-2xl font-bold leading-tight tracking-[-0.015em] font-heading" style="">MAISON BRUT</h2>
-</div>
-<div class="flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-6 md:gap-9">
-<a class="text-[#000000] text-sm md:text-base font-medium leading-normal hover:text-primary transition-none" href="#" style="">COLECCIÓN</a>
-<a class="text-[#000000] text-sm md:text-base font-medium leading-normal hover:text-primary transition-none" href="#" style="">Contactanos</a>
-</div>
-</div>
-</header>
-</div>
-</div>
-</div>
-</div>
-<!-- Main Content Area -->
-<div class="flex flex-col lg:flex-row flex-1 w-full relative">
-<!-- Mobile Filter Toggle (Visible only on small screens) -->
-<div class="lg:hidden p-4 brutal-border-b flex justify-between items-center bg-[#f4f4f4]">
-<span class="font-mono text-xs font-bold" style="">FILTROS / NAVEGACIÓN</span>
-<span class="material-symbols-outlined cursor-pointer hover:text-primary" style="">tune</span>
-</div>
-<!-- Sidebar (Left, 20vw on Desktop) -->
-<aside class="hidden lg:flex w-[20vw] flex-col brutal-border-r sticky top-0 h-[calc(100vh-81px)] overflow-y-auto bg-white z-10">
-<div class="p-8 brutal-border-b">
-<h3 class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest" style="">CATEGORÍAS</h3>
-<ul class="space-y-4 font-mono text-sm">
-<li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform" href="#" style="">VER TODO</a></li>
-<li class="" style=""><a class="block font-bold text-primary" href="#" style="">ABRIGOS</a></li>
-<li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform" href="#" style="">PANTALONES</a></li>
-<li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform" href="#" style="">CAMISAS</a></li>
-<li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform" href="#" style="">ACCESORIOS</a></li>
-</ul>
-</div>
-<div class="p-8 brutal-border-b">
-<h3 class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest" style="">TALLA</h3>
-<div class="space-y-4 font-mono text-sm">
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" name="size" type="radio">
-<span class="group-hover:text-primary" style="">XS - EXTRA SMALL</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input checked="" class="brutal-radio" name="size" type="radio">
-<span class="font-bold" style="">S - SMALL</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" name="size" type="radio">
-<span class="group-hover:text-primary" style="">M - MEDIUM</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" name="size" type="radio">
-<span class="group-hover:text-primary" style="">L - LARGE</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" name="size" type="radio">
-<span class="group-hover:text-primary" style="">XL - EXTRA LARGE</span>
-</label>
-</div>
-</div>
-<div class="p-8">
-<h3 class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest" style="">MATERIAL</h3>
-<div class="space-y-4 font-mono text-sm">
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input checked="" class="brutal-radio" type="checkbox">
-<span class="font-bold" style="">LANA VIRGEN</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" type="checkbox">
-<span class="group-hover:text-primary" style="">ALGODÓN PESADO</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" type="checkbox">
-<span class="group-hover:text-primary" style="">CUERO SINTÉTICO</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group" style="">
-<input class="brutal-radio" type="checkbox">
-<span class="group-hover:text-primary" style="">NYLON TÉCNICO</span>
-</label>
-</div>
-</div>
-<div class="mt-auto p-8 brutal-border-t bg-[#f4f4f4]">
-<button class="w-full py-4 bg-black text-white font-heading text-lg hover:bg-primary transition-none" style="">
+    <!-- Shared TopNavBar (Included as this is a Destination screen) -->
+    <div class="relative flex h-auto w-full flex-col bg-white group/design-root overflow-x-hidden brutal-border-b">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-4 md:px-8 lg:px-10 flex flex-1 justify-center py-0">
+                <div class="layout-content-container flex flex-col w-full flex-1">
+                    <header class="flex items-center justify-between whitespace-nowrap px-0 py-4 lg:py-6">
+                        <div class="flex items-center gap-4 text-[#000000]">
+                            <div class="size-6">
+                                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_6_319)">
+                                        <path
+                                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                            fill="currentColor"></path>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_6_319">
+                                            <rect fill="white" height="48" width="48"></rect>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h2 class="text-[#000000] text-xl md:text-2xl font-bold leading-tight tracking-[-0.015em] font-heading"
+                                style="">ConfeccionArte</h2>
+                        </div>
+                        <div class="flex flex-1 justify-end gap-8">
+                            <div class="flex items-center gap-6 md:gap-9">
+                                <a class="text-[#000000] text-sm md:text-base font-medium leading-normal hover:text-primary transition-none"
+                                    href="#" style="">COLECCIÓN</a>
+                                <a class="text-[#000000] text-sm md:text-base font-medium leading-normal hover:text-primary transition-none"
+                                    href="#" style="">Contactanos</a>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content Area -->
+    <div class="flex flex-col lg:flex-row flex-1 w-full relative">
+        <!-- Mobile Filter Toggle (Visible only on small screens) -->
+        <div class="lg:hidden p-4 brutal-border-b flex justify-between items-center bg-[#f4f4f4]">
+            <span class="font-mono text-xs font-bold" style="">FILTROS / NAVEGACIÓN</span>
+            <span class="material-symbols-outlined cursor-pointer hover:text-primary" style="">tune</span>
+        </div>
+        <!-- Sidebar (Left, 20vw on Desktop) -->
+        <aside
+            class="hidden lg:flex w-[20vw] flex-col brutal-border-r sticky top-0 h-[calc(100vh-81px)] overflow-y-auto bg-white z-10">
+            <div class="p-8 brutal-border-b">
+                <h3 class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest" style="">CATEGORÍAS</h3>
+                <ul class="space-y-4 font-mono text-sm">
+                    <li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform"
+                            href="#" style="">VER TODO</a></li>
+                    <li class="" style=""><a class="block font-bold text-primary" href="#" style="">ABRIGOS</a></li>
+                    <li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform"
+                            href="#" style="">PANTALONES</a></li>
+                    <li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform"
+                            href="#" style="">CAMISAS</a></li>
+                    <li class="" style=""><a class="block hover:text-primary hover:translate-x-1 transition-transform"
+                            href="#" style="">ACCESORIOS</a></li>
+                </ul>
+            </div>
+            <div class="p-8 brutal-border-b">
+                <h3 class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest" style="">TALLA</h3>
+                <div class="space-y-4 font-mono text-sm">
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" name="size" type="radio">
+                        <span class="group-hover:text-primary" style="">XS - EXTRA SMALL</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input checked="" class="brutal-radio" name="size" type="radio">
+                        <span class="font-bold" style="">S - SMALL</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" name="size" type="radio">
+                        <span class="group-hover:text-primary" style="">M - MEDIUM</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" name="size" type="radio">
+                        <span class="group-hover:text-primary" style="">L - LARGE</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" name="size" type="radio">
+                        <span class="group-hover:text-primary" style="">XL - EXTRA LARGE</span>
+                    </label>
+                </div>
+            </div>
+            <div class="p-8">
+                <h3 class="font-mono text-xs font-bold text-[#8a8a8a] mb-6 tracking-widest" style="">MATERIAL</h3>
+                <div class="space-y-4 font-mono text-sm">
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input checked="" class="brutal-radio" type="checkbox">
+                        <span class="font-bold" style="">LANA VIRGEN</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" type="checkbox">
+                        <span class="group-hover:text-primary" style="">ALGODÓN PESADO</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" type="checkbox">
+                        <span class="group-hover:text-primary" style="">CUERO SINTÉTICO</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group" style="">
+                        <input class="brutal-radio" type="checkbox">
+                        <span class="group-hover:text-primary" style="">NYLON TÉCNICO</span>
+                    </label>
+                </div>
+            </div>
+            <div class="mt-auto p-8 brutal-border-t bg-[#f4f4f4]">
+                <button class="w-full py-4 bg-black text-white font-heading text-lg hover:bg-primary transition-none"
+                    style="">
                     APLICAR FILTROS
                 </button>
-</div>
-</aside>
-<!-- Main Area (Right, 80vw on Desktop) -->
-<main class="w-full lg:w-[80vw] flex flex-col bg-white">
-<!-- Oversized Header -->
-<div class="w-full px-6 py-12 md:py-20 brutal-border-b bg-[#f4f4f4] flex flex-col justify-end min-h-[307px]">
-<span class="font-mono text-xs text-[#8a8a8a] mb-4 block" style="">MOSTRANDO 12 RESULTADOS / ABRIGOS</span>
-<h1 class="text-6xl md:text-8xl lg:text-[120px] leading-none font-semibold text-black m-0 p-0 break-words" style="">
+            </div>
+        </aside>
+        <!-- Main Area (Right, 80vw on Desktop) -->
+        <main class="w-full lg:w-[80vw] flex flex-col bg-white">
+            <!-- Oversized Header -->
+            <div
+                class="w-full px-6 py-12 md:py-20 brutal-border-b bg-[#f4f4f4] flex flex-col justify-end min-h-[307px]">
+                <span class="font-mono text-xs text-[#8a8a8a] mb-4 block" style="">MOSTRANDO 12 RESULTADOS /
+                    ABRIGOS</span>
+                <h1 class="text-6xl md:text-8xl lg:text-[120px] leading-none font-semibold text-black m-0 p-0 break-words"
+                    style="">
                     CÁTALOGO
                 </h1>
-</div>
-<!-- Product Grid (3 Columns on Desktop, 2 on Tablet, 1 on Mobile) -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full border-t-0 border-l-0 brutal-border-b">
-<!-- Product Card 1 -->
-<article class="product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:border-b-0 cursor-pointer group">
-<!-- Image Area (85%) -->
-<div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
-<div class="absolute top-4 left-4 z-10 bg-black text-white px-2 py-1 font-mono text-[10px]" style="">SKU: MB-AW24-001</div>
-<img alt="Abrigo de Lana Estructural frente" class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply" data-alt="Stark high-fashion photography of a black structured wool coat worn by a model against a pure white background, harsh lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYqwAANFnqugUw2qkvV29sM_hDU89FjGYkccEHxA2GJcUiUlS4N55nmVfZKoAnVsdvgSvZloLzCAqKleo049ltVz5eojOWe8Y7jbB6VO2v8PQDLNFn8WmgwOfPFkC2cH2sBb0spch9kqRtUPMCjipNsUjFAGfK3fZVSz80uGbG_3pHkwDpawihsW7aUheLX_WyOppuBz1ZilBtbu_r64niEA-XSsxllSrxkkL48hwwdCDmu66MYw-PpUxHVR_VD31vqeyHzSIZnec" style="">
-<img alt="Abrigo de Lana Estructural detalle" class="img-secondary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply" data-alt="Close up architectural detail shot of black structured wool coat fabric and geometric seams, harsh studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_1jIQ93hCXHbETkqSa9wt7IvIqCnU-tDOKcruohJuZ6ZQjDE1mXwfdD4A4bb2EvP7jUUIa5MuEJOe1GQUjLbDc6WzhkbmxlCNij8HvkP8uT2j3mQ3SybMXQqyO0li9vf4ioEAEfb3hiJeV1k-5gd-2PaKnNbp3Q9R_i3bxHdTrOFv1VeGGjKKMYypLegEacbjh7YvRFjKqdi3pYS5mb-vJz7dU8gZiJAVqgqvqwpXfata03oTUaSjWbTWJ57XI8f9eYovEcY84FE" style="">
-</div>
-<!-- Details Area (15%) -->
-<div class="h-[15%] w-full flex brutal-border-t group-hover:bg-black group-hover:text-white transition-none">
-<div class="w-3/4 p-4 flex items-center brutal-border-r group-hover:border-white">
-<h2 class="font-heading text-lg lg:text-xl truncate" style="">ABRIGO DE LANA ESTRUCTURAL</h2>
-</div>
-<div class="w-1/4 p-4 flex items-center justify-center">
-<span class="font-mono text-sm font-bold" style="">$1,200</span>
-</div>
-</div>
-</article>
-<!-- Product Card 2 -->
-<article class="product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:border-b-0 cursor-pointer group">
-<div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
-<div class="absolute top-4 left-4 z-10 bg-black text-white px-2 py-1 font-mono text-[10px]" style="">SKU: MB-AW24-012</div>
-<img alt="Gabardina Técnica Oversize" class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply" data-alt="Avant-garde oversized technical trench coat in dark grey, brutalist fashion photography, stark white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDffkjtDmBIH79sQF17iiYfCrE3PhI2KT_oysZyTNuyxu3ic7lJ_hMFNSV441YD9rvUQaaQI8ValLKkcVqLAA_zkfsIrqWoLNaEY2G8-FUtm82kQpRVRe4Ux5D2qwIFg1bJ52O1-zs7Bhj9rKmT1gMtvoBw_Rv6HJN61fG9atJUX0QFbrIjxBepmyEwzBuWkuIf8PWx-v6yzmKy7gfQW3DHyWnyBERBh16wDRQFL5KIeKZWtvA-kjZHURdHTOllnVjwOVM_rP2RYA8" style="">
-<img alt="Gabardina Técnica Oversize espalda" class="img-secondary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply" data-alt="Back view of avant-garde oversized technical trench coat showing structural belt details, harsh shadow on white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB57xDiTo1r-X021JPpiYxejxcRvmM7PVk2rfjfvLCb3iWyBtu4yMrStjm1hyC105tcBNxHyFOes2A1CTzmDWL2Frm3SrDpmcOKzsY99FCr06Wbn9i8srmpJ6euhZwZAz6_hx44oAkJH1KlmhD7v1bw6BXoBFDJq06bVSDItx1hR-bAJNomCkKKNJUElsE365bYgfAUOlj4iZMS5oeSxCoZZmwRpOH_yiH6uUIi9mvAzhP7S2E0ZMXvkOaVNcuQOUl99oqa00UZFLw" style="">
-</div>
-<div class="h-[15%] w-full flex brutal-border-t group-hover:bg-black group-hover:text-white transition-none">
-<div class="w-3/4 p-4 flex items-center brutal-border-r group-hover:border-white">
-<h2 class="font-heading text-lg lg:text-xl truncate" style="">GABARDINA TÉCNICA OVERSIZE</h2>
-</div>
-<div class="w-1/4 p-4 flex items-center justify-center">
-<span class="font-mono text-sm font-bold" style="">$1,850</span>
-</div>
-</div>
-</article>
-<!-- Product Card 3 -->
-<article class="product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:border-b-0 lg:border-r-0 cursor-pointer group">
-<div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
-<div class="absolute top-4 left-4 z-10 bg-primary text-white px-2 py-1 font-mono text-[10px]" style="">AGOTADO</div>
-<img alt="Chaqueta Acolchada Asimétrica" class="img-primary w-full h-full object-cover object-center grayscale contrast-125 opacity-70 mix-blend-multiply" data-alt="Asymmetrical black padded jacket with geometric baffling, stark editorial fashion photography, high contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2UubPglbauz_EQoj_6CDxZNdPo9I-YJDbIAm6lNuSZ-cc-eOEHMMyK69C1bY0_by4IvcLXkQNzCvqkmcCJlgMcShUfuNra2GLZnqnc617R45vLseoFKJ2OAcYBbXZ13XQaUE5CM2-qwcq-HVcrie5kziIWYjGSOsEDrTBxHxIRkMAMD3Zxkedl0XhawTuGd00yByJ3N_JYjIReShqshxLHma9nS0yv1ASJRb0GELpSTDjeWjcHU12o-f0u9-puMYfgoGFQbUNTts" style="">
-<img alt="Chaqueta Acolchada Asimétrica detalle" class="img-secondary w-full h-full object-cover object-center grayscale contrast-125 opacity-70 mix-blend-multiply" data-alt="Close up of asymmetrical zipper and thick padding on black jacket, industrial fashion aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAONwf_pFtEwPdsLwYOJ2tjvwImrqJafB5IQMQIrfT7M74O90LKWdcIm7snV4sdjXV5hW-lDiuhEKI8qdYtWS0YrFiodhGIgIdqCTct7oqY1MMg8f8rqNWI7D9eB7wyjZkXyLT3U30K8rpSQAnScaQkZPAWi3yhl8QoghwxDstXYY7-Oqhrf2C1vuWTZfWWX6WfA-qxileU_XLXmAB9xjPcGaFB5jEDBaEstOlMCV2WR5NEWtRbUC7bTLj8-Hx4B4YXz55Idt3z9_0" style="">
-</div>
-<div class="h-[15%] w-full flex brutal-border-t bg-[#f4f4f4] text-[#8a8a8a]">
-<div class="w-3/4 p-4 flex items-center brutal-border-r border-[#8a8a8a]">
-<h2 class="font-heading text-lg lg:text-xl truncate line-through" style="">CHAQUETA ASIMÉTRICA</h2>
-</div>
-<div class="w-1/4 p-4 flex items-center justify-center">
-<span class="font-mono text-sm font-bold line-through" style="">$980</span>
-</div>
-</div>
-</article>
-</div>
-<!-- Loading/More Trigger Area -->
-<div class="w-full py-12 flex justify-center items-center bg-white brutal-border-b">
-<span class="font-mono text-sm text-[#8a8a8a] tracking-widest" style="">[ CARGANDO MÁS ESTRUCTURAS ]</span>
-</div>
-</main>
-</div>
-</body></html>
+            </div>
+            <!-- Product Grid (3 Columns on Desktop, 2 on Tablet, 1 on Mobile) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full border-t-0 border-l-0 brutal-border-b">
+                <!-- Product Card 1 -->
+                <article
+                    class="product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:border-b-0 cursor-pointer group">
+                    <!-- Image Area (85%) -->
+                    <div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
+                        <div class="absolute top-4 left-4 z-10 bg-black text-white px-2 py-1 font-mono text-[10px]"
+                            style="">SKU: CFA-AW24-001</div>
+                        <img alt="Abrigo de Lana Estructural frente"
+                            class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                            data-alt="Stark high-fashion photography of a black structured wool coat worn by a model against a pure white background, harsh lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYqwAANFnqugUw2qkvV29sM_hDU89FjGYkccEHxA2GJcUiUlS4N55nmVfZKoAnVsdvgSvZloLzCAqKleo049ltVz5eojOWe8Y7jbB6VO2v8PQDLNFn8WmgwOfPFkC2cH2sBb0spch9kqRtUPMCjipNsUjFAGfK3fZVSz80uGbG_3pHkwDpawihsW7aUheLX_WyOppuBz1ZilBtbu_r64niEA-XSsxllSrxkkL48hwwdCDmu66MYw-PpUxHVR_VD31vqeyHzSIZnec"
+                            style="">
+                        <img alt="Abrigo de Lana Estructural detalle"
+                            class="img-secondary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                            data-alt="Close up architectural detail shot of black structured wool coat fabric and geometric seams, harsh studio lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_1jIQ93hCXHbETkqSa9wt7IvIqCnU-tDOKcruohJuZ6ZQjDE1mXwfdD4A4bb2EvP7jUUIa5MuEJOe1GQUjLbDc6WzhkbmxlCNij8HvkP8uT2j3mQ3SybMXQqyO0li9vf4ioEAEfb3hiJeV1k-5gd-2PaKnNbp3Q9R_i3bxHdTrOFv1VeGGjKKMYypLegEacbjh7YvRFjKqdi3pYS5mb-vJz7dU8gZiJAVqgqvqwpXfata03oTUaSjWbTWJ57XI8f9eYovEcY84FE"
+                            style="">
+                    </div>
+                    <!-- Details Area (15%) -->
+                    <div
+                        class="h-[15%] w-full flex brutal-border-t group-hover:bg-black group-hover:text-white transition-none">
+                        <div class="w-3/4 p-4 flex items-center brutal-border-r group-hover:border-white">
+                            <h2 class="font-heading text-lg lg:text-xl truncate" style="">ABRIGO DE LANA ESTRUCTURAL
+                            </h2>
+                        </div>
+                        <div class="w-1/4 p-4 flex items-center justify-center">
+                            <span class="font-mono text-sm font-bold" style="">$1,200</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Product Card 2 -->
+                <article
+                    class="product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:border-b-0 cursor-pointer group">
+                    <div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
+                        <div class="absolute top-4 left-4 z-10 bg-black text-white px-2 py-1 font-mono text-[10px]"
+                            style="">SKU: CFA-AW24-012</div>
+                        <img alt="Gabardina Técnica Oversize"
+                            class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                            data-alt="Avant-garde oversized technical trench coat in dark grey, brutalist fashion photography, stark white background"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDffkjtDmBIH79sQF17iiYfCrE3PhI2KT_oysZyTNuyxu3ic7lJ_hMFNSV441YD9rvUQaaQI8ValLKkcVqLAA_zkfsIrqWoLNaEY2G8-FUtm82kQpRVRe4Ux5D2qwIFg1bJ52O1-zs7Bhj9rKmT1gMtvoBw_Rv6HJN61fG9atJUX0QFbrIjxBepmyEwzBuWkuIf8PWx-v6yzmKy7gfQW3DHyWnyBERBh16wDRQFL5KIeKZWtvA-kjZHURdHTOllnVjwOVM_rP2RYA8"
+                            style="">
+                        <img alt="Gabardina Técnica Oversize espalda"
+                            class="img-secondary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply"
+                            data-alt="Back view of avant-garde oversized technical trench coat showing structural belt details, harsh shadow on white background"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB57xDiTo1r-X021JPpiYxejxcRvmM7PVk2rfjfvLCb3iWyBtu4yMrStjm1hyC105tcBNxHyFOes2A1CTzmDWL2Frm3SrDpmcOKzsY99FCr06Wbn9i8srmpJ6euhZwZAz6_hx44oAkJH1KlmhD7v1bw6BXoBFDJq06bVSDItx1hR-bAJNomCkKKNJUElsE365bYgfAUOlj4iZMS5oeSxCoZZmwRpOH_yiH6uUIi9mvAzhP7S2E0ZMXvkOaVNcuQOUl99oqa00UZFLw"
+                            style="">
+                    </div>
+                    <div
+                        class="h-[15%] w-full flex brutal-border-t group-hover:bg-black group-hover:text-white transition-none">
+                        <div class="w-3/4 p-4 flex items-center brutal-border-r group-hover:border-white">
+                            <h2 class="font-heading text-lg lg:text-xl truncate" style="">GABARDINA TÉCNICA OVERSIZE
+                            </h2>
+                        </div>
+                        <div class="w-1/4 p-4 flex items-center justify-center">
+                            <span class="font-mono text-sm font-bold" style="">$1,850</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Product Card 3 -->
+                <article
+                    class="product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:border-b-0 lg:border-r-0 cursor-pointer group">
+                    <div class="h-[85%] w-full bg-[#f4f4f4] relative overflow-hidden">
+                        <div class="absolute top-4 left-4 z-10 bg-primary text-white px-2 py-1 font-mono text-[10px]"
+                            style="">AGOTADO</div>
+                        <img alt="Chaqueta Acolchada Asimétrica"
+                            class="img-primary w-full h-full object-cover object-center grayscale contrast-125 opacity-70 mix-blend-multiply"
+                            data-alt="Asymmetrical black padded jacket with geometric baffling, stark editorial fashion photography, high contrast"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2UubPglbauz_EQoj_6CDxZNdPo9I-YJDbIAm6lNuSZ-cc-eOEHMMyK69C1bY0_by4IvcLXkQNzCvqkmcCJlgMcShUfuNra2GLZnqnc617R45vLseoFKJ2OAcYBbXZ13XQaUE5CM2-qwcq-HVcrie5kziIWYjGSOsEDrTBxHxIRkMAMD3Zxkedl0XhawTuGd00yByJ3N_JYjIReShqshxLHma9nS0yv1ASJRb0GELpSTDjeWjcHU12o-f0u9-puMYfgoGFQbUNTts"
+                            style="">
+                        <img alt="Chaqueta Acolchada Asimétrica detalle"
+                            class="img-secondary w-full h-full object-cover object-center grayscale contrast-125 opacity-70 mix-blend-multiply"
+                            data-alt="Close up of asymmetrical zipper and thick padding on black jacket, industrial fashion aesthetic"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAONwf_pFtEwPdsLwYOJ2tjvwImrqJafB5IQMQIrfT7M74O90LKWdcIm7snV4sdjXV5hW-lDiuhEKI8qdYtWS0YrFiodhGIgIdqCTct7oqY1MMg8f8rqNWI7D9eB7wyjZkXyLT3U30K8rpSQAnScaQkZPAWi3yhl8QoghwxDstXYY7-Oqhrf2C1vuWTZfWWX6WfA-qxileU_XLXmAB9xjPcGaFB5jEDBaEstOlMCV2WR5NEWtRbUC7bTLj8-Hx4B4YXz55Idt3z9_0"
+                            style="">
+                    </div>
+                    <div class="h-[15%] w-full flex brutal-border-t bg-[#f4f4f4] text-[#8a8a8a]">
+                        <div class="w-3/4 p-4 flex items-center brutal-border-r border-[#8a8a8a]">
+                            <h2 class="font-heading text-lg lg:text-xl truncate line-through" style="">CHAQUETA
+                                ASIMÉTRICA</h2>
+                        </div>
+                        <div class="w-1/4 p-4 flex items-center justify-center">
+                            <span class="font-mono text-sm font-bold line-through" style="">$980</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <!-- Loading/More Trigger Area -->
+            <div class="w-full py-12 flex justify-center items-center bg-white brutal-border-b">
+                <span class="font-mono text-sm text-[#8a8a8a] tracking-widest" style="">[ CARGANDO MÁS ESTRUCTURAS
+                    ]</span>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

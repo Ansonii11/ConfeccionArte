@@ -1,12 +1,20 @@
-<!DOCTYPE html><html class="light" lang="es"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Elegancia Brutalista - Product Detail</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Elegancia Brutalista - Product Detail</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -31,7 +39,7 @@
             },
         }
     </script>
-<style>
+    <style>
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: #FFFFFF;
@@ -42,39 +50,46 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
+
         /* Hide scrollbar for Chrome, Safari and Opera */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
+
         /* Hide scrollbar for IE, Edge and Firefox */
         .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
         }
-        
+
         .brutalist-border {
             border: 1px solid #000000;
         }
+
         .brutalist-border-b {
             border-bottom: 1px solid #000000;
         }
+
         .brutalist-border-r {
             border-right: 1px solid #000000;
         }
+
         .brutalist-border-l {
             border-left: 1px solid #000000;
         }
+
         .brutalist-border-t {
             border-top: 1px solid #000000;
         }
-        
+
         /* Brutalist hover inversion */
         .hover-invert:hover {
             background-color: #000000;
             color: #FFFFFF;
         }
-        
+
         /* Sold out strike through */
         .sold-out {
             text-decoration: line-through;
@@ -83,101 +98,144 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col antialiased bg-white selection:bg-primary selection:text-white">
-<!-- Minimal Back-to-Main Header -->
-<header class="sticky top-0 z-50 flex items-center justify-between w-full h-[80px] px-8 bg-white brutalist-border-b">
-<a aria-label="Volver" class="flex items-center justify-center w-12 h-12 brutalist-border hover-invert transition-none rounded-sm" href="#" style="">
-<span class="material-symbols-outlined text-2xl" style="">arrow_back</span>
-</a>
-<div class="flex-1 flex justify-center">
-<h1 class="text-2xl font-bold tracking-tighter uppercase" style="">MAISON BRUT</h1>
-</div>
-<div class="w-12 h-12 flex items-center justify-center brutalist-border rounded-sm relative group cursor-pointer hover-invert transition-none">
-<span class="material-symbols-outlined text-xl group-hover:text-white" style="">shopping_cart</span>
-<span class="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-mono px-1.5 py-0.5 rounded-sm border border-black" style="">0</span>
-</div>
-</header>
-<!-- Main Product Detail Container -->
-<main class="flex flex-col lg:flex-row w-full flex-grow">
-<!-- Left Column: Scrollable Image Gallery -->
-<section class="w-full lg:w-1/2 flex flex-col brutalist-border-r h-auto lg:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar">
-<!-- Image 1 -->
-<div class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-gray-100 relative brutalist-border-b">
-<img alt="Male model wearing oversized structured black wool coat standing against concrete wall in harsh daylight" class="w-full h-full object-cover object-center" data-alt="Male model wearing oversized structured black wool coat standing against concrete wall in harsh daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuHx9UfoFnRASlKZd1uYwi5obaQ39elQPLWx3NF9Vz1T-KwYZcw5vDmX92GFpSLqHZAbqUxawg_ugGdOiyqpmI1jPpKqdeWVYBJLzBNvnpfS2Ok22NM7-KGjerI6tUn3kAMFXLPES58q5mr22eGW-ltWpYjWHJzDQQZfACq1nRlDuMwDQ6z2bKDh9OEa7-_hNm02zijwkMIG6om3HnrzQth4qU4DI9z7t1qIF0MDjI9p9ViLpbZXJjPanX8t1grHqpgi1sVx__gNQ" style="">
-</div>
-<!-- Image 2 -->
-<div class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-gray-100 relative brutalist-border-b">
-<img alt="Close-up detail of heavy structured black wool fabric showing weave texture and sharp lapel tailoring" class="w-full h-full object-cover object-center" data-alt="Close-up detail of heavy structured black wool fabric showing weave texture and sharp lapel tailoring" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8EbHOVOVsjR5KsnLAWp0j6XCPaMCT2hQNbpoTSKPOWvS3gJPxyKQHBW5y3BUzqtQf8yb33q3K4YpLgR-wVi85DvU6eVJ7vcuTNzk3ZvV7cbimOt7MQ0bDfPyD5rpeLtVwAwdxKfT0vp-x24GQfP9hRdZaElkmAwy9GSWUcsVUTqwy9GxUTu1vwoogbshGLgNU94JDkqtD32WtQuhDaO_xSa8MH8TwthUGZC5Vz88LkPZf3PapPpoVooUbzWCS2CX94bQ8PmVaqo0" style="">
-</div>
-<!-- Image 3 -->
-<div class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-gray-100 relative brutalist-border-b lg:border-b-0">
-<img alt="Back view of structured black wool coat showing architectural seam lines and oversized silhouette" class="w-full h-full object-cover object-center" data-alt="Back view of structured black wool coat showing architectural seam lines and oversized silhouette" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwjbcbbtHZvYYgm0LYnGQMAT5TsN8JfaHOo0NJa0E4oQUOj9lLFWkH0PxKYDUrZHTqab0V2wNP5eSN7FrjNu5g6DQXr1itGYcuHkRXbBFqxOfalD02bJgohouaEAB6b70GdAKQYwzMMoU-DnpHakf_r9H6IMZR43jiyHaESZcdw9pswwXXDzr6S4RRNtqJ7gQTyeyx1e1B_Vk-jK02bSIqv-9QNFhHxNqXxh7s66dvrCCiuvEoyn2zXmHd7PHx7LmaWGC0wscA1Q" style="">
-</div>
-</section>
-<!-- Right Column: Sticky Product Information -->
-<section class="w-full lg:w-1/2 flex flex-col relative lg:h-[calc(100vh-80px)] lg:sticky top-[80px]">
-<div class="p-8 lg:p-20 flex flex-col flex-grow overflow-y-auto no-scrollbar">
-<!-- Meta Info -->
-<div class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500">
-<span class="" style="">SKU: MB-AW24-001</span>
-<span class="" style="">COLECCIÓN OTOÑO / INVIERNO</span>
-</div>
-<!-- Title & Price -->
-<h2 class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6" style="">
+    <!-- Minimal Back-to-Main Header -->
+    <header
+        class="sticky top-0 z-50 flex items-center justify-between w-full h-[80px] px-8 bg-white brutalist-border-b">
+        <a aria-label="Volver"
+            class="flex items-center justify-center w-12 h-12 brutalist-border hover-invert transition-none rounded-sm"
+            href="#" style="">
+            <span class="material-symbols-outlined text-2xl" style="">arrow_back</span>
+        </a>
+        <div class="flex-1 flex justify-center">
+            <h1 class="text-2xl font-bold tracking-tighter uppercase" style="">ConfeccionArte</h1>
+        </div>
+        <div
+            class="w-12 h-12 flex items-center justify-center brutalist-border rounded-sm relative group cursor-pointer hover-invert transition-none">
+            <span class="material-symbols-outlined text-xl group-hover:text-white" style="">shopping_cart</span>
+            <span
+                class="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-mono px-1.5 py-0.5 rounded-sm border border-black"
+                style="">0</span>
+        </div>
+    </header>
+    <!-- Main Product Detail Container -->
+    <main class="flex flex-col lg:flex-row w-full flex-grow">
+        <!-- Left Column: Scrollable Image Gallery -->
+        <section
+            class="w-full lg:w-1/2 flex flex-col brutalist-border-r h-auto lg:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar">
+            <!-- Image 1 -->
+            <div
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-gray-100 relative brutalist-border-b">
+                <img alt="Male model wearing oversized structured black wool coat standing against concrete wall in harsh daylight"
+                    class="w-full h-full object-cover object-center"
+                    data-alt="Male model wearing oversized structured black wool coat standing against concrete wall in harsh daylight"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuHx9UfoFnRASlKZd1uYwi5obaQ39elQPLWx3NF9Vz1T-KwYZcw5vDmX92GFpSLqHZAbqUxawg_ugGdOiyqpmI1jPpKqdeWVYBJLzBNvnpfS2Ok22NM7-KGjerI6tUn3kAMFXLPES58q5mr22eGW-ltWpYjWHJzDQQZfACq1nRlDuMwDQ6z2bKDh9OEa7-_hNm02zijwkMIG6om3HnrzQth4qU4DI9z7t1qIF0MDjI9p9ViLpbZXJjPanX8t1grHqpgi1sVx__gNQ"
+                    style="">
+            </div>
+            <!-- Image 2 -->
+            <div
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-gray-100 relative brutalist-border-b">
+                <img alt="Close-up detail of heavy structured black wool fabric showing weave texture and sharp lapel tailoring"
+                    class="w-full h-full object-cover object-center"
+                    data-alt="Close-up detail of heavy structured black wool fabric showing weave texture and sharp lapel tailoring"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8EbHOVOVsjR5KsnLAWp0j6XCPaMCT2hQNbpoTSKPOWvS3gJPxyKQHBW5y3BUzqtQf8yb33q3K4YpLgR-wVi85DvU6eVJ7vcuTNzk3ZvV7cbimOt7MQ0bDfPyD5rpeLtVwAwdxKfT0vp-x24GQfP9hRdZaElkmAwy9GSWUcsVUTqwy9GxUTu1vwoogbshGLgNU94JDkqtD32WtQuhDaO_xSa8MH8TwthUGZC5Vz88LkPZf3PapPpoVooUbzWCS2CX94bQ8PmVaqo0"
+                    style="">
+            </div>
+            <!-- Image 3 -->
+            <div
+                class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-gray-100 relative brutalist-border-b lg:border-b-0">
+                <img alt="Back view of structured black wool coat showing architectural seam lines and oversized silhouette"
+                    class="w-full h-full object-cover object-center"
+                    data-alt="Back view of structured black wool coat showing architectural seam lines and oversized silhouette"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdwjbcbbtHZvYYgm0LYnGQMAT5TsN8JfaHOo0NJa0E4oQUOj9lLFWkH0PxKYDUrZHTqab0V2wNP5eSN7FrjNu5g6DQXr1itGYcuHkRXbBFqxOfalD02bJgohouaEAB6b70GdAKQYwzMMoU-DnpHakf_r9H6IMZR43jiyHaESZcdw9pswwXXDzr6S4RRNtqJ7gQTyeyx1e1B_Vk-jK02bSIqv-9QNFhHxNqXxh7s66dvrCCiuvEoyn2zXmHd7PHx7LmaWGC0wscA1Q"
+                    style="">
+            </div>
+        </section>
+        <!-- Right Column: Sticky Product Information -->
+        <section class="w-full lg:w-1/2 flex flex-col relative lg:h-[calc(100vh-80px)] lg:sticky top-[80px]">
+            <div class="p-8 lg:p-20 flex flex-col flex-grow overflow-y-auto no-scrollbar">
+                <!-- Meta Info -->
+                <div
+                    class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500">
+                    <span class="" style="">SKU: CFA-AW24-001</span>
+                    <span class="" style="">COLECCIÓN OTOÑO / INVIERNO</span>
+                </div>
+                <!-- Title & Price -->
+                <h2 class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6" style="">
                     Abrigo de Lana Estructural
                 </h2>
-<p class="text-2xl lg:text-[32px] font-medium mb-12" style="">
+                <p class="text-2xl lg:text-[32px] font-medium mb-12" style="">
                     €1,250.00
                 </p>
-<div class="w-full brutalist-border-t mb-8"></div>
-<!-- Size Selector -->
-<div class="mb-12">
-<div class="flex justify-between items-end mb-4">
-<span class="text-sm font-bold uppercase tracking-wider" style="">Talla</span>
-<a class="text-xs font-mono underline hover:text-primary transition-colors" href="#" style="">GUÍA DE TALLAS</a>
-</div>
-<div class="grid grid-cols-4 gap-2">
-<button class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none" style="">
+                <div class="w-full brutalist-border-t mb-8"></div>
+                <!-- Size Selector -->
+                <div class="mb-12">
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-sm font-bold uppercase tracking-wider" style="">Talla</span>
+                        <a class="text-xs font-mono underline hover:text-primary transition-colors" href="#"
+                            style="">GUÍA DE TALLAS</a>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button
+                            class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none"
+                            style="">
                             44
                         </button>
-<button class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold bg-black text-white transition-none" style="">
+                        <button
+                            class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold bg-black text-white transition-none"
+                            style="">
                             46
                         </button>
-<button class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none" style="">
+                        <button
+                            class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none"
+                            style="">
                             48
                         </button>
-<button class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none" style="">
+                        <button
+                            class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none"
+                            style="">
                             50
                         </button>
-<button class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none" style="">
+                        <button
+                            class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold hover-invert transition-none"
+                            style="">
                             52
                         </button>
-<!-- Sold out example -->
-<button class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold sold-out bg-gray-50 transition-none" style="">
+                        <!-- Sold out example -->
+                        <button
+                            class="w-full h-[60px] brutalist-border rounded-sm flex items-center justify-center text-lg font-bold sold-out bg-gray-50 transition-none"
+                            style="">
                             54
                         </button>
-</div>
-</div>
-<!-- Description / Technical Data -->
-<div class="mb-12 space-y-4 text-sm lg:text-base">
-<p class="font-medium leading-relaxed" style="">
-                        Silueta arquitectónica sobredimensionada en lana virgen pesada. Hombros estructurados caídos con costuras expuestas. Forro interior de cupro para un drapeado perfecto.
+                    </div>
+                </div>
+                <!-- Description / Technical Data -->
+                <div class="mb-12 space-y-4 text-sm lg:text-base">
+                    <p class="font-medium leading-relaxed" style="">
+                        Silueta arquitectónica sobredimensionada en lana virgen pesada. Hombros estructurados caídos con
+                        costuras expuestas. Forro interior de cupro para un drapeado perfecto.
                     </p>
-<ul class="font-mono text-xs uppercase text-gray-600 space-y-2 mt-6">
-<li class="" style="">— 100% Lana Virgen (Exterior)</li>
-<li class="" style="">— 100% Cupro (Forro)</li>
-<li class="" style="">— Hecho en Italia</li>
-<li class="" style="">— Limpieza en seco únicamente</li>
-</ul>
-</div>
-</div>
-<!-- Fixed Bottom Add to Cart Action (Anchored to right panel bottom) -->
-<div class="w-full mt-auto brutalist-border-t bg-white p-4 lg:p-8">
-<button class="w-full h-[80px] bg-black text-white uppercase text-xl lg:text-2xl font-bold tracking-wider hover:bg-primary transition-colors rounded-sm flex items-center justify-center gap-4 group" style="">
-<span class="" style="">Contactanos</span>
-<span class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform" style="">arrow_forward</span>
-</button>
-</div>
-</section>
-</main>
-</body></html>
+                    <ul class="font-mono text-xs uppercase text-gray-600 space-y-2 mt-6">
+                        <li class="" style="">— 100% Lana Virgen (Exterior)</li>
+                        <li class="" style="">— 100% Cupro (Forro)</li>
+                        <li class="" style="">— Hecho en Italia</li>
+                        <li class="" style="">— Limpieza en seco únicamente</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Fixed Bottom Add to Cart Action (Anchored to right panel bottom) -->
+            <div class="w-full mt-auto brutalist-border-t bg-white p-4 lg:p-8">
+                <button
+                    class="w-full h-[80px] bg-black text-white uppercase text-xl lg:text-2xl font-bold tracking-wider hover:bg-primary transition-colors rounded-sm flex items-center justify-center gap-4 group"
+                    style="">
+                    <span class="" style="">Contactanos</span>
+                    <span class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform"
+                        style="">arrow_forward</span>
+                </button>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

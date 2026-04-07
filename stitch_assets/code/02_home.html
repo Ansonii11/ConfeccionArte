@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 
-<html lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Maison Brut - Inicio</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Configuration -->
-<script id="tailwind-config">
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ConfeccionArte - Inicio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -42,7 +50,7 @@
             },
         }
     </script>
-<style>
+    <style>
         /* Brutalist specifics overrides */
         body {
             background-color: #ffffff;
@@ -56,15 +64,19 @@
         .brutal-border {
             border: 1px solid #000000;
         }
+
         .brutal-border-b {
             border-bottom: 1px solid #000000;
         }
+
         .brutal-border-t {
             border-top: 1px solid #000000;
         }
+
         .brutal-border-r {
             border-right: 1px solid #000000;
         }
+
         .brutal-border-l {
             border-left: 1px solid #000000;
         }
@@ -75,7 +87,7 @@
             color: #ffffff;
             transition: none;
         }
-        
+
         .hover-invert:hover img {
             opacity: 0.8;
             mix-blend-mode: multiply;
@@ -86,117 +98,167 @@
             overflow: hidden;
             white-space: nowrap;
         }
+
         .marquee-content {
             display: inline-block;
             animation: marquee 20s linear infinite;
         }
+
         @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen bg-white text-black font-display overflow-x-hidden selection:bg-primary selection:text-white">
-<!-- TopNavBar (Shared Component, strictly applied for Home/Destination) -->
-<div class="relative flex h-auto w-full flex-col bg-white group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
-<div class="layout-container flex h-full grow flex-col">
-<div class="flex flex-1 justify-center">
-<div class="layout-content-container flex flex-col w-full flex-1">
-<header class="flex items-center justify-between whitespace-nowrap brutal-border-b px-6 lg:px-10 h-[80px] fixed top-0 w-full bg-white z-50">
-<div class="flex items-center gap-4 text-[#181111]">
-<div class="size-4">
-<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_6_319)">
-<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
-</g>
-<defs>
-<clippath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clippath>
-</defs>
-</svg>
-</div>
-<h2 class="text-black text-xl lg:text-2xl font-bold leading-tight tracking-tighter uppercase">MAISON BRUT</h2>
-</div>
-<div class="hidden md:flex flex-1 justify-center gap-8">
-<div class="flex items-center gap-12">
-<a class="text-black text-sm font-bold tracking-widest uppercase hover:text-primary transition-none" href="#">Colección</a>
-<a class="text-black text-sm font-bold tracking-widest uppercase hover:text-primary transition-none" href="#">Campañas</a>
-</div>
-</div>
-<div class="flex justify-end">
-<a class="text-black text-sm font-bold tracking-widest uppercase hover:text-primary transition-none" href="#">CARRITO (0)</a>
-</div>
-</header>
-</div>
-</div>
-</div>
-</div>
-<!-- Main Content Padding for Fixed Header -->
-<main class="pt-[80px] flex-grow flex flex-col w-full">
-<!-- Split Hero Section (60vh) -->
-<section class="flex flex-col md:flex-row w-full min-h-[614px] brutal-border-b">
-<!-- Left Text Cell -->
-<div class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 brutal-border-b md:brutal-border-b-0 md:brutal-border-r bg-white"><div class="w-full text-center md:text-left">
-<h1 class="text-black text-6xl md:text-7xl lg:text-8xl font-black leading-none tracking-tighter uppercase mb-4">
-        LA FORMA PURA
-    </h1>
-<p class="text-black text-xl md:text-2xl font-mono uppercase tracking-widest">
-        Arquitectura textil que desafía lo convencional.
-    </p>
-</div></div>
-<!-- Right Image Cell -->
-<div class="w-full md:w-1/2 relative min-h-[512px] md:min-h-full bg-gray-100 overflow-hidden">
-<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="Avant-garde high fashion model wearing oversized black structural coat standing in brutalist concrete architecture, stark dramatic lighting, sharp contrast" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5eiAz6n9G97VT67A0XCk0QZYiHLDlslwxzaUoxXazib9OQqYjj4XSbJmLukBbojdLQViO2i_Yrvbx5d-uNvU5uxI6kKFz-fH_xDlVN6OGubLBb19itPRf9Tde-LYQ4IvN0E0jEU0mLgYrk7A0DULSOS5hWzEwlTQxpSJhB5q1pJGUAQEqS310m-a-sdjBE2KtgoeN6pHz0NJWlTNfokcUltPBczZTREbEpYnD0-Gz8_HqugDLaJKZC_coRwoFKWn1PAMcZH5ePvY');">
-</div>
-<!-- Overlay link to collection -->
-<a class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-primary/90 transition-none group cursor-pointer z-10" href="#">
-<span class="text-white text-2xl md:text-4xl font-black tracking-widest uppercase border-2 border-white px-8 py-4">VER COLECCIÓN</span>
-</a>
-</div>
-</section>
-<!-- Scrolling Marquee (64px) -->
-<div class="h-[64px] bg-white text-black brutal-border-b flex items-center uppercase font-mono text-sm tracking-widest font-semibold marquee-container">
-<div class="marquee-content">
-                COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA — COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA — COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA — COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA — 
+
+<body
+    class="flex flex-col min-h-screen bg-white text-black font-display overflow-x-hidden selection:bg-primary selection:text-white">
+    <!-- TopNavBar (Shared Component, strictly applied for Home/Destination) -->
+    <div class="relative flex h-auto w-full flex-col bg-white group/design-root overflow-x-hidden"
+        style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center">
+                <div class="layout-content-container flex flex-col w-full flex-1">
+                    <header
+                        class="flex items-center justify-between whitespace-nowrap brutal-border-b px-6 lg:px-10 h-[80px] fixed top-0 w-full bg-white z-50">
+                        <div class="flex items-center gap-4 text-[#181111]">
+                            <div class="size-4">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_6_319)">
+                                        <path
+                                            d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"
+                                            fill="currentColor"></path>
+                                    </g>
+                                    <defs>
+                                        <clippath id="clip0_6_319">
+                                            <rect fill="white" height="48" width="48"></rect>
+                                        </clippath>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h2
+                                class="text-black text-xl lg:text-2xl font-bold leading-tight tracking-tighter uppercase">
+                                ConfeccionArte</h2>
+                        </div>
+                        <div class="hidden md:flex flex-1 justify-center gap-8">
+                            <div class="flex items-center gap-12">
+                                <a class="text-black text-sm font-bold tracking-widest uppercase hover:text-primary transition-none"
+                                    href="#">Colección</a>
+                                <a class="text-black text-sm font-bold tracking-widest uppercase hover:text-primary transition-none"
+                                    href="#">Campañas</a>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <a class="text-black text-sm font-bold tracking-widest uppercase hover:text-primary transition-none"
+                                href="#">CARRITO (0)</a>
+                        </div>
+                    </header>
+                </div>
             </div>
-</div>
-<!-- Featured Category Grid (4 Columns) -->
-<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full">
-<!-- Category 1 -->
-<a class="group relative flex flex-col h-[512px] md:h-[614px] brutal-border-b xl:brutal-border-b-0 brutal-border-r hover-invert overflow-hidden cursor-pointer block" href="#">
-<div class="flex-grow w-full bg-gray-100 relative">
-<img alt="Category image" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none" data-alt="Black avant-garde structural coat on mannequin against stark white background, high contrast, studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhOs7advwBhQzg1Dmx2DUXithl3eJaOF11sqajlO3X10M941KAFA9bmTtn_R_zHDWqnhU553qakuatOdsfb5RiDVp7y6iJyS4JVpHTEY9_JbIkV7nKbXn9du8UqGZgwtVO31Hli4U2F_c89eY9Kl8-usfmR2txy9f4FhleKKl0yQgK71qmP5mgW0cit09KaA6hbLu7GWCM-SOKiun3lOIgI2x7YwP1KRdyNG3jqc4YEptoOh1qGp4Gnn1RfZqZAWloaGpbu7s0VKM"/>
-</div>
-<div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
-<h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">ABRIGOS</h3>
-</div>
-</a>
-<!-- Category 2 -->
-<a class="group relative flex flex-col h-[512px] md:h-[614px] brutal-border-b xl:brutal-border-b-0 md:brutal-border-r hover-invert overflow-hidden cursor-pointer block" href="#">
-<div class="flex-grow w-full bg-gray-100 relative">
-<img alt="Category image" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none" data-alt="Wide leg oversized structural black trousers hanging, stark white background, raw industrial aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQh7dz_yQs9Uhhk2cRxne627IPEVgHEBawf1_3r9sMODrTx8Hi9TyR5zDRliaGBR9oU0F7n2E7yg4iwyPRsOqi2nvBVg_9p9GK-uzMzc3PU-BkRd1_eynO-zOYkjcaCrQoEob5DfXbkTlMzxBqfBS-9uKggQ2BSx1WAKreMr8oHvpr9jDTIOMPE_iU4P9sx31bV1kXu_sqR7K_NNbcsBGusur30jCWxZafid3T7I8RWgXm6_V8j4wuX8TdRxSsVnbM_eDJgkq6Klo"/>
-</div>
-<div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
-<h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">PANTALONES</h3>
-</div>
-</a>
-<!-- Category 3 -->
-<a class="group relative flex flex-col h-[512px] md:h-[614px] brutal-border-b md:brutal-border-b-0 xl:brutal-border-r hover-invert overflow-hidden cursor-pointer block" href="#">
-<div class="flex-grow w-full bg-gray-100 relative">
-<img alt="Category image" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none" data-alt="Chunky silver industrial brutalist ring on concrete surface, harsh shadows, macro photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnOdI3n5aYnss1rAwSpdxuGxJkuYkQZ4GJR8xgpdR_mBL5SSclzY65qPbKOnriFFbkCv5ADGfUgjjBnM5d5FlXJ7mHkcdt7HLQuqMr56mnUzBrtFtcGTB6nq-u-Cn42hMNWbRDp6SMZv6SPBskCePMsZeu5gTwYg5ncUKKOxU8NfKbcQQMqamphYKQRclzT6k5DUxCeNIf2CANNsf2iOz48dcFOyNG-i9r6BqWEnamst4sghN7lc07YiZ8mswP8-M_ahNCC6pZ0yg"/>
-</div>
-<div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
-<h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">ACCESORIOS</h3>
-</div>
-</a>
-<!-- Category 4 -->
-<a class="group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block" href="#">
-<div class="flex-grow w-full bg-gray-100 relative">
-<img alt="Category image" class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none" data-alt="Chunky black platform leather boot, heavy tread, stark white background, brutalist footwear design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl2NrNDg3PITHnWecbNongXVt7ofLoK32kaON99YLVClqoRUVetWlRnpkVhYIBIRR-9SO7Aa8rAvVk2tUHVdxdXm79VDwrfnoukWfgDrKIgQN_7UI30qdstyrwp5nrRrE8lGQDeSrICTlebJiZcnfzXHSf61PIvm4mWv7OfAqeZSzO-oP8OutY4kBXQTpnSYoQZ2RyYUn1QsADD0eJXqKAis_daxEmxShIruD9eodbjj0lo4RTCJ7XMXZRFbq2B7-oue42TJdEtZo"/>
-</div>
-<div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
-<h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">CALZADO</h3>
-</div>
-</a>
-</section>
-</main>
-</body></html>
+        </div>
+    </div>
+    <!-- Main Content Padding for Fixed Header -->
+    <main class="pt-[80px] flex-grow flex flex-col w-full">
+        <!-- Split Hero Section (60vh) -->
+        <section class="flex flex-col md:flex-row w-full min-h-[614px] brutal-border-b">
+            <!-- Left Text Cell -->
+            <div
+                class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 brutal-border-b md:brutal-border-b-0 md:brutal-border-r bg-white">
+                <div class="w-full text-center md:text-left">
+                    <h1
+                        class="text-black text-6xl md:text-7xl lg:text-8xl font-black leading-none tracking-tighter uppercase mb-4">
+                        LA FORMA PURA
+                    </h1>
+                    <p class="text-black text-xl md:text-2xl font-mono uppercase tracking-widest">
+                        Arquitectura textil que desafía lo convencional.
+                    </p>
+                </div>
+            </div>
+            <!-- Right Image Cell -->
+            <div class="w-full md:w-1/2 relative min-h-[512px] md:min-h-full bg-gray-100 overflow-hidden">
+                <div class="absolute inset-0 w-full h-full bg-cover bg-center"
+                    data-alt="Avant-garde high fashion model wearing oversized black structural coat standing in brutalist concrete architecture, stark dramatic lighting, sharp contrast"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5eiAz6n9G97VT67A0XCk0QZYiHLDlslwxzaUoxXazib9OQqYjj4XSbJmLukBbojdLQViO2i_Yrvbx5d-uNvU5uxI6kKFz-fH_xDlVN6OGubLBb19itPRf9Tde-LYQ4IvN0E0jEU0mLgYrk7A0DULSOS5hWzEwlTQxpSJhB5q1pJGUAQEqS310m-a-sdjBE2KtgoeN6pHz0NJWlTNfokcUltPBczZTREbEpYnD0-Gz8_HqugDLaJKZC_coRwoFKWn1PAMcZH5ePvY');">
+                </div>
+                <!-- Overlay link to collection -->
+                <a class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-primary/90 transition-none group cursor-pointer z-10"
+                    href="#">
+                    <span
+                        class="text-white text-2xl md:text-4xl font-black tracking-widest uppercase border-2 border-white px-8 py-4">VER
+                        COLECCIÓN</span>
+                </a>
+            </div>
+        </section>
+        <!-- Scrolling Marquee (64px) -->
+        <div
+            class="h-[64px] bg-white text-black brutal-border-b flex items-center uppercase font-mono text-sm tracking-widest font-semibold marquee-container">
+            <div class="marquee-content">
+                COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA — COLECCIÓN OTOÑO / INVIERNO 2024 —
+                ENVÍO GLOBAL — NUEVA ESTRUCTURA — COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA —
+                COLECCIÓN OTOÑO / INVIERNO 2024 — ENVÍO GLOBAL — NUEVA ESTRUCTURA —
+            </div>
+        </div>
+        <!-- Featured Category Grid (4 Columns) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full">
+            <!-- Category 1 -->
+            <a class="group relative flex flex-col h-[512px] md:h-[614px] brutal-border-b xl:brutal-border-b-0 brutal-border-r hover-invert overflow-hidden cursor-pointer block"
+                href="#">
+                <div class="flex-grow w-full bg-gray-100 relative">
+                    <img alt="Category image"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
+                        data-alt="Black avant-garde structural coat on mannequin against stark white background, high contrast, studio lighting"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhOs7advwBhQzg1Dmx2DUXithl3eJaOF11sqajlO3X10M941KAFA9bmTtn_R_zHDWqnhU553qakuatOdsfb5RiDVp7y6iJyS4JVpHTEY9_JbIkV7nKbXn9du8UqGZgwtVO31Hli4U2F_c89eY9Kl8-usfmR2txy9f4FhleKKl0yQgK71qmP5mgW0cit09KaA6hbLu7GWCM-SOKiun3lOIgI2x7YwP1KRdyNG3jqc4YEptoOh1qGp4Gnn1RfZqZAWloaGpbu7s0VKM" />
+                </div>
+                <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">ABRIGOS</h3>
+                </div>
+            </a>
+            <!-- Category 2 -->
+            <a class="group relative flex flex-col h-[512px] md:h-[614px] brutal-border-b xl:brutal-border-b-0 md:brutal-border-r hover-invert overflow-hidden cursor-pointer block"
+                href="#">
+                <div class="flex-grow w-full bg-gray-100 relative">
+                    <img alt="Category image"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
+                        data-alt="Wide leg oversized structural black trousers hanging, stark white background, raw industrial aesthetic"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQh7dz_yQs9Uhhk2cRxne627IPEVgHEBawf1_3r9sMODrTx8Hi9TyR5zDRliaGBR9oU0F7n2E7yg4iwyPRsOqi2nvBVg_9p9GK-uzMzc3PU-BkRd1_eynO-zOYkjcaCrQoEob5DfXbkTlMzxBqfBS-9uKggQ2BSx1WAKreMr8oHvpr9jDTIOMPE_iU4P9sx31bV1kXu_sqR7K_NNbcsBGusur30jCWxZafid3T7I8RWgXm6_V8j4wuX8TdRxSsVnbM_eDJgkq6Klo" />
+                </div>
+                <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">PANTALONES</h3>
+                </div>
+            </a>
+            <!-- Category 3 -->
+            <a class="group relative flex flex-col h-[512px] md:h-[614px] brutal-border-b md:brutal-border-b-0 xl:brutal-border-r hover-invert overflow-hidden cursor-pointer block"
+                href="#">
+                <div class="flex-grow w-full bg-gray-100 relative">
+                    <img alt="Category image"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
+                        data-alt="Chunky silver industrial brutalist ring on concrete surface, harsh shadows, macro photography"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnOdI3n5aYnss1rAwSpdxuGxJkuYkQZ4GJR8xgpdR_mBL5SSclzY65qPbKOnriFFbkCv5ADGfUgjjBnM5d5FlXJ7mHkcdt7HLQuqMr56mnUzBrtFtcGTB6nq-u-Cn42hMNWbRDp6SMZv6SPBskCePMsZeu5gTwYg5ncUKKOxU8NfKbcQQMqamphYKQRclzT6k5DUxCeNIf2CANNsf2iOz48dcFOyNG-i9r6BqWEnamst4sghN7lc07YiZ8mswP8-M_ahNCC6pZ0yg" />
+                </div>
+                <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">ACCESORIOS</h3>
+                </div>
+            </a>
+            <!-- Category 4 -->
+            <a class="group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block"
+                href="#">
+                <div class="flex-grow w-full bg-gray-100 relative">
+                    <img alt="Category image"
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
+                        data-alt="Chunky black platform leather boot, heavy tread, stark white background, brutalist footwear design"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl2NrNDg3PITHnWecbNongXVt7ofLoK32kaON99YLVClqoRUVetWlRnpkVhYIBIRR-9SO7Aa8rAvVk2tUHVdxdXm79VDwrfnoukWfgDrKIgQN_7UI30qdstyrwp5nrRrE8lGQDeSrICTlebJiZcnfzXHSf61PIvm4mWv7OfAqeZSzO-oP8OutY4kBXQTpnSYoQZ2RyYUn1QsADD0eJXqKAis_daxEmxShIruD9eodbjj0lo4RTCJ7XMXZRFbq2B7-oue42TJdEtZo" />
+                </div>
+                <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white">CALZADO</h3>
+                </div>
+            </a>
+        </section>
+    </main>
+</body>
+
+</html>
