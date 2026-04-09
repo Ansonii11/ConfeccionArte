@@ -7,19 +7,16 @@ import { supabase } from "../lib/supabase";
 
 const categorySlug = Astro.url.searchParams.get("categoria");
 
-// Consulta base de productos con su imagen principal
-let query = supabase
-    .from("products")
-    .select(
-        `
+// Consulta base de productos con sus imágenes
+let query = supabase.from("products").select(
+    `
         *,
-        product_images!inner (
+        product_images (
             storage_path,
             is_primary
         )
     `,
-    )
-    .eq("product_images.is_primary", true);
+);
 
 // Aplicar filtro de categoría si existe
 if (categorySlug) {
@@ -42,21 +39,29 @@ if (error) {
     console.error("Error fetching products:", error);
 }
 
+const PLACEHOLDER_IMAGE =
+    "https://placehold.co/600x800/f4f4f4/1a1a1a?text=Próximamente";
+
 const products =
-    rawProducts?.map((p: any) => ({
-        title: p.name,
-        price: `€${p.price}`,
-        sku: p.sku,
-        slug: p.slug,
-        imagePrimary: supabase.storage
-            .from("catalog")
-            .getPublicUrl(p.product_images[0].storage_path).data.publicUrl,
-        // Nota: Por ahora usamos la misma para secundaria si no hay más,
-        // o podrías hacer otro fetch para las no-primarias
-        imageSecondary: supabase.storage
-            .from("catalog")
-            .getPublicUrl(p.product_images[0].storage_path).data.publicUrl,
-    })) || [];
+    rawProducts?.map((p: any) => {
+        const primaryImg =
+            p.product_images?.find((img: any) => img.is_primary) ||
+            p.product_images?.[0];
+        const imageUrl = primaryImg
+            ? supabase.storage
+                  .from("catalog")
+                  .getPublicUrl(primaryImg.storage_path).data.publicUrl
+            : PLACEHOLDER_IMAGE;
+
+        return {
+            title: p.name,
+            price: `$${p.price}`,
+            sku: p.sku,
+            slug: p.slug,
+            imagePrimary: imageUrl,
+            imageSecondary: imageUrl,
+        };
+    }) || [];
 ---
 
 <MainLayout title="ConfeccionArte - Catálogo">

@@ -1,0 +1,280 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import NavBar from "../../components/NavBar.astro";
+import { supabase } from "../../lib/supabase";
+
+export async function getStaticPaths() {
+    const { data: products } = await supabase.from("products").select("slug");
+    return (products || []).map((p) => ({
+        params: { slug: p.slug },
+    }));
+}
+
+const { slug } = Astro.params;
+
+if (!slug) {
+    return Astro.redirect("/catalogo");
+}
+
+// Fetch product with images and variants in a single pass (Supabase magic)
+const { data: product, error } = await supabase
+    .from("products")
+    .select(
+        `
+        *,
+        product_images (storage_path, alt_text, is_primary),
+        product_variants (size, stock)
+    `,
+    )
+    .eq("slug", slug)
+    .single();
+
+if (error || !product) {
+    console.error("Error fetching product:", error);
+    return Astro.redirect("/404");
+}
+
+const PLACEHOLDER_IMAGE = {
+    storage_path: "placeholder",
+    alt_text: "Imagen no disponible",
+    is_placeholder: true,
+};
+
+const primaryImage =
+    product.product_images?.find((img: any) => img.is_primary) ||
+    product.product_images?.[0] ||
+    PLACEHOLDER_IMAGE;
+
+const otherImages = product.product_images?.filter(
+    (img: any) => img !== primaryImage,
+) || [];
+
+const allImages = primaryImage.is_placeholder
+    ? [primaryImage]
+    : [primaryImage, ...otherImages];
+
+const getPublicUrl = (path: string) =>
+    path === "placeholder"
+        ? "https://placehold.co/600x800/f4f4f4/1a1a1a?text=Imagen+Próximamente"
+        : supabase.storage.from("catalog").getPublicUrl(path).data.publicUrl;
+---
+
+<MainLayout title={`ConfeccionArte - ${product.name}`}>
+    <NavBar />
+
+    <main
+        class="flex flex-col lg:flex-row w-full flex-grow pt-[80px] bg-white dark:bg-background-dark transition-colors duration-300"
+    >
+        <!-- Left Column: Scrollable Image Gallery -->
+        <section
+            class="w-full lg:w-1/2 flex flex-col brutal-border-r h-auto lg:h-[calc(100vh-80px)] overflow-y-auto no-scrollbar"
+        >
+            {
+                allImages.map((image: any) => (
+                    <div class="w-full aspect-[3/4] lg:aspect-auto lg:h-[calc(100vh-80px)] flex-shrink-0 bg-[#f4f4f4] dark:bg-[#1a1a1a] relative brutal-border-b last:border-b-0 transition-colors duration-300">
+                        <img
+                            alt={image.alt_text || product.name}
+                            class="w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal"
+                            src={getPublicUrl(image.storage_path)}
+                        />
+                    </div>
+                ))
+            }
+        </section>
+
+        <!-- Right Column: Sticky Product Information -->
+        <section
+            class="w-full lg:w-1/2 flex flex-col relative lg:h-[calc(100vh-80px)] lg:sticky lg:top-[80px]"
+        >
+            <div
+                class="p-8 lg:p-20 flex flex-col flex-grow overflow-y-auto no-scrollbar bg-white dark:bg-background-dark transition-colors duration-300"
+            >
+                <!-- Meta Info -->
+                <div
+                    class="flex justify-between items-center mb-6 text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400"
+                >
+                    <span>SKU: {product.sku}</span>
+                    <span>COLECCIÓN OTOÑO / INVIERNO</span>
+                </div>
+                <!-- Title & Price -->
+                <h2
+                    class="text-4xl lg:text-[64px] font-bold leading-[0.9] tracking-tighter uppercase mb-6 text-black dark:text-white"
+                >
+                    {product.name}
+                </h2>
+                <p
+                    class="text-2xl lg:text-[32px] font-medium mb-12 text-black dark:text-white"
+                >
+                    ${product.price}
+                </p>
+
+                <div class="w-full brutal-border-t mb-8"></div>
+
+                <!-- Size Selector -->
+                {
+                    product.product_variants &&
+                        product.product_variants.length > 0 && (
+                            <div class="mb-12">
+                                <div class="flex justify-between items-end mb-4">
+                                    <span class="text-sm font-bold uppercase tracking-wider text-black dark:text-white">
+                                        Talla
+                                    </span>
+                                    <a
+                                        class="text-xs font-mono underline hover:text-primary dark:text-white dark:hover:text-primary transition-colors"
+                                        href="#"
+                                    >
+                                        GUÍA DE TALLAS
+                                    </a>
+                                </div>
+                                <div
+                                    class="grid grid-cols-4 gap-2"
+                                    id="size-selector"
+                                >
+                                    {product.product_variants.map((v: any) => (
+                                        <button
+                                            class={`size-btn w-full h-[60px] brutal-border rounded-sm flex items-center justify-center text-lg font-bold text-black dark:text-white ${v.stock > 0 ? "hover-invert" : "opacity-30 cursor-not-allowed bg-gray-50 dark:bg-gray-800 line-through"}`}
+                                            data-size={v.size}
+                                            disabled={v.stock === 0}
+                                        >
+                                            {v.size}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )
+                }
+
+                <!-- Description / Technical Data -->
+                <div
+                    class="mb-12 space-y-4 text-sm lg:text-base text-black dark:text-white"
+                >
+                    <p class="font-medium leading-relaxed">
+                        {product.description}
+                    </p>
+                    <ul
+                        class="font-mono text-xs uppercase text-gray-600 dark:text-gray-400 space-y-2 mt-6"
+                    >
+                        <li>— Personalización disponible</li>
+                        <li>— Alta calidad</li>
+                        <li>— Confección Arte Local</li>
+                    </ul>
+                </div>
+
+                <!-- Back to Catalog -->
+                <div class="mt-auto pt-8">
+                    <a
+                        href="/catalogo"
+                        class="flex items-center gap-2 group text-black dark:text-white"
+                    >
+                        <span
+                            class="material-symbols-outlined group-hover:-translate-x-2 transition-transform"
+                            >arrow_back</span
+                        >
+                        <span
+                            class="font-mono text-xs font-bold uppercase underline"
+                            >Volver al catálogo</span
+                        >
+                    </a>
+                </div>
+            </div>
+
+            <!-- Fixed Bottom Add to Cart Action -->
+            <div
+                class="w-full brutal-border-t bg-white dark:bg-background-dark p-4 lg:p-8 flex flex-col gap-4 transition-colors duration-300"
+            >
+                <button
+                    id="btn-whatsapp"
+                    class="w-full h-[80px] bg-black dark:bg-white text-white dark:text-black uppercase text-xl lg:text-2xl font-bold tracking-wider hover:bg-primary dark:hover:bg-primary transition-colors rounded-sm flex items-center justify-center gap-4 group"
+                >
+                    <span>Contactanos</span>
+                    <span
+                        class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform"
+                        >arrow_forward</span
+                    >
+                </button>
+                <button
+                    id="btn-personalizar"
+                    class="w-full h-[60px] brutal-border-2 border-black dark:border-white bg-white dark:bg-background-dark text-black dark:text-white uppercase text-lg font-bold tracking-wider hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all rounded-sm flex items-center justify-center gap-4 group"
+                >
+                    <span>Personalizar producto</span>
+                    <span
+                        class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform"
+                        >edit_note</span
+                    >
+                </button>
+            </div>
+        </section>
+    </main>
+</MainLayout>
+
+<script>
+    // Configuración
+    const WHATSAPP_NUMBER = "34000000000"; // Cambiar por el número de la jefa
+    const PRODUCT_NAME =
+        document.querySelector("h2")?.textContent?.trim() || "";
+    const PRODUCT_SKU =
+        document
+            .querySelector("div.flex.justify-between span") // Ajustado para ser más específico
+            ?.textContent?.replace("SKU: ", "")
+            ?.trim() || "";
+
+    // Estado local
+    let selectedSize = "";
+    const hasSizes = document.querySelectorAll(".size-btn").length > 0;
+
+    // Elementos
+    const sizeButtons = document.querySelectorAll(".size-btn");
+    const btnWhatsapp = document.getElementById("btn-whatsapp");
+    const btnPersonalizar = document.getElementById("btn-personalizar");
+
+    // Manejo de tallas
+    sizeButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            // Limpiar selección previa
+            sizeButtons.forEach((b) => {
+                b.classList.remove("bg-black", "text-white");
+            });
+
+            // Marcar nueva selección
+            btn.classList.add("bg-black", "text-white");
+            selectedSize = (btn as HTMLElement).dataset.size || "";
+        });
+    });
+
+    // Función para enviar a WhatsApp
+    function sendWhatsApp(isPersonalization = false) {
+        if (hasSizes && !selectedSize) {
+            alert("Por favor, selecciona una talla primero.");
+            return;
+        }
+
+        const sizeInfo = selectedSize ? ` en talla ${selectedSize}` : "";
+        let message = "";
+        if (isPersonalization) {
+            message = `Hola! Me interesa personalizar el ${PRODUCT_NAME}${sizeInfo}. ¿Cómo podemos empezar?`;
+        } else {
+            message = `Hola! Me interesa el ${PRODUCT_NAME} (SKU: ${PRODUCT_SKU})${sizeInfo}. ¿Tienen disponibilidad?`;
+        }
+
+        const encodedMessage = encodeURIComponent(message);
+        window.open(
+            `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`,
+            "_blank",
+        );
+    }
+
+    btnWhatsapp?.addEventListener("click", () => sendWhatsApp(false));
+    btnPersonalizar?.addEventListener("click", () => sendWhatsApp(true));
+</script>
+
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+</style>
