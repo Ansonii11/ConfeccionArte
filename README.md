@@ -109,6 +109,3 @@ Si deseas contribuir a este proyecto:
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
----
-
-Desarrollado con ❤️
