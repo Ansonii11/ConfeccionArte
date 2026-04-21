@@ -147,6 +147,35 @@ export type Database = {
                     },
                 ]
             }
+            product_clicks: {
+                Row: {
+                    id: string
+                    product_id: string
+                    created_at: string
+                    session_id: string | null
+                }
+                Insert: {
+                    id?: string
+                    product_id: string
+                    created_at?: string
+                    session_id?: string | null
+                }
+                Update: {
+                    id?: string
+                    product_id?: string
+                    created_at?: string
+                    session_id?: string | null
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "product_clicks_product_id_fkey"
+                        columns: ["product_id"]
+                        isOneToOne: false
+                        referencedRelation: "products"
+                        referencedColumns: ["id"]
+                    }
+                ]
+            }
         }
         Views: {
             [_ in never]: never
