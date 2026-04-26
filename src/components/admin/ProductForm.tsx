@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -27,6 +27,13 @@ interface ImageData {
   is_primary: boolean;
 }
 
+interface FileWithPreview {
+  file: File;
+  preview: string;
+  id: string;
+  isPrimary: boolean;
+}
+
 interface Props {
   categories: any[];
   initialData?: {
@@ -36,11 +43,15 @@ interface Props {
   };
 }
 
+const MAX_FILE_SIZE = 500 * 1024; // 500KB
+const MAX_IMAGES = 4;
+
 export default function ProductForm({ categories, initialData }: Props) {
   const isEditing = !!initialData;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<ProductFormData>(() => {
     if (initialData) return initialData.product;
@@ -63,15 +74,111 @@ export default function ProductForm({ categories, initialData }: Props) {
   
   const [existingImages, setExistingImages] = useState<ImageData[]>(initialData?.images || []);
   const [imagesToDelete, setImagesToDelete] = useState<ImageData[]>([]);
-  const [files, setFiles] = useState<File[]>([]);
+  const [newFiles, setNewFiles] = useState<FileWithPreview[]>([]);
+
+  // Cleanup previews to avoid memory leaks
+  useEffect(() => {
+    return () => {
+      newFiles.forEach(f => URL.revokeObjectURL(f.preview));
+    };
+  }, [newFiles]);
 
   const getPublicImageUrl = (path: string) => {
     return `${import.meta.env.PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${path}`;
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    
+    const selectedFiles = Array.from(e.target.files);
+    const validFiles: FileWithPreview[] = [];
+    let sizeError = false;
+    let limitReached = false;
+
+    selectedFiles.forEach(file => {
+      const totalCount = existingImages.length + newFiles.length + validFiles.length;
+      if (totalCount >= MAX_IMAGES) {
+        limitReached = true;
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        sizeError = true;
+        return;
+      }
+
+      if (!file.type.startsWith('image/')) return;
+
+      validFiles.push({
+        file,
+        preview: URL.createObjectURL(file),
+        id: Math.random().toString(36).substring(7),
+        isPrimary: false
+      });
+    });
+
+    if (sizeError) {
+      setError("Algunas imágenes exceden los 500KB permitidos y fueron descartadas.");
+    } else if (limitReached) {
+      setError(`Solo se permiten un máximo de ${MAX_IMAGES} imágenes (Portada + 3 extras).`);
+    }
+
+    if (sizeError || limitReached) {
+      setTimeout(() => setError(null), 5000);
+    }
+
+    setNewFiles(prev => {
+      // If no image is primary yet (existing or new), make the first valid one primary
+      const hasPrimary = existingImages.some(img => img.is_primary) || prev.some(f => f.isPrimary);
+      if (!hasPrimary && validFiles.length > 0) {
+        validFiles[0].isPrimary = true;
+      }
+      return [...prev, ...validFiles];
+    });
+
+    // Reset input
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleRemoveNewFile = (id: string) => {
+    setNewFiles(prev => {
+      const filtered = prev.filter(f => f.id !== id);
+      // If the removed one was primary, assign to first available
+      if (prev.find(f => f.id === id)?.isPrimary && filtered.length > 0) {
+        filtered[0].isPrimary = true;
+      }
+      return filtered;
+    });
+  };
+
   const handleRemoveExistingImage = (img: ImageData) => {
-    setExistingImages(prev => prev.filter(i => i.id !== img.id));
+    setExistingImages(prev => {
+      const filtered = prev.filter(i => i.id !== img.id);
+      // If removed was primary and there are still existing images, make the first one primary
+      if (img.is_primary && filtered.length > 0) {
+        filtered[0].is_primary = true;
+      } else if (img.is_primary && newFiles.length > 0) {
+        // If no existing left, make the first new file primary
+        setNewFiles(nf => {
+          const updated = [...nf];
+          if (updated.length > 0) updated[0].isPrimary = true;
+          return updated;
+        });
+      }
+      return filtered;
+    });
     setImagesToDelete(prev => [...prev, img]);
+  };
+
+  const setPrimary = (type: 'existing' | 'new', id: string) => {
+    setExistingImages(prev => prev.map(img => ({
+      ...img,
+      is_primary: type === 'existing' && img.id === id
+    })));
+    setNewFiles(prev => prev.map(f => ({
+      ...f,
+      isPrimary: type === 'new' && f.id === id
+    })));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,6 +190,7 @@ export default function ProductForm({ categories, initialData }: Props) {
     try {
       let productId = formData.id;
 
+      // 1. Create or Update Product
       if (isEditing && productId) {
         const { error: updateError } = await supabase
           .from("products")
@@ -119,6 +227,7 @@ export default function ProductForm({ categories, initialData }: Props) {
         productId = newProduct.id;
       }
 
+      // 2. Handle Variants (Delete and re-insert for simplicity in editing)
       if (isEditing) {
         await supabase.from("product_variants").delete().eq("product_id", productId!);
       }
@@ -135,41 +244,47 @@ export default function ProductForm({ categories, initialData }: Props) {
         if (variantError) throw variantError;
       }
 
+      // 3. Delete Images marked for deletion
       if (imagesToDelete.length > 0) {
         const pathsToDelete = imagesToDelete.map(img => img.storage_path);
         await supabase.storage.from("products").remove(pathsToDelete);
         const idsToDelete = imagesToDelete.map(img => img.id);
-        const { error: dbImgError } = await supabase.from("product_images").delete().in("id", idsToDelete);
-        if (dbImgError) throw dbImgError;
+        await supabase.from("product_images").delete().in("id", idsToDelete);
       }
 
-      if (files.length > 0) {
-        const hasPrimary = existingImages.some(i => i.is_primary) && !imagesToDelete.some(i => i.is_primary);
-
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const fileExt = file.name.split('.').pop();
-          const filePath = `${productId}/${Math.random()}.${fileExt}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from("products")
-            .upload(filePath, file);
-
-          if (uploadError) throw uploadError;
-
-          await supabase.from("product_images").insert({
-            product_id: productId,
-            storage_path: filePath,
-            is_primary: !hasPrimary && i === 0,
-          });
+      // 4. Update existing images (primary status might have changed)
+      if (isEditing) {
+        for (const img of existingImages) {
+          await supabase.from("product_images")
+            .update({ is_primary: img.is_primary })
+            .eq("id", img.id);
         }
+      }
+
+      // 5. Upload New Images
+      for (const item of newFiles) {
+        const fileExt = item.file.name.split('.').pop();
+        const filePath = `${productId}/${Math.random().toString(36).substring(7)}.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("products")
+          .upload(filePath, item.file);
+
+        if (uploadError) throw uploadError;
+
+        await supabase.from("product_images").insert({
+          product_id: productId,
+          storage_path: filePath,
+          is_primary: item.isPrimary,
+        });
       }
 
       setSuccess(true);
       if (!isEditing) {
-        setFormData({ ...formData, name: "", slug: "", sku: "" });
+        setFormData({ ...formData, name: "", slug: "", sku: "", description: "" });
         setVariants([{ size: "M", stock: 10 }]);
-        setFiles([]);
+        setNewFiles([]);
+        setExistingImages([]);
       } else {
         setTimeout(() => window.location.reload(), 1500);
       }
@@ -414,44 +529,88 @@ export default function ProductForm({ categories, initialData }: Props) {
         <motion.div className="form-section glass-panel" variants={itemVariants}>
           <div className="section-header">
             <span className="section-number">04</span>
-            <h3>Registro Visual</h3>
+            <h3>Galería de Curaduría</h3>
+          </div>
+
+          <div className="gallery-instructions">
+            <p>Selecciona la portada (estrella) y hasta 3 imágenes extra. Máximo 500KB por archivo.</p>
           </div>
           
-          {existingImages.length > 0 && (
-            <div className="existing-images">
-              <p className="sub-label">Galería Actual</p>
-              <div className="image-grid">
-                {existingImages.map(img => (
-                  <div key={img.id} className="image-card">
-                    <img src={getPublicImageUrl(img.storage_path)} alt="Piece" />
-                    {img.is_primary && <span className="primary-tag">Principal</span>}
-                    <button type="button" className="remove-img-overlay" onClick={() => handleRemoveExistingImage(img)}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+          <div className="image-grid">
+            <AnimatePresence>
+              {/* Existing Images */}
+              {existingImages.map(img => (
+                <motion.div 
+                  key={img.id} 
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  className={`image-card ${img.is_primary ? 'primary-active' : ''}`}
+                >
+                  <img src={getPublicImageUrl(img.storage_path)} alt="Piece" />
+                  <div className="card-actions">
+                    <button 
+                      type="button" 
+                      className={`btn-action-star ${img.is_primary ? 'active' : ''}`}
+                      onClick={() => setPrimary('existing', img.id)}
+                      title="Establecer como Portada"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={img.is_primary ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                    <button type="button" className="btn-action-delete" onClick={() => handleRemoveExistingImage(img)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
                     </button>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                  {img.is_primary && <span className="primary-label">Portada</span>}
+                </motion.div>
+              ))}
 
-          <div className="upload-zone">
-            <label className="upload-label">
+              {/* New Files */}
+              {newFiles.map(item => (
+                <motion.div 
+                  key={item.id} 
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  className={`image-card new-file ${item.isPrimary ? 'primary-active' : ''}`}
+                >
+                  <img src={item.preview} alt="New upload" />
+                  <div className="card-actions">
+                    <button 
+                      type="button" 
+                      className={`btn-action-star ${item.isPrimary ? 'active' : ''}`}
+                      onClick={() => setPrimary('new', item.id)}
+                      title="Establecer como Portada"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill={item.isPrimary ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </button>
+                    <button type="button" className="btn-action-delete" onClick={() => handleRemoveNewFile(item.id)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    </button>
+                  </div>
+                  {item.isPrimary && <span className="primary-label">Portada (Pendiente)</span>}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            <button 
+              type="button" 
+              className="add-image-card"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Añadir Captura</span>
               <input
+                ref={fileInputRef}
                 type="file"
                 multiple
                 accept="image/*"
-                className="hidden-input"
-                onChange={(e) => {
-                  if (e.target.files) {
-                    setFiles(Array.from(e.target.files));
-                  }
-                }}
+                className="hidden"
+                onChange={handleFileChange}
               />
-              <div className="upload-content">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                <span>{files.length > 0 ? `${files.length} archivos seleccionados` : "Arrastra o selecciona nuevas capturas"}</span>
-              </div>
-            </label>
+            </button>
           </div>
         </motion.div>
 
@@ -644,92 +803,129 @@ export default function ProductForm({ categories, initialData }: Props) {
           background: rgba(202, 138, 4, 0.03);
         }
 
-        .existing-images {
-          margin-bottom: 2.5rem;
-        }
-        .sub-label {
-          font-size: 0.7rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
+        .gallery-instructions {
+          margin-bottom: 2rem;
           color: var(--text-muted);
-          margin-bottom: 1rem;
+          font-size: 0.85rem;
+          font-style: italic;
         }
+
         .image-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
           gap: 1.5rem;
         }
         .image-card {
           position: relative;
           aspect-ratio: 4/5;
-          border-radius: 2px;
+          border-radius: 4px;
           overflow: hidden;
           border: 1px solid var(--panel-border);
+          background: rgba(0,0,0,0.4);
+          transition: all 0.3s ease;
+        }
+        .image-card.primary-active {
+          border-color: var(--primary);
+          box-shadow: 0 0 15px rgba(202, 138, 4, 0.2);
+        }
+        .image-card.new-file {
+          border-style: dashed;
         }
         .image-card img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 0.5s ease;
         }
-        .primary-tag {
+        .image-card:hover img {
+          transform: scale(1.05);
+        }
+
+        .card-actions {
           position: absolute;
-          top: 8px;
-          left: 8px;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%);
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          gap: 1rem;
+          padding-bottom: 1rem;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        .image-card:hover .card-actions {
+          opacity: 1;
+        }
+
+        .btn-action-star, .btn-action-delete {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(0,0,0,0.5);
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(4px);
+        }
+        .btn-action-star.active {
+          color: var(--primary);
+          border-color: var(--primary);
+          background: rgba(202, 138, 4, 0.1);
+        }
+        .btn-action-star:hover {
+          transform: scale(1.1);
+          border-color: var(--primary);
+        }
+        .btn-action-delete:hover {
+          transform: scale(1.1);
+          background: var(--danger);
+          border-color: var(--danger);
+        }
+
+        .primary-label {
+          position: absolute;
+          top: 10px;
+          left: 10px;
           background: var(--primary);
           color: var(--bg-dark);
           font-size: 0.6rem;
           font-weight: 700;
           text-transform: uppercase;
-          padding: 2px 6px;
+          padding: 3px 8px;
           border-radius: 2px;
-        }
-        .remove-img-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0,0,0,0.6);
-          color: white;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: all 0.3s ease;
-          cursor: pointer;
-        }
-        .image-card:hover .remove-img-overlay {
-          opacity: 1;
+          letter-spacing: 0.05em;
         }
 
-        .upload-zone {
-          margin-top: 1rem;
-        }
-        .upload-label {
-          display: block;
+        .add-image-card {
+          aspect-ratio: 4/5;
           border: 1px dashed var(--panel-border);
-          padding: 3rem;
-          text-align: center;
-          cursor: pointer;
-          transition: all 0.4s ease;
-        }
-        .upload-label:hover {
-          border-color: var(--primary);
-          background: rgba(202, 138, 4, 0.03);
-        }
-        .hidden-input {
-          display: none;
-        }
-        .upload-content {
+          background: rgba(255,255,255,0.02);
+          border-radius: 4px;
           display: flex;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           gap: 1rem;
-        }
-        .upload-content span {
-          font-size: 0.85rem;
+          cursor: pointer;
+          transition: all 0.4s ease;
           color: var(--text-muted);
-          letter-spacing: 0.05em;
         }
+        .add-image-card:hover {
+          background: rgba(202, 138, 4, 0.05);
+          border-color: var(--primary);
+          color: var(--primary);
+        }
+        .add-image-card span {
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+        }
+
+        .hidden { display: none; }
 
         .form-submit {
           font-size: 1rem;

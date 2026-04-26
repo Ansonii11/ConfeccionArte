@@ -45,18 +45,21 @@ const products =
     const primaryImg =
       p.product_images?.find((img: any) => img.is_primary) ||
       p.product_images?.[0];
-    const imageUrl = primaryImg
-      ? supabase.storage.from("catalog").getPublicUrl(primaryImg.storage_path)
-          .data.publicUrl
-      : PLACEHOLDER_IMAGE;
+    
+    const secondaryImg = 
+      p.product_images?.find((img: any) => !img.is_primary) || 
+      primaryImg;
+
+    const getUrl = (path: string) => 
+      path ? supabase.storage.from("products").getPublicUrl(path).data.publicUrl : PLACEHOLDER_IMAGE;
 
     return {
       title: p.name,
       price: `$${p.price}`,
       sku: p.sku,
       slug: p.slug,
-      imagePrimary: imageUrl,
-      imageSecondary: imageUrl,
+      imagePrimary: getUrl(primaryImg?.storage_path),
+      imageSecondary: getUrl(secondaryImg?.storage_path),
     };
   }) || [];
 ---
