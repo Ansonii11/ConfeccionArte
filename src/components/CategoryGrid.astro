@@ -1,36 +1,47 @@
 ---
-import { supabase } from "../lib/supabase";
+import { getSupabase } from "../lib/supabaseServer";
 
-const { data: categories, error } = await supabase
-    .from("categories")
-    .select("*")
-    .order("name");
+let displayCategories: Array<{
+    title: string;
+    image: string | null;
+    href: string;
+    borders: string;
+}> = [];
 
-if (error) {
-    console.error("Error fetching categories:", error);
-}
+try {
+    const supabase = getSupabase(Astro.cookies);
+    const { data: categories, error } = await supabase
+        .from("categories")
+        .select("*")
+        .order("name");
 
-// Mapeo dinámico de bordes basado en el índice para mantener el diseño brutalista
-const getBorders = (index: number) => {
-    switch (index) {
-        case 0:
-            return "brutal-border-b xl:brutal-border-b-0 brutal-border-r";
-        case 1:
-            return "brutal-border-b xl:brutal-border-b-0 md:brutal-border-r";
-        case 2:
-            return "brutal-border-b md:brutal-border-b-0 xl:brutal-border-r";
-        default:
-            return "";
+    if (error) {
+        console.error("Error fetching categories:", error);
+    } else if (categories) {
+        // Mapeo dinámico de bordes basado en el índice para mantener el diseño brutalista
+        const getBorders = (index: number) => {
+            switch (index) {
+                case 0:
+                    return "brutal-border-b xl:brutal-border-b-0 brutal-border-r";
+                case 1:
+                    return "brutal-border-b xl:brutal-border-b-0 md:brutal-border-r";
+                case 2:
+                    return "brutal-border-b md:brutal-border-b-0 xl:brutal-border-r";
+                default:
+                    return "";
+            }
+        };
+
+        displayCategories = categories.map((category, index) => ({
+            title: category.name,
+            image: category.image_url,
+            href: `/catalogo?categoria=${category.slug}`,
+            borders: getBorders(index),
+        }));
     }
-};
-
-const displayCategories =
-    categories?.map((category, index) => ({
-        title: category.name,
-        image: category.image_url,
-        href: `/catalogo?categoria=${category.slug}`,
-        borders: getBorders(index),
-    })) || [];
+} catch (err) {
+    console.error("Failed to fetch categories:", err);
+}
 ---
 
 <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full">

@@ -114,6 +114,8 @@ export type Database = {
                     price: number
                     sku: string | null
                     slug: string
+                    is_customizable: boolean | null
+                    status: string | null
                 }
                 Insert: {
                     category_id?: string | null
@@ -125,6 +127,8 @@ export type Database = {
                     price: number
                     sku?: string | null
                     slug: string
+                    is_customizable?: boolean | null
+                    status?: string | null
                 }
                 Update: {
                     category_id?: string | null
@@ -136,6 +140,8 @@ export type Database = {
                     price?: number
                     sku?: string | null
                     slug?: string
+                    is_customizable?: boolean | null
+                    status?: string | null
                 }
                 Relationships: [
                     {

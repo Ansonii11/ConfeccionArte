@@ -1,0 +1,85 @@
+---
+import AdminLayout from "../../../../layouts/AdminLayout.astro";
+import ProductForm from "../../../../components/admin/ProductForm";
+import { getSupabase } from "../../../../lib/supabaseServer";
+
+const supabase = getSupabase(Astro.cookies);
+
+const {
+  data: { session },
+} = await supabase.auth.getSession();
+
+if (!session) {
+  return Astro.redirect("/admin/login");
+}
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/admin/productos");
+}
+
+// 1. Obtener Categorías
+const { data: categories } = await supabase.from("categories").select("*");
+
+// 2. Obtener Datos del Producto
+const { data: product, error: productError } = await supabase
+  .from("products")
+  .select("*")
+  .eq("id", id)
+  .single();
+
+if (productError || !product) {
+  return Astro.redirect("/admin/productos");
+}
+
+// 3. Obtener Variantes
+const { data: variants } = await supabase
+  .from("product_variants")
+  .select("id, size, stock")
+  .eq("product_id", id);
+
+// 4. Obtener Imágenes
+const { data: images } = await supabase
+  .from("product_images")
+  .select("id, storage_path, is_primary")
+  .eq("product_id", id)
+  .order("is_primary", { ascending: false });
+
+const initialData = {
+  product: product as any,
+  variants: variants || [],
+  images: images || [],
+};
+---
+
+<AdminLayout title={`Editar: ${product.name}`} userEmail={session.user?.email}>
+  <div class="page-header">
+    <a href="/admin/productos" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Volver a Productos
+    </a>
+  </div>
+
+  <ProductForm client:load categories={categories || []} initialData={initialData} />
+</AdminLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+  
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+  
+  .back-link:hover {
+    color: var(--primary);
+  }
+</style>

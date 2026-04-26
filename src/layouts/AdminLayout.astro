@@ -1,0 +1,168 @@
+---
+import Sidebar from '../components/admin/Sidebar.astro';
+import Topbar from '../components/admin/Topbar.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  userEmail?: string;
+}
+
+const { title, description = "Panel de Administración", userEmail } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <!-- Google Fonts: Cormorant Garamond y Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-layout">
+    <Sidebar />
+    <main class="content">
+      <Topbar title={title} userEmail={userEmail} />
+      <div class="page-content">
+        <slot />
+      </div>
+    </main>
+  </div>
+
+  <style is:global>
+    :root {
+      --bg-dark: #0C0A09; /* Negro azabache */
+      --panel-bg: rgba(28, 25, 23, 0.7); /* Vidrio ahumado */
+      --panel-border: rgba(202, 138, 4, 0.2); /* Borde dorado sutil */
+      --text-main: #FAFAF9;
+      --text-muted: #A8A29E;
+      --primary: #CA8A04; /* Dorado artesanal */
+      --primary-hover: #A16207;
+      --danger: #EF4444;
+      --success: #22C55E;
+      
+      --font-heading: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 0% 0%, rgba(202, 138, 4, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(202, 138, 4, 0.03) 0%, transparent 50%);
+      color: var(--text-main);
+      margin: 0;
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      letter-spacing: 0.02em;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .glass-panel {
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--panel-border);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    /* Utilitarios globales para Admin */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--bg-dark);
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(202, 138, 4, 0.2);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.03);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .btn-danger:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* Layout Estructural */
+    .admin-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .page-content {
+      padding: 0 3rem 3rem 3rem;
+      flex: 1;
+    }
+
+    /* Scrollbar minimalista */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--panel-border);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+  </style>
+</body>
+</html>

@@ -1,0 +1,323 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getSupabase } from "../../lib/supabaseServer";
+import MotionContainer from "../../components/admin/MotionContainer";
+
+const supabase = getSupabase(Astro.cookies);
+
+// Obtener sesión actual (seguridad extra en la vista)
+const {
+  data: { session },
+} = await supabase.auth.getSession();
+
+if (!session) {
+  return Astro.redirect("/admin/login");
+}
+
+const userEmail = session.user?.email;
+
+// Obtener analíticas: Clicks agrupados por producto
+const { data: clicksData, error } = await supabase
+  .from("product_clicks")
+  .select(`
+    product_id,
+    products (
+      name,
+      price,
+      product_images ( storage_path )
+    )
+  `);
+
+// Procesar datos para la gráfica (conteo por producto)
+const productStats: Record<string, { name: string; count: number; image: string; price: number }> = {};
+
+if (clicksData && !error) {
+  clicksData.forEach((click) => {
+    const product = Array.isArray(click.products) ? click.products[0] : click.products;
+    if (!product) return;
+
+    const imageUrl = product.product_images?.[0]?.storage_path 
+      ? `${import.meta.env.PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${product.product_images[0].storage_path}`
+      : null;
+
+    if (!productStats[click.product_id]) {
+      productStats[click.product_id] = {
+        name: product.name,
+        count: 0,
+        image: imageUrl || "",
+        price: product.price
+      };
+    }
+    productStats[click.product_id].count += 1;
+  });
+}
+
+// Ordenar de mayor clics a menor
+const sortedStats = Object.values(productStats).sort((a, b) => b.count - a.count);
+---
+
+<AdminLayout title="Análisis de Colecciones" userEmail={userEmail}>
+  <MotionContainer client:load>
+    <section class="stats-grid">
+      <div class="stat-card glass-panel">
+        <div class="stat-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <h3>Interacciones Totales</h3>
+        </div>
+        <p class="big-number">{clicksData?.length || 0}</p>
+        <div class="stat-footer">Clicks en "Contáctenos"</div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <h3>Curaduría Activa</h3>
+        </div>
+        <p class="big-number">{sortedStats.length}</p>
+        <div class="stat-footer">Piezas con interés registrado</div>
+      </div>
+    </section>
+
+    <section class="chart-section glass-panel">
+      <div class="chart-header">
+        <h2>Ranking de Deseo</h2>
+        <div class="subtitle">Piezas con mayor volumen de consultas en el atelier.</div>
+      </div>
+      
+      <div class="ranking-list">
+        {sortedStats.length === 0 ? (
+          <div class="empty-state">
+            <p>El archivo de interacciones está vacío actualmente.</p>
+          </div>
+        ) : (
+          sortedStats.map((stat, index) => (
+            <div class="ranking-item" style={`--delay: ${index * 0.1}s`}>
+              <div class="rank-number">{String(index + 1).padStart(2, '0')}</div>
+              {stat.image ? (
+                 <div class="item-thumb-wrapper">
+                    <img src={stat.image} alt={stat.name} class="item-img" />
+                 </div>
+              ) : (
+                 <div class="item-placeholder">NO_IMG</div>
+              )}
+              <div class="item-info">
+                <h4>{stat.name}</h4>
+                <span class="item-price">${stat.price.toLocaleString()}</span>
+              </div>
+              <div class="item-bar-container">
+                 <div class="item-bar" style={`width: ${(stat.count / sortedStats[0].count) * 100}%`}></div>
+              </div>
+              <div class="item-count">
+                <span class="count-num">{stat.count}</span>
+                <span class="count-label">consultas</span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </section>
+  </MotionContainer>
+</AdminLayout>
+
+<style>
+  /* Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-card {
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at 100% 0%, rgba(202, 138, 4, 0.05), transparent);
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card h3 {
+    margin: 0;
+    color: var(--primary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+  }
+
+  .big-number {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 400;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-main);
+    line-height: 1;
+  }
+
+  .stat-footer {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  /* Chart / Ranking List */
+  .chart-section {
+    padding: 3rem;
+  }
+
+  .chart-header {
+    margin-bottom: 3rem;
+  }
+
+  .chart-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    color: var(--text-main);
+  }
+
+  .chart-header .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 300;
+  }
+
+  .ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--panel-border);
+    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .ranking-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .rank-number {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--primary);
+    opacity: 0.5;
+    width: 40px;
+  }
+
+  .item-thumb-wrapper {
+    width: 60px;
+    height: 72px;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--panel-border);
+  }
+
+  .item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .item-placeholder {
+    width: 60px;
+    height: 72px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: var(--text-muted);
+    border: 1px solid var(--panel-border);
+  }
+
+  .item-info {
+    width: 250px;
+  }
+
+  .item-info h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .item-price {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+  }
+
+  .item-bar-container {
+    flex: 1;
+    height: 2px;
+    background: rgba(202, 138, 4, 0.05);
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  .item-bar {
+    height: 100%;
+    background: var(--primary);
+    box-shadow: 0 0 10px rgba(202, 138, 4, 0.3);
+  }
+
+  .item-count {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100px;
+  }
+
+  .count-num {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-main);
+    line-height: 1;
+  }
+
+  .count-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .empty-state {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 5rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+  }
+</style>
+

@@ -1,0 +1,197 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { getSupabase } from "../../lib/supabaseServer";
+
+let errorMessage = "";
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const email = data.get("email")?.toString();
+    const password = data.get("password")?.toString();
+
+    if (email && password) {
+      const supabase = getSupabase(Astro.cookies);
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        errorMessage = error.message;
+      } else {
+        return Astro.redirect("/admin");
+      }
+    }
+  } catch (err) {
+    if (err instanceof Error) errorMessage = err.message;
+  }
+}
+---
+
+<MainLayout title="Atelier Access" description="Acceso al Panel de Administración">
+  <div class="login-container">
+    <div class="login-box glass-panel">
+      <div class="brand">
+        <h2>Confeccion<span>Arte</span></h2>
+        <div class="badge">Atelier Archive</div>
+      </div>
+      <h1>Acceso de Administración</h1>
+      <p>Identifícate para gestionar el catálogo exclusivo.</p>
+
+      {errorMessage && <div class="error-alert">{errorMessage}</div>}
+
+      <form method="POST" class="login-form">
+        <label>
+          <span>Credencial de Acceso</span>
+          <input type="email" name="email" required placeholder="atelier@confeccionarte.com" />
+        </label>
+        
+        <label>
+          <span>Firma Digital</span>
+          <input type="password" name="password" required placeholder="••••••••" />
+        </label>
+
+        <button type="submit" class="btn-primary">Ingresar al Atelier</button>
+      </form>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap');
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #0C0A09;
+    background-image: 
+      radial-gradient(circle at 0% 0%, rgba(202, 138, 4, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(202, 138, 4, 0.03) 0%, transparent 50%);
+    color: #FAFAF9;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .login-box {
+    width: 100%;
+    max-width: 440px;
+    padding: 4rem 3rem;
+    text-align: center;
+    border-radius: 4px;
+    background: rgba(28, 25, 23, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(202, 138, 4, 0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .brand h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  .brand span {
+    color: #CA8A04;
+  }
+
+  .brand .badge {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: #A8A29E;
+    margin-bottom: 3rem;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    color: #A8A29E;
+    margin-bottom: 3rem;
+    font-size: 0.85rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: left;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  label span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #CA8A04;
+  }
+
+  input {
+    padding: 1.25rem;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #CA8A04;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 15px rgba(202, 138, 4, 0.1);
+  }
+
+  .btn-primary {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    background: #CA8A04;
+    color: #0C0A09;
+    border: 1px solid #CA8A04;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: #CA8A04;
+    box-shadow: 0 0 20px rgba(202, 138, 4, 0.2);
+  }
+
+  .error-alert {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    padding: 1rem;
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+</style>
+

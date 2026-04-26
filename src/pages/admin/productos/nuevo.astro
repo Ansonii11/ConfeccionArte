@@ -1,0 +1,49 @@
+---
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import ProductForm from "../../../components/admin/ProductForm";
+import { getSupabase } from "../../../lib/supabaseServer";
+
+const supabase = getSupabase(Astro.cookies);
+
+const {
+  data: { session },
+} = await supabase.auth.getSession();
+
+if (!session) {
+  return Astro.redirect("/admin/login");
+}
+
+// Obtener categorías para el dropdown
+const { data: categories } = await supabase.from("categories").select("*");
+---
+
+<AdminLayout title="Nuevo Producto" userEmail={session.user?.email}>
+  <div class="page-header">
+    <a href="/admin/productos" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Volver a Productos
+    </a>
+  </div>
+
+  <ProductForm client:load categories={categories || []} />
+</AdminLayout>
+
+<style>
+  .page-header {
+    margin-bottom: 2rem;
+  }
+  
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+  
+  .back-link:hover {
+    color: var(--primary);
+  }
+</style>

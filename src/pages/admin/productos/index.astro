@@ -1,0 +1,311 @@
+---
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { getSupabase } from "../../../lib/supabaseServer";
+import MotionContainer from "../../../components/admin/MotionContainer";
+
+const supabase = getSupabase(Astro.cookies);
+
+const {
+  data: { session },
+} = await supabase.auth.getSession();
+
+if (!session) {
+  return Astro.redirect("/admin/login");
+}
+
+// Obtener todos los productos con su categoría y primera imagen
+const { data: products, error } = await supabase
+  .from("products")
+  .select(`
+    id,
+    name,
+    price,
+    status,
+    is_customizable,
+    categories ( name ),
+    product_images ( storage_path )
+  `)
+  .order('created_at', { ascending: false });
+
+// Formatear datos para la tabla
+const formattedProducts = products?.map((p: any) => ({
+  ...p,
+  category_name: p.categories?.name || 'Sin Categoría',
+  image: p.product_images?.[0]?.storage_path 
+    ? `${import.meta.env.PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/${p.product_images[0].storage_path}`
+    : null
+})) || [];
+---
+
+<AdminLayout title="Catálogo" userEmail={session.user?.email}>
+  <MotionContainer client:load>
+    <div class="page-header">
+      <div class="header-text">
+        <p>Curaduría y gestión de piezas exclusivas.</p>
+      </div>
+      <a href="/admin/productos/nuevo" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Nueva Pieza
+      </a>
+    </div>
+
+    <div class="table-container glass-panel">
+      {error && (
+        <div class="error-msg" style="padding: 2rem;">
+          <h3 style="color: var(--danger); margin-top: 0;">Error de Sistema</h3>
+          <p>{error.message}</p>
+        </div>
+      )}
+      
+      {formattedProducts.length === 0 && !error ? (
+        <div class="empty-state">
+          <p>No se han encontrado piezas en el archivo.</p>
+        </div>
+      ) : (
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Pieza</th>
+              <th>Colección</th>
+              <th>Inversión</th>
+              <th>Estado</th>
+              <th>Atelier</th>
+              <th class="text-right">Gestión</th>
+            </tr>
+          </thead>
+          <tbody>
+            {formattedProducts.map((product, index) => (
+              <tr style={`--delay: ${index * 0.05}s`} class="product-row">
+                <td>
+                  <div class="product-cell">
+                    {product.image ? (
+                      <div class="thumb-wrapper">
+                        <img src={product.image} alt={product.name} class="product-thumb" />
+                      </div>
+                    ) : (
+                      <div class="product-thumb-placeholder">NO_IMG</div>
+                    )}
+                    <span class="product-name">{product.name}</span>
+                  </div>
+                </td>
+                <td><span class="category-tag">{product.category_name}</span></td>
+                <td><span class="price-tag">${product.price.toLocaleString()}</span></td>
+                <td>
+                  <span class={`status-badge ${product.status === 'active' ? 'active' : 'draft'}`}>
+                    {product.status === 'active' ? 'Activo' : product.status === 'archived' ? 'Archivado' : 'Borrador'}
+                  </span>
+                </td>
+                <td>
+                  {product.is_customizable ? (
+                    <span class="atelier-badge">Personalizable</span>
+                  ) : (
+                    <span class="text-muted" style="font-size: 0.75rem;">Estándar</span>
+                  )}
+                </td>
+                <td class="actions-cell">
+                  <a href={`/admin/productos/editar/${product.id}`} class="btn-icon" title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  </MotionContainer>
+</AdminLayout>
+
+<style>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+
+  .header-text p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .table-container {
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .data-table th {
+    padding: 1.5rem 2rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--primary);
+    border-bottom: 1px solid var(--panel-border);
+    font-weight: 700;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .data-table td {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--panel-border);
+    vertical-align: middle;
+    transition: all 0.3s ease;
+  }
+
+  .product-row {
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .data-table tbody tr:hover td {
+    background: rgba(202, 138, 4, 0.02);
+  }
+
+  .product-cell {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .thumb-wrapper {
+    width: 50px;
+    height: 60px;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--panel-border);
+    background: var(--bg-dark);
+  }
+
+  .product-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-row:hover .product-thumb {
+    transform: scale(1.1);
+  }
+
+  .product-thumb-placeholder {
+    width: 50px;
+    height: 60px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    color: var(--text-muted);
+    border: 1px solid var(--panel-border);
+    letter-spacing: 0.1em;
+  }
+
+  .product-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+
+  .category-tag {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .price-tag {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--text-main);
+  }
+
+  .status-badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid transparent;
+  }
+
+  .status-badge.active {
+    background: rgba(34, 197, 94, 0.05);
+    color: var(--success);
+    border-color: rgba(34, 197, 94, 0.1);
+  }
+
+  .status-badge.draft {
+    background: rgba(168, 162, 158, 0.05);
+    color: var(--text-muted);
+    border-color: rgba(168, 162, 158, 0.1);
+  }
+
+  .atelier-badge {
+    font-size: 0.7rem;
+    color: var(--primary);
+    border: 1px solid var(--panel-border);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .actions-cell {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-muted);
+    border: 1px solid var(--panel-border);
+    transition: all 0.3s ease;
+  }
+
+  .btn-icon:hover {
+    background: var(--primary);
+    color: var(--bg-dark);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .empty-state {
+    padding: 5rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+  }
+
+  .error-msg {
+    color: var(--danger);
+  }
+</style>
+

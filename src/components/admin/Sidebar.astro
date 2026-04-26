@@ -1,0 +1,153 @@
+---
+const pathname = Astro.url.pathname;
+---
+
+<aside class="sidebar glass-panel">
+  <div class="logo">
+    <h2>Confeccion<span>Arte</span><span class="badge">Admin</span></h2>
+  </div>
+  <nav>
+    <a href="/admin" class={pathname === "/admin" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+      Dashboard
+    </a>
+    <a href="/admin/productos" class={pathname.startsWith("/admin/productos") ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+      Productos
+    </a>
+    <a href="/" target="_blank" class="view-site">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+      Ver Tienda
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <form action="/api/auth/signout" method="post">
+      <button type="submit" class="logout-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Cerrar Sesión
+      </button>
+    </form>
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    width: 280px;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--panel-border);
+    border-radius: 0;
+    background: #0C0A09;
+    z-index: 10;
+  }
+
+  .logo h2 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    margin: 0 0 4rem 0;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    color: var(--text-main);
+  }
+
+  .logo span {
+    color: var(--primary);
+  }
+
+  .logo .badge {
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: rgba(202, 138, 4, 0.1);
+    color: var(--primary);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    border: 1px solid rgba(202, 138, 4, 0.2);
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-left: 2px solid transparent;
+  }
+
+  nav a svg {
+    opacity: 0.5;
+    transition: all 0.4s ease;
+  }
+
+  nav a:hover, nav a.active {
+    background: rgba(202, 138, 4, 0.05);
+    color: var(--text-main);
+    border-left-color: var(--primary);
+  }
+
+  nav a:hover svg, nav a.active svg {
+    opacity: 1;
+    color: var(--primary);
+  }
+
+  .view-site {
+    margin-top: 1rem;
+    border-top: 1px solid var(--panel-border);
+    border-radius: 0;
+    padding-top: 2rem;
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding-top: 2rem;
+    border-top: 1px solid var(--panel-border);
+  }
+
+  .logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-align: left;
+    font-family: var(--font-body);
+  }
+
+  .logout-btn:hover {
+    background: rgba(239, 68, 68, 0.05);
+    color: var(--danger);
+  }
+
+</style>

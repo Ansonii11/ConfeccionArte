@@ -1,0 +1,102 @@
+---
+interface Props {
+  title: string;
+  userEmail?: string;
+}
+
+const { title, userEmail } = Astro.props;
+---
+
+<header class="topbar">
+  <h1>{title}</h1>
+  
+  <div class="topbar-actions">
+    {userEmail && (
+      <div class="user-profile">
+        <div class="avatar">
+          {userEmail.charAt(0).toUpperCase()}
+        </div>
+        <div class="user-info">
+          <span class="user-email">{userEmail}</span>
+          <span class="user-role">Administrador</span>
+        </div>
+      </div>
+    )}
+  </div>
+</header>
+
+<style>
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 3rem;
+    position: sticky;
+    top: 0;
+    background: rgba(12, 10, 9, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 5;
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  .topbar h1 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-main);
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.4rem 1.2rem 0.4rem 0.4rem;
+    background: rgba(202, 138, 4, 0.05);
+    border: 1px solid var(--panel-border);
+    border-radius: 4px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    color: var(--bg-dark);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-email {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.2;
+  }
+
+  .user-role {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--primary);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+</style>
