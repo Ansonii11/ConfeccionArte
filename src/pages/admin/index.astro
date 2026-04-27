@@ -5,16 +5,15 @@ import MotionContainer from "../../components/admin/MotionContainer";
 
 const supabase = getSupabase(Astro.cookies);
 
-// Obtener sesión actual (seguridad extra en la vista)
 const {
-  data: { session },
-} = await supabase.auth.getSession();
+  data: { user },
+} = await supabase.auth.getUser();
 
-if (!session) {
+if (!user) {
   return Astro.redirect("/admin/login");
 }
 
-const userEmail = session.user?.email;
+const userEmail = user.email;
 
 // Obtener analíticas: Clicks agrupados por producto
 const { data: clicksData, error } = await supabase

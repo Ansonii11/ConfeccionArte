@@ -12,10 +12,20 @@ export function getSupabase(cookies: AstroCookies) {
           return cookies.get(key)?.value;
         },
         set(key: string, value: string, options: CookieOptions) {
-          cookies.set(key, value, { ...options, path: '/' });
+          try {
+            cookies.set(key, value, { ...options, path: '/' });
+          } catch (e) {
+            // If headers are already sent, we can't set cookies.
+            // With the middleware fix, this should not happen, but we add it for safety.
+            console.warn(`Could not set cookie ${key} because headers were already sent.`);
+          }
         },
         remove(key: string, options: CookieOptions) {
-          cookies.delete(key, { ...options, path: '/' });
+          try {
+            cookies.delete(key, { ...options, path: '/' });
+          } catch (e) {
+            console.warn(`Could not delete cookie ${key} because headers were already sent.`);
+          }
         },
       },
     }

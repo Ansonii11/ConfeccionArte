@@ -6,10 +6,10 @@ import MotionContainer from "../../../components/admin/MotionContainer";
 const supabase = getSupabase(Astro.cookies);
 
 const {
-  data: { session },
-} = await supabase.auth.getSession();
+  data: { user },
+} = await supabase.auth.getUser();
 
-if (!session) {
+if (!user) {
   return Astro.redirect("/admin/login");
 }
 
@@ -37,7 +37,7 @@ const formattedProducts = products?.map((p: any) => ({
 })) || [];
 ---
 
-<AdminLayout title="Catálogo" userEmail={session.user?.email}>
+<AdminLayout title="Catálogo" userEmail={user?.email}>
   <MotionContainer client:load>
     <div class="page-header">
       <div class="header-text">
