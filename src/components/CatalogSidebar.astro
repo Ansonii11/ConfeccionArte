@@ -10,7 +10,8 @@ const { data: categories } = await supabase
 ---
 
 <aside
-    class="hidden lg:flex w-[20vw] flex-col brutal-border-r sticky top-[80px] h-[calc(100vh-80px)] overflow-y-auto bg-white dark:bg-background-dark z-10 transition-colors duration-300"
+    id="catalog-sidebar"
+    class="hidden lg:flex w-full lg:w-[20vw] flex-col brutal-border-r lg:sticky top-[80px] h-auto lg:h-[calc(100vh-80px)] overflow-y-auto bg-white dark:bg-background-dark z-40 transition-all duration-300 border-b lg:border-b-0"
 >
     <div class="p-8 brutal-border-b">
         <h3

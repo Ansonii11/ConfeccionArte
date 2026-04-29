@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 | ConfeccionArte">
+  <main class="error-container">
+    <div class="content">
+      <h1 class="brutalist-title">404</h1>
+      <p class="subtitle">ESTA PIEZA NO EXISTE EN NUESTRA COLECCIÓN.</p>
+      <div class="divider"></div>
+      <p class="description">
+        Parece que el enlace que seguiste está roto o la página ha sido movida a una nueva colección.
+      </p>
+      <a href="/" class="back-btn">VOLVER AL INICIO</a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .error-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .content {
+    max-width: 600px;
+  }
+
+  .brutalist-title {
+    font-size: clamp(8rem, 20vw, 12rem);
+    font-weight: 900;
+    line-height: 0.8;
+    margin: 0;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .subtitle {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .divider {
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    margin: 2rem auto;
+  }
+
+  .description {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+
+  .back-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    transition: all 0.3s ease;
+    border: 1px solid var(--text-primary);
+  }
+
+  .back-btn:hover {
+    background: transparent;
+    color: var(--text-primary);
+  }
+</style>

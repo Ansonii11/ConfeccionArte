@@ -81,6 +81,11 @@ const formattedProducts = products?.map((p: any) => ({
                     {product.image ? (
                       <div class="thumb-wrapper">
                         <img src={product.image} alt={product.name} class="product-thumb" />
+                        {product.product_images?.length > 1 && (
+                          <span class="image-count-badge">
+                            +{product.product_images.length - 1}
+                          </span>
+                        )}
                       </div>
                     ) : (
                       <div class="product-thumb-placeholder">NO_IMG</div>
@@ -189,6 +194,21 @@ const formattedProducts = products?.map((p: any) => ({
     overflow: hidden;
     border: 1px solid var(--panel-border);
     background: var(--bg-dark);
+  }
+
+  .image-count-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-weight: bold;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .product-thumb {

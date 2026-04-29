@@ -118,9 +118,9 @@ export default function ProductForm({ categories, initialData }: Props) {
     });
 
     if (sizeError) {
-      setError("Algunas imágenes exceden los 500KB permitidos y fueron descartadas.");
+      setError(`Calidad excedida: Las imágenes deben ser menores a 500KB para optimizar el archivo.`);
     } else if (limitReached) {
-      setError(`Solo se permiten un máximo de ${MAX_IMAGES} imágenes (Portada + 3 extras).`);
+      setError(`Archivo lleno: Solo se permiten un máximo de ${MAX_IMAGES} capturas (Portada + 3 extras).`);
     }
 
     if (sizeError || limitReached) {
