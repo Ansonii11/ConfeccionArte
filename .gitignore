@@ -36,3 +36,16 @@ stitch_assets/screenshots/
 
 # bun lockfile (binary version)
 bun.lockb
+
+# Vercel
+.vercel/
+
+# Audit and Internal tracking
+BUG.md
+SECURE.md
+.agents/
+implementation_plan*.md
+tasks*.md
+walkthrough*.md
+plan_despliegue_vercel.md
+diagnostico_build_final.md
