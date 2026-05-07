@@ -121,19 +121,24 @@ const products =
 
         <!-- Product Grid -->
         <div
+          id="product-grid"
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full border-t-0 border-l-0 bg-white dark:bg-background-dark"
         >
-          {products.map((product) => <ProductCard {...product} />)}
+          {products.map((product, index) => (
+            <div class={`reveal-up stagger-${(index % 6) + 1}`}>
+              <ProductCard {...product} />
+            </div>
+          ))}
         </div>
 
         <!-- Footer / Loading Area -->
         <div
-          class="w-full py-16 flex justify-center items-center bg-white dark:bg-background-dark brutal-border-b transition-colors duration-300"
+          class="w-full py-16 flex justify-center items-center bg-white dark:bg-background-dark brutal-border-b"
         >
           <span
             class="font-mono text-sm text-[#8a8a8a] dark:text-gray-400 tracking-[0.2em] font-bold uppercase"
           >
-            [ CARGANDO MÁS ESTRUCTURAS ]
+            [ FIN DE LA ESTRUCTURA ]
           </span>
         </div>
       </section>
@@ -150,5 +155,20 @@ const products =
             sidebar.classList.toggle('hidden');
             sidebar.classList.toggle('flex');
         });
+    }
+
+    // Animation Observer for Catalogue
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const revealElements = entry.target.querySelectorAll('.reveal-up');
+                revealElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+    }, { threshold: 0.05 });
+
+    const grid = document.getElementById('product-grid');
+    if (grid) {
+        observer.observe(grid);
     }
 </script>

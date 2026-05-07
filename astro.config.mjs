@@ -13,6 +13,9 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwind()],
+    optimizeDeps: {
+      include: ['react-dom/client']
+    }
   },
   security: {
     checkOrigin: true

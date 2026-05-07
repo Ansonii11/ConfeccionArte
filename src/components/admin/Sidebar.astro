@@ -4,16 +4,16 @@ const pathname = Astro.url.pathname;
 
 <aside class="sidebar glass-panel">
   <div class="logo">
-    <h2>Confeccion<span>Arte</span><span class="badge">Admin</span></h2>
+    <h2>Confeccion<span class="highlight">Arte</span><span class="badge">Admin</span></h2>
   </div>
   <nav>
     <a href="/admin" class={pathname === "/admin" ? "active" : ""}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
       Dashboard
     </a>
     <a href="/admin/productos" class={pathname.startsWith("/admin/productos") ? "active" : ""}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-      Productos
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+      Catálogo
     </a>
     <a href="/" target="_blank" class="view-site">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -39,16 +39,14 @@ const pathname = Astro.url.pathname;
     flex-direction: column;
     border-right: 1px solid var(--panel-border);
     border-radius: 0;
-    background: #0C0A09;
+    background: var(--bg-dark);
     z-index: 10;
   }
 
   .logo h2 {
-    font-family: var(--font-heading);
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin: 0 0 4rem 0;
-    font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: -0.05em;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -56,27 +54,26 @@ const pathname = Astro.url.pathname;
     color: var(--text-main);
   }
 
-  .logo span {
+  .logo .highlight {
     color: var(--primary);
   }
 
   .logo .badge {
-    font-family: var(--font-body);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    background: rgba(202, 138, 4, 0.1);
-    color: var(--primary);
-    padding: 0.2rem 0.6rem;
-    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    background: var(--text-main);
+    color: var(--bg-dark);
+    padding: 0.2rem 0.5rem;
+    border-radius: 0;
     margin-left: 0.5rem;
-    border: 1px solid rgba(202, 138, 4, 0.2);
+    font-weight: 600;
   }
 
   nav {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     flex: 1;
   }
 
@@ -87,35 +84,35 @@ const pathname = Astro.url.pathname;
     padding: 1rem 1.25rem;
     color: var(--text-muted);
     text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    transition: none; /* Sin transiciones suaves */
     font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-left: 2px solid transparent;
+    letter-spacing: 0.05em;
+    border: 1px solid transparent;
   }
 
   nav a svg {
-    opacity: 0.5;
-    transition: all 0.4s ease;
+    opacity: 0.7;
+    transition: none;
   }
 
   nav a:hover, nav a.active {
-    background: rgba(202, 138, 4, 0.05);
+    background: var(--primary);
     color: var(--text-main);
-    border-left-color: var(--primary);
+    border-color: var(--primary);
   }
 
   nav a:hover svg, nav a.active svg {
     opacity: 1;
-    color: var(--primary);
+    color: var(--text-main);
   }
 
   .view-site {
     margin-top: 1rem;
     border-top: 1px solid var(--panel-border);
-    border-radius: 0;
     padding-top: 2rem;
   }
 
@@ -133,21 +130,22 @@ const pathname = Astro.url.pathname;
     padding: 1rem 1.25rem;
     background: transparent;
     color: var(--text-muted);
-    border: none;
-    border-radius: 4px;
-    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-weight: 600;
     font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: none;
     text-align: left;
-    font-family: var(--font-body);
   }
 
   .logout-btn:hover {
-    background: rgba(239, 68, 68, 0.05);
-    color: var(--danger);
+    background: var(--text-main);
+    color: var(--bg-dark);
+    border-color: var(--text-main);
   }
 
 </style>

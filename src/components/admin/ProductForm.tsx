@@ -342,7 +342,7 @@ export default function ProductForm({ categories, initialData }: Props) {
       <form onSubmit={handleSubmit} className="react-form">
         
         {/* Basic Info */}
-        <motion.div className="form-section glass-panel" variants={itemVariants}>
+        <motion.div className="form-section" variants={itemVariants}>
           <div className="section-header">
             <span className="section-number">01</span>
             <h3>Identidad de la Pieza</h3>
@@ -428,7 +428,7 @@ export default function ProductForm({ categories, initialData }: Props) {
         </motion.div>
 
         {/* Configuration */}
-        <motion.div className="form-section glass-panel" variants={itemVariants}>
+        <motion.div className="form-section" variants={itemVariants}>
           <div className="section-header">
             <span className="section-number">02</span>
             <h3>Estado y Exhibición</h3>
@@ -472,7 +472,7 @@ export default function ProductForm({ categories, initialData }: Props) {
         </motion.div>
 
         {/* Variants */}
-        <motion.div className="form-section glass-panel" variants={itemVariants}>
+        <motion.div className="form-section" variants={itemVariants}>
           <div className="section-header">
             <span className="section-number">03</span>
             <h3>Dimensiones y Disponibilidad</h3>
@@ -526,7 +526,7 @@ export default function ProductForm({ categories, initialData }: Props) {
         </motion.div>
 
         {/* Images */}
-        <motion.div className="form-section glass-panel" variants={itemVariants}>
+        <motion.div className="form-section" variants={itemVariants}>
           <div className="section-header">
             <span className="section-number">04</span>
             <h3>Galería de Curaduría</h3>
@@ -639,6 +639,9 @@ export default function ProductForm({ categories, initialData }: Props) {
         }
         .form-section {
           padding: 3rem;
+          border: 1px solid var(--panel-border);
+          background: var(--bg-dark);
+          margin-bottom: 2rem;
         }
         .section-header {
           display: flex;
@@ -684,20 +687,21 @@ export default function ProductForm({ categories, initialData }: Props) {
         .form-group select,
         .form-group textarea {
           padding: 1.25rem;
-          background: rgba(0,0,0,0.2);
+          background: transparent;
           border: 1px solid var(--panel-border);
-          border-radius: 2px;
-          color: #fff;
-          font-family: var(--font-body);
+          border-radius: 0;
+          color: var(--text-main);
+          font-family: var(--font-mono);
           font-size: 0.9rem;
-          transition: all 0.4s ease;
+          transition: none;
         }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
           outline: none;
           border-color: var(--primary);
-          background: rgba(0,0,0,0.4);
+          background: var(--text-main);
+          color: var(--bg-dark);
         }
 
         .input-with-symbol {
@@ -736,9 +740,9 @@ export default function ProductForm({ categories, initialData }: Props) {
           width: 20px;
           height: 20px;
           border: 1px solid var(--panel-border);
-          border-radius: 2px;
+          border-radius: 0;
           position: relative;
-          transition: all 0.3s ease;
+          transition: none;
         }
         .custom-checkbox input:checked + .checkmark {
           background: var(--primary);
@@ -769,32 +773,33 @@ export default function ProductForm({ categories, initialData }: Props) {
         .btn-remove {
           width: 48px;
           height: 48px;
-          background: rgba(239, 68, 68, 0.05);
+          background: transparent;
           color: var(--danger);
-          border: 1px solid rgba(239, 68, 68, 0.1);
-          border-radius: 2px;
+          border: 1px solid var(--danger);
+          border-radius: 0;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.3s ease;
+          transition: none;
         }
         .btn-remove:hover {
           background: var(--danger);
-          color: white;
+          color: var(--text-main);
         }
         .btn-add-variant {
           width: 100%;
           padding: 1rem;
-          background: rgba(255,255,255,0.02);
+          background: transparent;
           border: 1px dashed var(--panel-border);
           color: var(--text-muted);
           text-transform: uppercase;
           letter-spacing: 0.1em;
+          font-family: var(--font-mono);
           font-size: 0.75rem;
-          border-radius: 2px;
+          border-radius: 0;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: none;
           margin-top: 1rem;
         }
         .btn-add-variant:hover {
@@ -818,15 +823,14 @@ export default function ProductForm({ categories, initialData }: Props) {
         .image-card {
           position: relative;
           aspect-ratio: 4/5;
-          border-radius: 4px;
+          border-radius: 0;
           overflow: hidden;
           border: 1px solid var(--panel-border);
-          background: rgba(0,0,0,0.4);
-          transition: all 0.3s ease;
+          background: transparent;
+          transition: none;
         }
         .image-card.primary-active {
           border-color: var(--primary);
-          box-shadow: 0 0 15px rgba(202, 138, 4, 0.2);
         }
         .image-card.new-file {
           border-style: dashed;
@@ -835,7 +839,7 @@ export default function ProductForm({ categories, initialData }: Props) {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.5s ease;
+          transition: none;
         }
         .image-card:hover img {
           transform: scale(1.05);
@@ -844,32 +848,32 @@ export default function ProductForm({ categories, initialData }: Props) {
         .card-actions {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%);
+          background: transparent;
           display: flex;
           align-items: flex-end;
           justify-content: center;
           gap: 1rem;
           padding-bottom: 1rem;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: none;
         }
         .image-card:hover .card-actions {
           opacity: 1;
+          background: rgba(34, 16, 16, 0.8);
         }
 
         .btn-action-star, .btn-action-delete {
           width: 36px;
           height: 36px;
-          border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.2);
-          background: rgba(0,0,0,0.5);
-          color: white;
+          border-radius: 0;
+          border: 1px solid var(--panel-border);
+          background: var(--bg-dark);
+          color: var(--text-main);
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(4px);
+          transition: none;
         }
         .btn-action-star.active {
           color: var(--primary);
@@ -891,27 +895,28 @@ export default function ProductForm({ categories, initialData }: Props) {
           top: 10px;
           left: 10px;
           background: var(--primary);
-          color: var(--bg-dark);
+          color: var(--text-main);
           font-size: 0.6rem;
+          font-family: var(--font-mono);
           font-weight: 700;
           text-transform: uppercase;
           padding: 3px 8px;
-          border-radius: 2px;
+          border-radius: 0;
           letter-spacing: 0.05em;
         }
 
         .add-image-card {
           aspect-ratio: 4/5;
           border: 1px dashed var(--panel-border);
-          background: rgba(255,255,255,0.02);
-          border-radius: 4px;
+          background: transparent;
+          border-radius: 0;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           gap: 1rem;
           cursor: pointer;
-          transition: all 0.4s ease;
+          transition: none;
           color: var(--text-muted);
         }
         .add-image-card:hover {
@@ -934,8 +939,8 @@ export default function ProductForm({ categories, initialData }: Props) {
           margin-bottom: 5rem;
         }
 
-        .error-alert { background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem; border: 1px solid rgba(239, 68, 68, 0.2); text-align: center; font-size: 0.9rem; }
-        .success-alert { background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem; border: 1px solid rgba(34, 197, 94, 0.2); text-align: center; font-size: 0.9rem; }
+        .error-alert { background: transparent; color: var(--primary); font-family: var(--font-mono); padding: 1.5rem; border-radius: 0; margin-bottom: 2rem; border: 1px solid var(--primary); text-align: center; font-size: 0.9rem; }
+        .success-alert { background: transparent; color: var(--text-main); font-family: var(--font-mono); padding: 1.5rem; border-radius: 0; margin-bottom: 2rem; border: 1px solid var(--text-main); text-align: center; font-size: 0.9rem; }
       `}</style>
     </motion.div>
   );

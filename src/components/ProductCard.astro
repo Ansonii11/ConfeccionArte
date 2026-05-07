@@ -28,11 +28,11 @@ const {
     class={`product-card flex flex-col aspect-square brutal-border-r brutal-border-b lg:last:border-r-0 cursor-pointer group ${soldOut ? "opacity-80 pointer-events-none" : ""}`}
 >
     <article
-        class="h-full flex flex-col bg-white dark:bg-background-dark transition-colors duration-300"
+        class="h-full flex flex-col bg-background-light dark:bg-background-dark"
     >
         <!-- Image Area (85%) -->
         <div
-            class="h-[85%] w-full bg-[#f4f4f4] dark:bg-[#1a1a1a] relative overflow-hidden transition-colors duration-300"
+            class="h-[85%] w-full bg-[#f4f4f4] dark:bg-[#1a1a1a] relative overflow-hidden"
         >
             <div
                 class={`absolute top-4 left-4 z-10 ${soldOut ? "bg-primary" : "bg-black dark:bg-white"} ${soldOut ? "text-white" : "text-white dark:text-black"} px-2 py-1 font-mono text-[10px]`}
@@ -42,7 +42,7 @@ const {
 
             <img
                 alt={title}
-                class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal group-hover:hidden"
+                class="img-primary w-full h-full object-cover object-center grayscale contrast-125 mix-blend-multiply dark:mix-blend-normal group-hover:hidden transition-none"
                 src={imagePrimary}
             />
             <img
@@ -54,20 +54,20 @@ const {
 
         <!-- Details Area (15%) -->
         <div
-            class={`h-[15%] w-full flex brutal-border-t transition-none ${soldOut ? "bg-[#f4f4f4] dark:bg-[#1a1a1a] text-[#8a8a8a]" : "group-hover:bg-black group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black"}`}
+            class={`h-[15%] w-full flex brutal-border-t transition-none ${soldOut ? "bg-[#f4f4f4] dark:bg-[#1a1a1a] text-[#8a8a8a]" : "group-hover:bg-primary group-hover:text-white dark:group-hover:bg-primary dark:group-hover:text-white"}`}
         >
             <div
-                class={`w-3/4 p-4 flex items-center brutal-border-r ${soldOut ? "border-gray-400" : "group-hover:border-white dark:group-hover:border-black"}`}
+                class={`w-3/4 p-4 flex items-center brutal-border-r ${soldOut ? "border-gray-400" : "group-hover:border-white dark:group-hover:border-white"}`}
             >
                 <h2
-                    class={`font-heading text-lg lg:text-xl truncate text-black dark:text-white ${soldOut ? "line-through text-[#8a8a8a]" : "group-hover:text-white dark:group-hover:text-black"}`}
+                    class={`font-display text-lg lg:text-xl truncate text-black dark:text-white ${soldOut ? "line-through text-[#8a8a8a]" : "group-hover:text-white dark:group-hover:text-white"}`}
                 >
                     {title}
                 </h2>
             </div>
             <div class="w-1/4 p-4 flex items-center justify-center">
                 <span
-                    class={`font-mono text-sm font-bold text-black dark:text-white ${soldOut ? "line-through text-[#8a8a8a]" : "group-hover:text-white dark:group-hover:text-black"}`}
+                    class={`font-mono text-sm font-bold text-black dark:text-white ${soldOut ? "line-through text-[#8a8a8a]" : "group-hover:text-white dark:group-hover:text-white"}`}
                 >
                     {price}
                 </span>

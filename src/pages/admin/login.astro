@@ -31,7 +31,7 @@ if (Astro.request.method === "POST") {
 
 <MainLayout title="Atelier Access" description="Acceso al Panel de Administración">
   <div class="login-container">
-    <div class="login-box glass-panel">
+    <div class="login-box">
       <div class="brand">
         <h2>Confeccion<span>Arte</span></h2>
         <div class="badge">Atelier Archive</div>
@@ -59,7 +59,7 @@ if (Astro.request.method === "POST") {
 </MainLayout>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
   .login-container {
     display: flex;
@@ -67,12 +67,9 @@ if (Astro.request.method === "POST") {
     align-items: center;
     min-height: 100vh;
     padding: 2rem;
-    background-color: #0C0A09;
-    background-image: 
-      radial-gradient(circle at 0% 0%, rgba(202, 138, 4, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 100% 100%, rgba(202, 138, 4, 0.03) 0%, transparent 50%);
-    color: #FAFAF9;
-    font-family: 'Montserrat', sans-serif;
+    background-color: #221010; /* Deep Oxblood */
+    color: #f8f5f5; /* Paper White */
+    font-family: 'Space Grotesk', sans-serif;
   }
 
   .login-box {
@@ -80,47 +77,52 @@ if (Astro.request.method === "POST") {
     max-width: 440px;
     padding: 4rem 3rem;
     text-align: center;
-    border-radius: 4px;
-    background: rgba(28, 25, 23, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(202, 138, 4, 0.2);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 0;
+    background: #221010;
+    border: 1px solid #f8f5f5;
   }
 
   .brand h2 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 2rem;
     margin: 0 0 0.5rem 0;
-    letter-spacing: 0.1em;
+    letter-spacing: -0.05em;
     font-weight: 700;
   }
 
   .brand span {
-    color: #CA8A04;
+    color: #f20d0d;
   }
 
   .brand .badge {
     font-size: 0.6rem;
     text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: #A8A29E;
+    letter-spacing: 0.1em;
+    color: #221010;
+    background: #f8f5f5;
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
     margin-bottom: 3rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
   }
 
   h1 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 1.75rem;
     margin-bottom: 0.5rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
   }
 
   p {
-    color: #A8A29E;
+    color: #8a8a8a;
     margin-bottom: 3rem;
     font-size: 0.85rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
   .login-form {
@@ -138,60 +140,62 @@ if (Astro.request.method === "POST") {
 
   label span {
     font-size: 0.7rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: #CA8A04;
+    color: #f20d0d;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
   input {
     padding: 1.25rem;
-    border-radius: 2px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(0, 0, 0, 0.2);
-    color: #fff;
+    border-radius: 0;
+    border: 1px solid #f8f5f5;
+    background: transparent;
+    color: #f8f5f5;
     font-size: 0.9rem;
-    font-family: inherit;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'IBM Plex Mono', monospace;
+    transition: none;
   }
 
   input:focus {
     outline: none;
-    border-color: #CA8A04;
-    background: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 15px rgba(202, 138, 4, 0.1);
+    border-color: #f20d0d;
+    background: #f8f5f5;
+    color: #221010;
   }
 
   .btn-primary {
     margin-top: 1rem;
     padding: 1.25rem;
-    background: #CA8A04;
-    color: #0C0A09;
-    border: 1px solid #CA8A04;
-    border-radius: 2px;
+    background: #f20d0d;
+    color: #f8f5f5;
+    border: 1px solid #f20d0d;
+    border-radius: 0;
     font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'IBM Plex Mono', monospace;
+    transition: none;
   }
 
   .btn-primary:hover {
-    background: transparent;
-    color: #CA8A04;
-    box-shadow: 0 0 20px rgba(202, 138, 4, 0.2);
+    background: #221010;
+    color: #f20d0d;
   }
 
   .error-alert {
-    background: rgba(239, 68, 68, 0.05);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    color: #ef4444;
+    background: transparent;
+    border: 1px solid #f20d0d;
+    color: #f20d0d;
     padding: 1rem;
-    border-radius: 2px;
+    border-radius: 0;
     margin-bottom: 2.5rem;
     font-size: 0.8rem;
     text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
   }
 </style>
 

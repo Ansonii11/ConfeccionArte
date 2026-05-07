@@ -43,6 +43,8 @@ bun.lockb
 # Audit and Internal tracking
 BUG.md
 SECURE.md
+DESIGN.md
+PRODUCT.md
 .agents/
 implementation_plan*.md
 tasks*.md

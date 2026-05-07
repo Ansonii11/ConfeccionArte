@@ -18,10 +18,10 @@ const { title, description = "Panel de Administración", userEmail } = Astro.pro
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
-  <!-- Google Fonts: Cormorant Garamond y Montserrat -->
+  <!-- Google Fonts: Space Grotesk y IBM Plex Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="admin-layout">
@@ -36,25 +36,24 @@ const { title, description = "Panel de Administración", userEmail } = Astro.pro
 
   <style is:global>
     :root {
-      --bg-dark: #0C0A09; /* Negro azabache */
-      --panel-bg: rgba(28, 25, 23, 0.7); /* Vidrio ahumado */
-      --panel-border: rgba(202, 138, 4, 0.2); /* Borde dorado sutil */
-      --text-main: #FAFAF9;
-      --text-muted: #A8A29E;
-      --primary: #CA8A04; /* Dorado artesanal */
-      --primary-hover: #A16207;
-      --danger: #EF4444;
-      --success: #22C55E;
+      --bg-dark: #221010; /* Deep Oxblood */
+      --bg-light: #f8f5f5; /* Paper White */
+      --primary: #f20d0d; /* Atomic Red */
       
-      --font-heading: 'Cormorant Garamond', serif;
-      --font-body: 'Montserrat', sans-serif;
+      --panel-bg: var(--bg-dark); 
+      --panel-border: #f8f5f5; /* Borde visible y duro */
+      --text-main: #f8f5f5;
+      --text-muted: #8a8a8a;
+      --danger: #f20d0d;
+      --success: #10B981;
+      
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
     }
 
     body {
       background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 0% 0%, rgba(202, 138, 4, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(202, 138, 4, 0.03) 0%, transparent 50%);
       color: var(--text-main);
       margin: 0;
       font-family: var(--font-body);
@@ -64,21 +63,16 @@ const { title, description = "Panel de Administración", userEmail } = Astro.pro
 
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-heading);
-      letter-spacing: 0.02em;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      font-weight: 700;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    .glass-panel {
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--panel-border);
-      border-radius: 12px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    }
+    /* Eliminado .glass-panel para apegarse al brutalismo */
 
     /* Utilitarios globales para Admin */
     .btn {
@@ -86,47 +80,46 @@ const { title, description = "Panel de Administración", userEmail } = Astro.pro
       align-items: center;
       gap: 0.5rem;
       padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      font-weight: 500;
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-weight: 600;
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: none; /* Inversión instantánea según DESIGN.md */
       text-decoration: none;
-      border: 1px solid transparent;
+      border: 1px solid var(--panel-border);
     }
 
     .btn-primary {
       background: var(--primary);
-      color: var(--bg-dark);
-      font-weight: 700;
+      color: var(--text-main);
+      border-color: var(--primary);
     }
     .btn-primary:hover {
-      background: transparent;
+      background: var(--bg-dark);
       color: var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 0 20px rgba(202, 138, 4, 0.2);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.03);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: var(--text-main);
+      border-color: var(--panel-border);
     }
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
+      background: var(--text-main);
+      color: var(--bg-dark);
     }
 
     .btn-danger {
-      background: rgba(239, 68, 68, 0.1);
+      background: transparent;
       color: var(--danger);
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--danger);
     }
     .btn-danger:hover {
       background: var(--danger);
-      color: white;
+      color: var(--text-main);
     }
 
     /* Layout Estructural */
@@ -148,16 +141,17 @@ const { title, description = "Panel de Administración", userEmail } = Astro.pro
       flex: 1;
     }
 
-    /* Scrollbar minimalista */
+    /* Scrollbar crudo */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
     ::-webkit-scrollbar-track {
       background: var(--bg-dark);
+      border-left: 1px solid var(--panel-border);
     }
     ::-webkit-scrollbar-thumb {
       background: var(--panel-border);
-      border-radius: 10px;
+      border-radius: 0;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: var(--primary);

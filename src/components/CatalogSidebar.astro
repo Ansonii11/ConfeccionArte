@@ -21,7 +21,7 @@ const buildUrl = (category: string | null) => {
     id="catalog-sidebar"
     class="hidden lg:flex w-full lg:w-[20vw] flex-col brutal-border-r lg:sticky top-[80px] h-auto lg:h-[calc(100vh-80px)] overflow-y-auto bg-white dark:bg-background-dark z-40 transition-all duration-300 border-b lg:border-b-0"
 >
-    <form action="/catalogo" method="GET" class="flex flex-col flex-1 min-h-full">
+    <form action="/catalogo" method="GET" class="flex flex-col flex-1 min-h-full" id="filter-form">
         {currentCategory && <input type="hidden" name="categoria" value={currentCategory} />}
         
         <div class="p-8 brutal-border-b">
@@ -52,95 +52,126 @@ const buildUrl = (category: string | null) => {
             </ul>
         </div>
 
-        <div class="p-8 brutal-border-b">
+        <div class="p-8 brutal-border-b flex-1">
             <h3
                 class="font-mono text-xs font-bold text-[#8a8a8a] dark:text-gray-400 mb-6 tracking-widest uppercase"
             >
                 TALLA
             </h3>
             <div class="space-y-4 font-mono text-sm text-black dark:text-white">
-                <label class="flex items-center gap-3 cursor-pointer group">
+                <label class={`flex items-center gap-3 cursor-pointer group ${!currentSize ? 'text-primary' : ''}`}>
                     <input
-                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        class="brutal-radio appearance-none size-4 border rounded-none cursor-pointer"
+                        name="talla"
+                        value=""
+                        type="radio"
+                        checked={!currentSize}
+                        onchange="this.form.submit()"
+                    />
+                    <span class={`uppercase ${!currentSize ? 'font-bold' : 'group-hover:text-primary dark:group-hover:text-primary'}`}
+                        >CUALQUIER TALLA</span
+                    >
+                </label>
+                <label class={`flex items-center gap-3 cursor-pointer group ${currentSize === 'XS' ? 'text-primary' : ''}`}>
+                    <input
+                        class="brutal-radio appearance-none size-4 border rounded-none cursor-pointer"
                         name="talla"
                         value="XS"
                         type="radio"
                         checked={currentSize === 'XS'}
+                        onchange="this.form.submit()"
                     />
-                    <span class={`uppercase ${currentSize === 'XS' ? 'font-bold' : 'group-hover:text-primary'}`}
+                    <span class={`uppercase ${currentSize === 'XS' ? 'font-bold' : 'group-hover:text-primary dark:group-hover:text-primary'}`}
                         >XS - EXTRA SMALL</span
                     >
                 </label>
-                <label class="flex items-center gap-3 cursor-pointer group">
+                <label class={`flex items-center gap-3 cursor-pointer group ${currentSize === 'S' ? 'text-primary' : ''}`}>
                     <input
-                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        class="brutal-radio appearance-none size-4 border rounded-none cursor-pointer"
                         name="talla"
                         value="S"
                         type="radio"
                         checked={currentSize === 'S'}
+                        onchange="this.form.submit()"
                     />
-                    <span class={`uppercase ${currentSize === 'S' ? 'font-bold' : 'group-hover:text-primary'}`}>S - SMALL</span>
+                    <span class={`uppercase ${currentSize === 'S' ? 'font-bold' : 'group-hover:text-primary dark:group-hover:text-primary'}`}>S - SMALL</span>
                 </label>
-                <label class="flex items-center gap-3 cursor-pointer group">
+                <label class={`flex items-center gap-3 cursor-pointer group ${currentSize === 'M' ? 'text-primary' : ''}`}>
                     <input
-                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        class="brutal-radio appearance-none size-4 border rounded-none cursor-pointer"
                         name="talla"
                         value="M"
                         type="radio"
                         checked={currentSize === 'M'}
+                        onchange="this.form.submit()"
                     />
-                    <span class={`uppercase ${currentSize === 'M' ? 'font-bold' : 'group-hover:text-primary'}`}
+                    <span class={`uppercase ${currentSize === 'M' ? 'font-bold' : 'group-hover:text-primary dark:group-hover:text-primary'}`}
                         >M - MEDIUM</span
                     >
                 </label>
-                <label class="flex items-center gap-3 cursor-pointer group">
+                <label class={`flex items-center gap-3 cursor-pointer group ${currentSize === 'L' ? 'text-primary' : ''}`}>
                     <input
-                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        class="brutal-radio appearance-none size-4 border rounded-none cursor-pointer"
                         name="talla"
                         value="L"
                         type="radio"
                         checked={currentSize === 'L'}
+                        onchange="this.form.submit()"
                     />
-                    <span class={`uppercase ${currentSize === 'L' ? 'font-bold' : 'group-hover:text-primary'}`}>L - LARGE</span
+                    <span class={`uppercase ${currentSize === 'L' ? 'font-bold' : 'group-hover:text-primary dark:group-hover:text-primary'}`}>L - LARGE</span
                     >
                 </label>
-                <label class="flex items-center gap-3 cursor-pointer group">
+                <label class={`flex items-center gap-3 cursor-pointer group ${currentSize === 'XL' ? 'text-primary' : ''}`}>
                     <input
-                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        class="brutal-radio appearance-none size-4 border rounded-none cursor-pointer"
                         name="talla"
                         value="XL"
                         type="radio"
                         checked={currentSize === 'XL'}
+                        onchange="this.form.submit()"
                     />
-                    <span class={`uppercase ${currentSize === 'XL' ? 'font-bold' : 'group-hover:text-primary'}`}
+                    <span class={`uppercase ${currentSize === 'XL' ? 'font-bold' : 'group-hover:text-primary dark:group-hover:text-primary'}`}
                         >XL - EXTRA LARGE</span
                     >
                 </label>
             </div>
         </div>
 
-        <div
-            class="mt-auto p-8 brutal-border-t bg-[#f4f4f4] dark:bg-[#1a1a1a] transition-colors duration-300"
-        >
-            <button
-                type="submit"
-                class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-heading font-bold text-lg hover:bg-primary dark:hover:bg-primary transition-none uppercase cursor-pointer"
-            >
-                APLICAR FILTROS
-            </button>
-        </div>
+        <noscript>
+            <div class="mt-auto p-8 brutal-border-t bg-[#f4f4f4] dark:bg-[#1a1a1a] transition-colors duration-300">
+                <button type="submit" class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-heading font-bold text-lg hover:bg-primary dark:hover:bg-primary transition-none uppercase cursor-pointer">
+                    APLICAR FILTROS
+                </button>
+            </div>
+        </noscript>
     </form>
 </aside>
 
-<style>
+<style is:global>
+    .brutal-radio {
+        border-color: #000000;
+        transition: background-color 0.1s, border-color 0.1s;
+    }
+    html.dark .brutal-radio {
+        border-color: #ffffff;
+    }
     .brutal-radio:checked {
-        background-color: #000000;
+        background-color: #f20d0d !important;
+        border-color: #f20d0d !important;
     }
     html.dark .brutal-radio:checked {
-        background-color: #ffffff;
+        background-color: #f20d0d !important;
+        border-color: #f20d0d !important;
+    }
+    .brutal-radio:hover {
+        border-color: #f20d0d !important;
     }
     .brutal-radio:checked:hover {
-        background-color: #f20d0d;
-        border-color: #f20d0d;
+        background-color: #000000 !important;
+        border-color: #000000 !important;
+    }
+    html.dark .brutal-radio:checked:hover {
+        background-color: #ffffff !important;
+        border-color: #ffffff !important;
     }
 </style>

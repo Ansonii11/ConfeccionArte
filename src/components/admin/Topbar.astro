@@ -33,9 +33,7 @@ const { title, userEmail } = Astro.props;
     padding: 2.5rem 3rem;
     position: sticky;
     top: 0;
-    background: rgba(12, 10, 9, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--bg-dark);
     z-index: 5;
     border-bottom: 1px solid var(--panel-border);
   }
@@ -45,7 +43,8 @@ const { title, userEmail } = Astro.props;
     font-size: 2.2rem;
     margin: 0;
     font-weight: 700;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
     color: var(--text-main);
   }
 
@@ -60,21 +59,22 @@ const { title, userEmail } = Astro.props;
     align-items: center;
     gap: 1rem;
     padding: 0.4rem 1.2rem 0.4rem 0.4rem;
-    background: rgba(202, 138, 4, 0.05);
+    background: transparent;
     border: 1px solid var(--panel-border);
-    border-radius: 4px;
+    border-radius: 0;
   }
 
   .avatar {
     width: 32px;
     height: 32px;
-    background: var(--primary);
+    background: var(--text-main);
     color: var(--bg-dark);
-    border-radius: 2px;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    font-family: var(--font-mono);
     font-size: 0.9rem;
   }
 
@@ -84,6 +84,7 @@ const { title, userEmail } = Astro.props;
   }
 
   .user-email {
+    font-family: var(--font-mono);
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-main);
@@ -91,6 +92,7 @@ const { title, userEmail } = Astro.props;
   }
 
   .user-role {
+    font-family: var(--font-mono);
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;

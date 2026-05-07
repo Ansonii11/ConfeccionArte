@@ -42,9 +42,10 @@ const featuredProducts = products?.map(product => {
             </h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full featured-grid">
-            {featuredProducts.map((product) => (
-                <div class="featured-card-wrapper">
+            {featuredProducts.map((product, index) => (
+                <div class={`featured-card-wrapper reveal-up stagger-${index + 1}`}>
                     <ProductCard
+                        id={product.id}
                         title={product.name}
                         price={`$${product.price}`}
                         sku={product.sku || "N/A"}
@@ -58,29 +59,13 @@ const featuredProducts = products?.map(product => {
     </section>
 )}
 
-<style>
-    .featured-card-wrapper {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .revealed .featured-card-wrapper {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    .featured-card-wrapper:nth-child(1) { transition-delay: 0.1s; }
-    .featured-card-wrapper:nth-child(2) { transition-delay: 0.2s; }
-    .featured-card-wrapper:nth-child(3) { transition-delay: 0.3s; }
-    .featured-card-wrapper:nth-child(4) { transition-delay: 0.4s; }
-</style>
-
 <script>
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
+                // Seleccionar todos los hijos reveal-up dentro del contenedor
+                const revealElements = entry.target.querySelectorAll('.reveal-up');
+                revealElements.forEach(el => el.classList.add('revealed'));
             }
         });
     }, { threshold: 0.1 });
