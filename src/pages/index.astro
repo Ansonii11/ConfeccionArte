@@ -3,14 +3,22 @@ import MainLayout from "../layouts/MainLayout.astro";
 import NavBar from "../components/NavBar.astro";
 import Hero from "../components/Hero.astro";
 import Marquee from "../components/Marquee.astro";
-import CategoryGrid from "../components/CategoryGrid.astro";
+import RandomProductsGrid from "../components/RandomProductsGrid.astro";
+import FeaturedProducts from "../components/FeaturedProducts.astro";
+import Manifesto from "../components/Manifesto.astro";
+import ProcessConceptual from "../components/ProcessConceptual.astro";
+import ConnectCTA from "../components/ConnectCTA.astro";
 ---
 
 <MainLayout title="ConfeccionArte - Inicio">
 	<NavBar />
-	<main class="pt-[80px] flex-grow flex flex-col w-full">
+	<main class="pt-[80px] flex-grow flex-col w-full overflow-x-hidden">
 		<Hero />
 		<Marquee />
-		<CategoryGrid />
+		<RandomProductsGrid />
+		<FeaturedProducts />
+		<Manifesto />
+		<ProcessConceptual />
+		<ConnectCTA />
 	</main>
 </MainLayout>

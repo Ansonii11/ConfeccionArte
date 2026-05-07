@@ -1,0 +1,91 @@
+---
+import { supabase } from "../lib/supabase";
+
+let randomProducts: Array<{
+    title: string;
+    image: string;
+    href: string;
+    borders: string;
+}> = [];
+
+try {
+    const { data: rawProducts, error } = await supabase
+        .from("products")
+        .select(`
+            id,
+            name,
+            slug,
+            product_images(storage_path, is_primary)
+        `);
+
+    if (error) {
+        console.error("Error fetching products:", error);
+    } else if (rawProducts && rawProducts.length > 0) {
+        // Mezclamos (shuffle) el array en memoria
+        // NOTA SENIOR: Esto funciona bien para catálogos pequeños. 
+        // Si el catálogo crece a miles de productos, esto será un problema de rendimiento.
+        // Lo ideal sería crear un RPC en Supabase que haga `ORDER BY random() LIMIT 4`.
+        const shuffled = [...rawProducts].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 4);
+
+        const PLACEHOLDER_IMAGE = "https://placehold.co/600x800/f4f4f4/1a1a1a?text=Próximamente";
+
+        // Mapeo de bordes para mantener la estética brutalista
+        const getBorders = (index: number) => {
+            switch (index) {
+                case 0:
+                    return "brutal-border-b xl:brutal-border-b-0 brutal-border-r";
+                case 1:
+                    return "brutal-border-b xl:brutal-border-b-0 md:brutal-border-r";
+                case 2:
+                    return "brutal-border-b md:brutal-border-b-0 xl:brutal-border-r";
+                default:
+                    return "";
+            }
+        };
+
+        randomProducts = selected.map((p: any, index: number) => {
+            const primaryImg =
+                p.product_images?.find((img: any) => img.is_primary) ||
+                p.product_images?.[0];
+            
+            const imageUrl = primaryImg?.storage_path
+                ? supabase.storage.from("products").getPublicUrl(primaryImg.storage_path).data.publicUrl
+                : PLACEHOLDER_IMAGE;
+
+            return {
+                title: p.name,
+                image: imageUrl,
+                href: `/producto/${p.slug}`,
+                borders: getBorders(index),
+            };
+        });
+    }
+} catch (err) {
+    console.error("Failed to fetch random products:", err);
+}
+---
+
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full">
+    {
+        randomProducts.map((product) => (
+            <a
+                class={`group relative flex flex-col h-[512px] md:h-[614px] hover-invert overflow-hidden cursor-pointer block bg-white dark:bg-background-dark transition-colors duration-300 ${product.borders}`}
+                href={product.href}
+            >
+                <div class="flex-grow w-full bg-gray-100 dark:bg-[#1a1a1a] relative">
+                    <img
+                        alt={product.title}
+                        class="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-none"
+                        src={product.image}
+                    />
+                </div>
+                <div class="h-[80px] w-full flex items-center justify-center brutal-border-t px-4">
+                    <h3 class="text-2xl font-black tracking-tight uppercase group-hover:text-white dark:text-white truncate w-full text-center">
+                        {product.title}
+                    </h3>
+                </div>
+            </a>
+        ))
+    }
+</section>

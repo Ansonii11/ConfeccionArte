@@ -1,0 +1,86 @@
+---
+---
+
+<section class="w-full bg-[#f4f4f4] dark:bg-[#0a0a0a] brutal-border-b py-24 px-8 md:px-16 lg:px-24">
+    <div class="mb-16">
+        <h2 class="text-6xl md:text-8xl font-black uppercase tracking-tighter text-black dark:text-white mb-4">
+            PROCESO // 00-03
+        </h2>
+        <div class="h-2 w-full bg-black dark:bg-white"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-0 process-grid">
+        <!-- Step 01 -->
+        <div class="p-12 brutal-border-b lg:brutal-border-b-0 lg:brutal-border-r group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-300 process-step">
+            <span class="text-4xl font-mono block mb-8 text-primary font-bold">01/</span>
+            <h3 class="text-3xl font-black uppercase mb-6 tracking-tight text-black dark:text-white group-hover:text-white dark:group-hover:text-black">FASE DE CONCEPTO</h3>
+            <p class="font-mono text-sm leading-relaxed uppercase text-black/70 dark:text-white/70 group-hover:text-white dark:group-hover:text-black">
+                Análisis de proporciones y estructura. Definición de la arquitectura de la prenda basada en el movimiento y la ergonomía extrema.
+            </p>
+            <div class="mt-12 opacity-30 group-hover:opacity-100 font-mono text-[10px] leading-tight text-black dark:text-white group-hover:text-white dark:group-hover:text-black">
+                SPEC_ID: 9928-X<br/>
+                METHOD: DRAFTING_PURE<br/>
+                PHASE: ALPHA
+            </div>
+        </div>
+
+        <!-- Step 02 -->
+        <div class="p-12 brutal-border-b lg:brutal-border-b-0 lg:brutal-border-r group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-300 process-step">
+            <span class="text-4xl font-mono block mb-8 text-primary font-bold">02/</span>
+            <h3 class="text-3xl font-black uppercase mb-6 tracking-tight text-black dark:text-white group-hover:text-white dark:group-hover:text-black">SELECCIÓN TÉCNICA</h3>
+            <p class="font-mono text-sm leading-relaxed uppercase text-black/70 dark:text-white/70 group-hover:text-white dark:group-hover:text-black">
+                Curaduría de textiles con propiedades estructurales. Tejidos que mantienen la forma y resisten el paso de las tendencias efímeras.
+            </p>
+            <div class="mt-12 opacity-30 group-hover:opacity-100 font-mono text-[10px] leading-tight text-black dark:text-white group-hover:text-white dark:group-hover:text-black">
+                MATERIAL_REF: RAW_DENSITY<br/>
+                SOURCE: SELECT_VENDORS<br/>
+                PHASE: BETA
+            </div>
+        </div>
+
+        <!-- Step 03 -->
+        <div class="p-12 group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-300 process-step">
+            <span class="text-4xl font-mono block mb-8 text-primary font-bold">03/</span>
+            <h3 class="text-3xl font-black uppercase mb-6 tracking-tight text-black dark:text-white group-hover:text-white dark:group-hover:text-black">EJECUCIÓN FINAL</h3>
+            <p class="font-mono text-sm leading-relaxed uppercase text-black/70 dark:text-white/70 group-hover:text-white dark:group-hover:text-black">
+                Confección artesanal punto a punto. Control de calidad riguroso para asegurar que la estructura final sea impecable.
+            </p>
+            <div class="mt-12 opacity-30 group-hover:opacity-100 font-mono text-[10px] leading-tight text-black dark:text-white group-hover:text-white dark:group-hover:text-black">
+                BUILD_TYPE: HANDMADE<br/>
+                QC_LEVEL: MAXIMUM<br/>
+                PHASE: RELEASE
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .process-step {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .revealed .process-step {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .process-step:nth-child(2) { transition-delay: 0.2s; }
+    .process-step:nth-child(3) { transition-delay: 0.4s; }
+</style>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    const grid = document.querySelector('.process-grid');
+    if (grid) {
+        observer.observe(grid);
+    }
+</script>

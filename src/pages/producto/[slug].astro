@@ -3,13 +3,6 @@ import MainLayout from "../../layouts/MainLayout.astro";
 import NavBar from "../../components/NavBar.astro";
 import { supabase } from "../../lib/supabase";
 
-export async function getStaticPaths() {
-    const { data: products } = await supabase.from("products").select("slug");
-    return (products || []).map((p) => ({
-        params: { slug: p.slug },
-    }));
-}
-
 const { slug } = Astro.params;
 
 if (!slug) {
@@ -59,10 +52,15 @@ const getPublicUrl = (path: string) =>
         : supabase.storage.from("products").getPublicUrl(path).data.publicUrl;
 ---
 
-<MainLayout title={`ConfeccionArte - ${product.name}`}>
+<MainLayout 
+    title={`${product.name} | ConfeccionArte`}
+    description={product.description || `Compra ${product.name} en ConfeccionArte. Artículos personalizados de alta calidad.`}
+    image={getPublicUrl(primaryImage.storage_path)}
+>
     <NavBar />
 
     <main
+        data-product-id={product.id}
         class="flex flex-col lg:flex-row w-full flex-grow pt-[80px] bg-white dark:bg-background-dark transition-colors duration-300"
     >
         <!-- Left Column: Scrollable Image Gallery -->
@@ -207,9 +205,9 @@ const getPublicUrl = (path: string) =>
     </main>
 </MainLayout>
 
-<script>
+<script define:vars={{ whatsappNumber: import.meta.env.PUBLIC_WHATSAPP_NUMBER }}>
     // Configuración
-    const WHATSAPP_NUMBER = "34000000000"; // Cambiar por el número de la jefa
+    const WHATSAPP_NUMBER = whatsappNumber || "34000000000"; 
     const PRODUCT_NAME =
         document.querySelector("h2")?.textContent?.trim() || "";
     const PRODUCT_SKU =
@@ -265,6 +263,16 @@ const getPublicUrl = (path: string) =>
 
     btnWhatsapp?.addEventListener("click", () => sendWhatsApp(false));
     btnPersonalizar?.addEventListener("click", () => sendWhatsApp(true));
+
+    // Tracking de vista de producto
+    const productId = document.querySelector('main')?.getAttribute('data-product-id');
+    if (productId) {
+        fetch('/api/track-click', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId }),
+        }).catch(err => console.warn('Tracking view failed:', err));
+    }
 </script>
 
 <style>

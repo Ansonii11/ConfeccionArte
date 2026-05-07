@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard.astro";
 import { supabase } from "../lib/supabase";
 
 const categorySlug = Astro.url.searchParams.get("categoria");
+const currentSize = Astro.url.searchParams.get("talla");
 
 let query = supabase.from("products").select(
   `
@@ -13,8 +14,8 @@ let query = supabase.from("products").select(
         product_images (
             storage_path,
             is_primary
-        )
-    `,
+        )${currentSize ? ',\n        product_variants!inner(size)' : ''}
+    `
 );
 
 if (categorySlug) {
@@ -27,6 +28,10 @@ if (categorySlug) {
   if (category) {
     query = query.eq("category_id", category.id);
   }
+}
+
+if (currentSize) {
+  query = query.eq("product_variants.size", currentSize);
 }
 
 const { data: rawProducts, error } = await query.order("created_at", {
@@ -54,6 +59,7 @@ const products =
       path ? supabase.storage.from("products").getPublicUrl(path).data.publicUrl : PLACEHOLDER_IMAGE;
 
     return {
+      id: p.id,
       title: p.name,
       price: `$${p.price}`,
       sku: p.sku,
@@ -64,7 +70,10 @@ const products =
   }) || [];
 ---
 
-<MainLayout title="ConfeccionArte - Catálogo">
+<MainLayout 
+  title="Catálogo de Estructuras y Moda | ConfeccionArte"
+  description="Explora nuestra colección de ropa personalizada, artículos de regalo, bisutería y más. Piezas únicas confeccionadas con arte."
+>
   <NavBar />
 
   <main class="pt-[80px] flex-grow flex flex-col w-full">

@@ -2,157 +2,134 @@
 import { supabase } from "../lib/supabase";
 
 const currentCategory = Astro.url.searchParams.get("categoria");
+const currentSize = Astro.url.searchParams.get("talla");
 
 const { data: categories } = await supabase
     .from("categories")
     .select("name, slug")
     .order("name");
+
+const buildUrl = (category: string | null) => {
+    const params = new URLSearchParams();
+    if (category) params.set("categoria", category);
+    if (currentSize) params.set("talla", currentSize);
+    return `/catalogo${params.toString() ? `?${params.toString()}` : ""}`;
+};
 ---
 
 <aside
     id="catalog-sidebar"
     class="hidden lg:flex w-full lg:w-[20vw] flex-col brutal-border-r lg:sticky top-[80px] h-auto lg:h-[calc(100vh-80px)] overflow-y-auto bg-white dark:bg-background-dark z-40 transition-all duration-300 border-b lg:border-b-0"
 >
-    <div class="p-8 brutal-border-b">
-        <h3
-            class="font-mono text-xs font-bold text-[#8a8a8a] dark:text-gray-400 mb-6 tracking-widest uppercase"
-        >
-            CATEGORÍAS
-        </h3>
-        <ul class="space-y-4 font-mono text-sm">
-            <li>
-                <a
-                    class={`block hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase ${!currentCategory ? "font-bold text-primary" : "text-black dark:text-white"}`}
-                    href="/catalogo">VER TODO</a
-                >
-            </li>
-            {
-                categories?.map((category) => (
-                    <li>
-                        <a
-                            class={`block hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase ${currentCategory === category.slug ? "font-bold text-primary" : "text-black dark:text-white"}`}
-                            href={`/catalogo?categoria=${category.slug}`}
-                        >
-                            {category.name}
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-    </div>
-
-    <div class="p-8 brutal-border-b">
-        <h3
-            class="font-mono text-xs font-bold text-[#8a8a8a] dark:text-gray-400 mb-6 tracking-widest uppercase"
-        >
-            TALLA
-        </h3>
-        <div class="space-y-4 font-mono text-sm text-black dark:text-white">
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    name="size"
-                    type="radio"
-                />
-                <span class="group-hover:text-primary uppercase"
-                    >XS - EXTRA SMALL</span
-                >
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    checked
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    name="size"
-                    type="radio"
-                />
-                <span class="font-bold uppercase">S - SMALL</span>
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    name="size"
-                    type="radio"
-                />
-                <span class="group-hover:text-primary uppercase"
-                    >M - MEDIUM</span
-                >
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    name="size"
-                    type="radio"
-                />
-                <span class="group-hover:text-primary uppercase">L - LARGE</span
-                >
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    name="size"
-                    type="radio"
-                />
-                <span class="group-hover:text-primary uppercase"
-                    >XL - EXTRA LARGE</span
-                >
-            </label>
+    <form action="/catalogo" method="GET" class="flex flex-col flex-1 min-h-full">
+        {currentCategory && <input type="hidden" name="categoria" value={currentCategory} />}
+        
+        <div class="p-8 brutal-border-b">
+            <h3
+                class="font-mono text-xs font-bold text-[#8a8a8a] dark:text-gray-400 mb-6 tracking-widest uppercase"
+            >
+                CATEGORÍAS
+            </h3>
+            <ul class="space-y-4 font-mono text-sm">
+                <li>
+                    <a
+                        class={`block hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase ${!currentCategory ? "font-bold text-primary" : "text-black dark:text-white"}`}
+                        href={buildUrl(null)}>VER TODO</a
+                    >
+                </li>
+                {
+                    categories?.map((category) => (
+                        <li>
+                            <a
+                                class={`block hover:text-primary dark:hover:text-primary hover:translate-x-1 transition-transform uppercase ${currentCategory === category.slug ? "font-bold text-primary" : "text-black dark:text-white"}`}
+                                href={buildUrl(category.slug)}
+                            >
+                                {category.name}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
         </div>
-    </div>
 
-    <div class="p-8">
-        <h3
-            class="font-mono text-xs font-bold text-[#8a8a8a] dark:text-gray-400 mb-6 tracking-widest uppercase"
-        >
-            MATERIAL
-        </h3>
-        <div class="space-y-4 font-mono text-sm text-black dark:text-white">
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    checked
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    type="checkbox"
-                />
-                <span class="font-bold uppercase">LANA VIRGEN</span>
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    type="checkbox"
-                />
-                <span class="group-hover:text-primary uppercase"
-                    >ALGODÓN PESADO</span
-                >
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    type="checkbox"
-                />
-                <span class="group-hover:text-primary uppercase"
-                    >CUERO SINTÉTICO</span
-                >
-            </label>
-            <label class="flex items-center gap-3 cursor-pointer group">
-                <input
-                    class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
-                    type="checkbox"
-                />
-                <span class="group-hover:text-primary uppercase"
-                    >NYLON TÉCNICO</span
-                >
-            </label>
+        <div class="p-8 brutal-border-b">
+            <h3
+                class="font-mono text-xs font-bold text-[#8a8a8a] dark:text-gray-400 mb-6 tracking-widest uppercase"
+            >
+                TALLA
+            </h3>
+            <div class="space-y-4 font-mono text-sm text-black dark:text-white">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input
+                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        name="talla"
+                        value="XS"
+                        type="radio"
+                        checked={currentSize === 'XS'}
+                    />
+                    <span class={`uppercase ${currentSize === 'XS' ? 'font-bold' : 'group-hover:text-primary'}`}
+                        >XS - EXTRA SMALL</span
+                    >
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input
+                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        name="talla"
+                        value="S"
+                        type="radio"
+                        checked={currentSize === 'S'}
+                    />
+                    <span class={`uppercase ${currentSize === 'S' ? 'font-bold' : 'group-hover:text-primary'}`}>S - SMALL</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input
+                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        name="talla"
+                        value="M"
+                        type="radio"
+                        checked={currentSize === 'M'}
+                    />
+                    <span class={`uppercase ${currentSize === 'M' ? 'font-bold' : 'group-hover:text-primary'}`}
+                        >M - MEDIUM</span
+                    >
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input
+                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        name="talla"
+                        value="L"
+                        type="radio"
+                        checked={currentSize === 'L'}
+                    />
+                    <span class={`uppercase ${currentSize === 'L' ? 'font-bold' : 'group-hover:text-primary'}`}>L - LARGE</span
+                    >
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input
+                        class="brutal-radio appearance-none size-4 border border-black dark:border-white rounded-none checked:bg-black dark:checked:bg-white hover:border-primary dark:hover:border-primary cursor-pointer"
+                        name="talla"
+                        value="XL"
+                        type="radio"
+                        checked={currentSize === 'XL'}
+                    />
+                    <span class={`uppercase ${currentSize === 'XL' ? 'font-bold' : 'group-hover:text-primary'}`}
+                        >XL - EXTRA LARGE</span
+                    >
+                </label>
+            </div>
         </div>
-    </div>
 
-    <div
-        class="mt-auto p-8 brutal-border-t bg-[#f4f4f4] dark:bg-[#1a1a1a] transition-colors duration-300"
-    >
-        <button
-            class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-heading font-bold text-lg hover:bg-primary dark:hover:bg-primary transition-none uppercase"
+        <div
+            class="mt-auto p-8 brutal-border-t bg-[#f4f4f4] dark:bg-[#1a1a1a] transition-colors duration-300"
         >
-            APLICAR FILTROS
-        </button>
-    </div>
+            <button
+                type="submit"
+                class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-heading font-bold text-lg hover:bg-primary dark:hover:bg-primary transition-none uppercase cursor-pointer"
+            >
+                APLICAR FILTROS
+            </button>
+        </div>
+    </form>
 </aside>
 
 <style>

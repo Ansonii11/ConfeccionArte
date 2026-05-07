@@ -1,0 +1,75 @@
+---
+---
+
+<section id="manifesto-section" class="w-full min-h-[70vh] flex flex-col md:flex-row brutal-border-b bg-white dark:bg-[#0a0a0a] overflow-hidden">
+    <!-- Left Column: Big Title -->
+    <div class="w-full md:w-1/2 p-8 md:p-16 lg:p-24 flex items-center justify-center brutal-border-b md:brutal-border-b-0 md:brutal-border-r bg-white dark:bg-[#0a0a0a]">
+        <h2 class="text-[15vw] md:text-[10vw] font-black leading-[0.8] uppercase tracking-tighter text-black dark:text-white">
+            ARQUI<br/>TECTURA<br/>TEXTIL
+        </h2>
+    </div>
+
+    <!-- Right Column: Manifesto Content -->
+    <div class="w-full md:w-1/2 p-8 md:p-16 lg:p-24 flex flex-col justify-center bg-black dark:bg-[#1a1a1a]">
+        <div class="max-w-xl space-y-8">
+            <p class="text-2xl md:text-3xl font-mono uppercase tracking-widest leading-tight reveal-text text-white">
+                // NO CREAMOS ROPA. CONSTRUIMOS ESTRUCTURAS QUE HABITAN EL CUERPO.
+            </p>
+            <div class="h-1 w-24 bg-primary reveal-line"></div>
+            <p class="text-lg md:text-xl font-light leading-relaxed reveal-text text-white/90">
+                ConfeccionArte nace de la resistencia al fast-fashion. Creemos en la forma pura, en la honestidad de los materiales y en la confección que desafía el tiempo. Cada pieza es un plano ejecutado con precisión milimétrica.
+            </p>
+            <p class="text-lg md:text-xl font-light leading-relaxed reveal-text text-white/90">
+                Brutalismo en el tejido. Funcionalismo en el diseño. Excelencia en la ejecución.
+            </p>
+            <div class="pt-8 reveal-text">
+                <span class="inline-block border-2 border-white px-6 py-3 font-black uppercase tracking-widest hover:bg-white hover:text-black transition-colors cursor-default text-white">
+                    CONFECCIONARTE © 2026
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .reveal-text {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .reveal-line {
+        width: 0;
+        transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .revealed .reveal-text {
+        opacity: 1 !important;
+        transform: translateY(0);
+    }
+    
+    .revealed .reveal-line {
+        width: 6rem; /* w-24 */
+    }
+
+    /* Retrasos escalonados */
+    .reveal-text:nth-child(1) { transition-delay: 0.1s; }
+    .reveal-text:nth-child(3) { transition-delay: 0.2s; }
+    .reveal-text:nth-child(4) { transition-delay: 0.3s; }
+    .reveal-text:nth-child(5) { transition-delay: 0.4s; }
+</style>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    const manifestoSection = document.getElementById('manifesto-section');
+    if (manifestoSection) {
+        observer.observe(manifestoSection);
+    }
+</script>
