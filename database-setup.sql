@@ -82,3 +82,36 @@ CREATE INDEX IF NOT EXISTS idx_product_images_product_id ON public.product_image
 CREATE INDEX IF NOT EXISTS idx_product_variants_product_id ON public.product_variants(product_id);
 CREATE INDEX IF NOT EXISTS idx_categories_slug ON public.categories(slug);
 
+-- 12. Configuración de Storage para Productos
+-- Crear el bucket 'products' si no existe y hacerlo público
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('products', 'products', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Habilitar RLS en storage.objects si no estuviera (suele estar por defecto, pero por seguridad)
+ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+
+-- Políticas de RLS para el bucket 'products'
+
+-- 12.1 Permitir lectura pública de cualquier imagen en 'products'
+CREATE POLICY "Lectura pública de imágenes de productos"
+ON storage.objects FOR SELECT
+USING ( bucket_id = 'products' );
+
+-- 12.2 Permitir a los administradores (autenticados) subir nuevas imágenes
+CREATE POLICY "Autenticados pueden subir imágenes"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK ( bucket_id = 'products' );
+
+-- 12.3 Permitir a los administradores actualizar imágenes existentes
+CREATE POLICY "Autenticados pueden actualizar imágenes"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING ( bucket_id = 'products' );
+
+-- 12.4 Permitir a los administradores eliminar imágenes
+CREATE POLICY "Autenticados pueden borrar imágenes"
+ON storage.objects FOR DELETE
+TO authenticated
+USING ( bucket_id = 'products' );

@@ -8,6 +8,11 @@ import FeaturedProducts from "../components/FeaturedProducts.astro";
 import Manifesto from "../components/Manifesto.astro";
 import ProcessConceptual from "../components/ProcessConceptual.astro";
 import ConnectCTA from "../components/ConnectCTA.astro";
+
+// Estrategia de Caché: SWR (Stale-While-Revalidate)
+// La página se sirve instantáneamente desde el Edge de Vercel.
+// Se revalida en segundo plano cada 60 segundos.
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=600');
 ---
 
 <MainLayout title="ConfeccionArte - Inicio">

@@ -18,12 +18,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   }
 
-  // 2. Inicializar Supabase y Auth
-  const supabase = getSupabase(cookies);
-  const { data: { user } } = await supabase.auth.getUser();
-
-  // 3. Protección de rutas de administración
+  // 2. Lógica de Autenticación Selectiva (Optimización de TTFB)
+  // Solo validamos sesión si el usuario intenta acceder al panel de administración
   if (url.pathname.startsWith("/admin")) {
+    const supabase = getSupabase(cookies);
+    const { data: { user } } = await supabase.auth.getUser();
+
     if (!publicAdminRoutes.includes(url.pathname)) {
       if (!user) {
         return redirect("/admin/login");

@@ -43,7 +43,7 @@ interface Props {
   };
 }
 
-const MAX_FILE_SIZE = 500 * 1024; // 500KB
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_IMAGES = 4;
 
 export default function ProductForm({ categories, initialData }: Props) {
@@ -75,6 +75,8 @@ export default function ProductForm({ categories, initialData }: Props) {
   const [existingImages, setExistingImages] = useState<ImageData[]>(initialData?.images || []);
   const [imagesToDelete, setImagesToDelete] = useState<ImageData[]>([]);
   const [newFiles, setNewFiles] = useState<FileWithPreview[]>([]);
+
+  const [isDragging, setIsDragging] = useState(false);
 
   // Cleanup previews to avoid memory leaks
   useEffect(() => {
@@ -118,7 +120,7 @@ export default function ProductForm({ categories, initialData }: Props) {
     });
 
     if (sizeError) {
-      setError(`Calidad excedida: Las imágenes deben ser menores a 500KB para optimizar el archivo.`);
+      setError(`Tamaño excedido: Las imágenes deben ser menores a 5MB.`);
     } else if (limitReached) {
       setError(`Archivo lleno: Solo se permiten un máximo de ${MAX_IMAGES} capturas (Portada + 3 extras).`);
     }
@@ -138,6 +140,32 @@ export default function ProductForm({ categories, initialData }: Props) {
 
     // Reset input
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      // Create a synthetic event to reuse handleFileChange logic
+      const synthEvent = {
+        target: { files: e.dataTransfer.files }
+      } as React.ChangeEvent<HTMLInputElement>;
+      handleFileChange(synthEvent);
+    }
   };
 
   const handleRemoveNewFile = (id: string) => {
@@ -253,30 +281,38 @@ export default function ProductForm({ categories, initialData }: Props) {
       }
 
       // 4. Update existing images (primary status might have changed)
-      if (isEditing) {
-        for (const img of existingImages) {
-          await supabase.from("product_images")
-            .update({ is_primary: img.is_primary })
-            .eq("id", img.id);
-        }
+      if (isEditing && existingImages.length > 0) {
+        await Promise.all(
+          existingImages.map(img => 
+            supabase.from("product_images")
+              .update({ is_primary: img.is_primary })
+              .eq("id", img.id)
+          )
+        );
       }
 
-      // 5. Upload New Images
-      for (const item of newFiles) {
-        const fileExt = item.file.name.split('.').pop();
-        const filePath = `${productId}/${Math.random().toString(36).substring(7)}.${fileExt}`;
+      // 5. Upload New Images (Concurrente)
+      if (newFiles.length > 0) {
+        await Promise.all(
+          newFiles.map(async (item) => {
+            const fileExt = item.file.name.split('.').pop();
+            const filePath = `${productId}/${Math.random().toString(36).substring(7)}.${fileExt}`;
 
-        const { error: uploadError } = await supabase.storage
-          .from("products")
-          .upload(filePath, item.file);
+            const { error: uploadError } = await supabase.storage
+              .from("products")
+              .upload(filePath, item.file);
 
-        if (uploadError) throw uploadError;
+            if (uploadError) throw uploadError;
 
-        await supabase.from("product_images").insert({
-          product_id: productId,
-          storage_path: filePath,
-          is_primary: item.isPrimary,
-        });
+            const { error: insertError } = await supabase.from("product_images").insert({
+              product_id: productId,
+              storage_path: filePath,
+              is_primary: item.isPrimary,
+            });
+
+            if (insertError) throw insertError;
+          })
+        );
       }
 
       setSuccess(true);
@@ -533,10 +569,15 @@ export default function ProductForm({ categories, initialData }: Props) {
           </div>
 
           <div className="gallery-instructions">
-            <p>Selecciona la portada (estrella) y hasta 3 imágenes extra. Máximo 500KB por archivo.</p>
+            <p>Selecciona la portada (estrella) y hasta 3 imágenes extra. Máximo 5MB por archivo. Puedes arrastrar y soltar tus imágenes aquí.</p>
           </div>
           
-          <div className="image-grid">
+          <div 
+            className={`image-grid ${isDragging ? 'drag-active' : ''}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <AnimatePresence>
               {/* Existing Images */}
               {existingImages.map(img => (
@@ -819,6 +860,13 @@ export default function ProductForm({ categories, initialData }: Props) {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
           gap: 1.5rem;
+          padding: 1rem;
+          border: 2px dashed transparent;
+          transition: all 0.3s ease;
+        }
+        .image-grid.drag-active {
+          border-color: var(--primary);
+          background: rgba(202, 138, 4, 0.02);
         }
         .image-card {
           position: relative;

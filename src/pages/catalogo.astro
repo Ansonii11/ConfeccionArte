@@ -8,6 +8,11 @@ import { supabase } from "../lib/supabase";
 const categorySlug = Astro.url.searchParams.get("categoria");
 const currentSize = Astro.url.searchParams.get("talla");
 
+// Estrategia de Caché: SWR para el catálogo
+// s-maxage=1: Vercel comprueba si hay cambios cada segundo.
+// stale-while-revalidate=59: Si hay cambios, sirve lo viejo mientras actualiza lo nuevo.
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=1, stale-while-revalidate=59');
+
 let query = supabase.from("products").select(
   `
         *,
